@@ -1,57 +1,77 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { db } from '../firebase';
-import { collection, addDoc } from 'firebase/firestore';
+import { collection, addDoc, doc, getDoc } from 'firebase/firestore';
 
-const questions = [
-  '우리 회사의 의사결정 과정은 효율적이다.',
-  '나는 동료들과 원활하게 소통할 수 있다.',
-  '우리 회사는 혁신을 장려한다.',
-  '우리 팀은 협력적으로 일한다.',
-];
+interface Question {
+  id: string;
+  text: string;
+  category: string;
+  factorA: string;
+  factorB: string;
+}
 
-export default function SurveyForm() {
-  const [answers, setAnswers] = useState<number[]>(
-    new Array(questions.length).fill(3)
-  );
+export default function SurveyForm({ templateId, userId }) {
+  const [questions, setQuestions] = useState<Question[]>([]);
+  const [answers, setAnswers] = useState<{ [key: string]: number }>({});
 
-  const handleChange = (index: number, value: number) => {
-    const newAnswers = [...answers];
-    newAnswers[index] = value;
-    setAnswers(newAnswers);
+  useEffect(() => {
+    fetchSurveyTemplate(templateId);
+  }, [templateId]);
+
+  const fetchSurveyTemplate = async (templateId: string) => {
+    const docRef = doc(db, 'surveyTemplates', templateId);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      setQuestions(docSnap.data().questions);
+    }
+  };
+
+  const handleChange = (questionId: string, value: number) => {
+    setAnswers((prev) => ({ ...prev, [questionId]: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await addDoc(collection(db, 'surveys'), {
+      const surveyResult = {
+        userId,
+        templateId,
         answers,
         timestamp: new Date(),
-      });
+      };
+      await addDoc(collection(db, 'surveyResults'), surveyResult);
+      analyzeSurveyResult(surveyResult);
       alert('설문이 제출되었습니다.');
-      setAnswers(new Array(questions.length).fill(3));
     } catch (error) {
       console.error('Error submitting survey: ', error);
       alert('설문 제출 중 오류가 발생했습니다.');
     }
   };
 
+  const analyzeSurveyResult = (result) => {
+    // 여기에 설문 결과 분석 로직을 구현합니다.
+    // 예: 각 카테고리별 점수 계산, 문화 프로필 생성 등
+  };
+
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      {questions.map((question, index) => (
-        <div key={index} className="space-y-2">
-          <p>{question}</p>
+      {questions.map((question) => (
+        <div key={question.id} className="space-y-2">
+          <p>{question.text}</p>
           <input
             type="range"
             min="1"
             max="5"
-            value={answers[index]}
-            onChange={(e) => handleChange(index, parseInt(e.target.value))}
+            value={answers[question.id] || 3}
+            onChange={(e) =>
+              handleChange(question.id, parseInt(e.target.value))
+            }
             className="w-full"
           />
           <div className="flex justify-between text-xs">
-            <span>전혀 아니다</span>
-            <span>보통이다</span>
-            <span>매우 그렇다</span>
+            <span>{question.factorA}</span>
+            <span>중간</span>
+            <span>{question.factorB}</span>
           </div>
         </div>
       ))}

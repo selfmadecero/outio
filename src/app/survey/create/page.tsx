@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useLanguage } from '../../../contexts/LanguageContext';
 import { auth, db } from '../../../firebase';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc, collection, getDocs } from 'firebase/firestore';
 import { User } from 'firebase/auth';
 import DashboardLayout from '../../../components/DashboardLayout';
 
@@ -12,16 +12,19 @@ export default function CreateSurvey() {
   const [user, setUser] = useState<User | null>(null);
   const [companyProfile, setCompanyProfile] = useState<any>(null);
   const [questions, setQuestions] = useState<string[]>([]);
-  const [newQuestion, setNewQuestion] = useState('');
+  const [selectedTemplate, setSelectedTemplate] = useState<string>('');
+  const [templates, setTemplates] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
   const { language } = useLanguage();
+  const [newQuestion, setNewQuestion] = useState('');
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
         setUser(user);
         fetchCompanyProfile(user.uid);
+        fetchSurveyTemplates();
       } else {
         router.push('/auth');
       }
@@ -41,6 +44,26 @@ export default function CreateSurvey() {
       console.error('Error fetching company profile:', error);
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const fetchSurveyTemplates = async () => {
+    const templatesRef = collection(db, 'surveyTemplates');
+    const templatesSnapshot = await getDocs(templatesRef);
+    const templatesList = templatesSnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    setTemplates(templatesList);
+  };
+
+  const handleTemplateSelect = (templateId: string) => {
+    setSelectedTemplate(templateId);
+    const selectedTemplateData = templates.find(
+      (template) => template.id === templateId
+    );
+    if (selectedTemplateData) {
+      setQuestions(selectedTemplateData.questions);
     }
   };
 
@@ -114,55 +137,78 @@ export default function CreateSurvey() {
         {isLoading ? (
           <p className="text-center text-gray-700">Loading...</p>
         ) : (
-          <form onSubmit={handleSubmit}>
+          <>
             <div className="mb-6">
-              {questions.map((question, index) => (
-                <div key={index} className="flex items-center mb-2">
-                  <input
-                    type="text"
-                    value={question}
-                    onChange={(e) => {
-                      const newQuestions = [...questions];
-                      newQuestions[index] = e.target.value;
-                      setQuestions(newQuestions);
-                    }}
-                    className="flex-grow shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md text-gray-700"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => removeQuestion(index)}
-                    className="ml-2 text-red-600 hover:text-red-800"
-                  >
-                    ✕
-                  </button>
-                </div>
-              ))}
-            </div>
-            <div className="flex mb-6">
-              <input
-                type="text"
-                value={newQuestion}
-                onChange={(e) => setNewQuestion(e.target.value)}
-                placeholder={content[language].placeholder}
-                className="flex-grow shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md text-gray-700"
-              />
-              <button
-                type="button"
-                onClick={addQuestion}
-                className="ml-2 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              <label
+                htmlFor="template"
+                className="block text-sm font-medium text-gray-700"
               >
-                {content[language].addQuestion}
-              </button>
-            </div>
-            <div className="text-center">
-              <button
-                type="submit"
-                className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                Select Template
+              </label>
+              <select
+                id="template"
+                value={selectedTemplate}
+                onChange={(e) => handleTemplateSelect(e.target.value)}
+                className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
               >
-                {content[language].submit}
-              </button>
+                <option value="">Select a template</option>
+                {templates.map((template) => (
+                  <option key={template.id} value={template.id}>
+                    {template.name}
+                  </option>
+                ))}
+              </select>
             </div>
-          </form>
+            <form onSubmit={handleSubmit}>
+              <div className="mb-6">
+                {questions.map((question, index) => (
+                  <div key={index} className="flex items-center mb-2">
+                    <input
+                      type="text"
+                      value={question}
+                      onChange={(e) => {
+                        const newQuestions = [...questions];
+                        newQuestions[index] = e.target.value;
+                        setQuestions(newQuestions);
+                      }}
+                      className="flex-grow shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md text-gray-700"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => removeQuestion(index)}
+                      className="ml-2 text-red-600 hover:text-red-800"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                ))}
+              </div>
+              <div className="flex mb-6">
+                <input
+                  type="text"
+                  value={newQuestion}
+                  onChange={(e) => setNewQuestion(e.target.value)}
+                  placeholder={content[language].placeholder}
+                  className="flex-grow shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md text-gray-700"
+                />
+                <button
+                  type="button"
+                  onClick={addQuestion}
+                  className="ml-2 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                >
+                  {content[language].addQuestion}
+                </button>
+              </div>
+              <div className="text-center">
+                <button
+                  type="submit"
+                  className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                >
+                  {content[language].submit}
+                </button>
+              </div>
+            </form>
+          </>
         )}
       </div>
     </DashboardLayout>

@@ -1,5 +1,6 @@
 'use client';
 
+import { SurveyManagement } from '../../components/SurveyManagement';
 import { useState, useEffect } from 'react';
 import { User } from 'firebase/auth';
 import { auth, db } from '../../firebase';

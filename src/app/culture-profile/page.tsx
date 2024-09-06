@@ -32,7 +32,6 @@ export default function CultureProfile() {
     if (docSnap.exists()) {
       setProfile(docSnap.data());
     } else {
-      // 프로필이 없는 경우 처리
       console.log('No culture profile found!');
     }
   };
@@ -42,21 +41,56 @@ export default function CultureProfile() {
       title: 'Culture Profile',
       noProfile:
         'No culture profile available yet. Complete a survey to generate your profile.',
-      decisionMaking: 'Decision Making',
-      communication: 'Communication',
-      innovation: 'Innovation',
+      individualismVsCollectivism: 'Individualism vs Collectivism',
+      customerCentricity: 'Customer Centricity',
+      leadershipStyle: 'Leadership Style',
+      performanceManagement: 'Performance Management and Compensation',
+      workEnvironment: 'Work Environment',
+      flexibilityVsStructure: 'Flexibility vs Structure',
+      decisionMakingStyle: 'Decision-making Style',
       workLifeBalance: 'Work-Life Balance',
+      communicationStyle: 'Communication Style',
+      learningAndDevelopment: 'Learning and Development',
+      innovationVsStability: 'Innovation vs Stability',
     },
     ko: {
       title: '문화 프로필',
       noProfile:
         '아직 문화 프로필이 없습니다. 설문을 완료하여 프로필을 생성하세요.',
-      decisionMaking: '의사결정',
-      communication: '의사소통',
-      innovation: '혁신',
+      individualismVsCollectivism: '개인주의 vs 집단주의',
+      customerCentricity: '고객 중심성',
+      leadershipStyle: '리더십 스타일',
+      performanceManagement: '성과 관리 및 보상',
+      workEnvironment: '근무 환경',
+      flexibilityVsStructure: '유연성 vs 구조',
+      decisionMakingStyle: '의사결정 스타일',
       workLifeBalance: '일-삶 균형',
+      communicationStyle: '의사소통 스타일',
+      learningAndDevelopment: '학습 및 발전',
+      innovationVsStability: '혁신 vs 안정성',
     },
   };
+
+  const renderProfileItem = (key: string, value: number) => (
+    <div className="bg-white rounded-lg shadow p-4">
+      <h3 className="text-lg font-semibold mb-2">{content[language][key]}</h3>
+      <div className="relative pt-1">
+        <div className="flex mb-2 items-center justify-between">
+          <div>
+            <span className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-blue-600 bg-blue-200">
+              {value}%
+            </span>
+          </div>
+        </div>
+        <div className="overflow-hidden h-2 mb-4 text-xs flex rounded bg-blue-200">
+          <div
+            style={{ width: `${value}%` }}
+            className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-500"
+          ></div>
+        </div>
+      </div>
+    </div>
+  );
 
   return (
     <DashboardLayout>
@@ -69,41 +103,45 @@ export default function CultureProfile() {
             {content[language].noProfile}
           </p>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <ProfileItem
-              title={content[language].decisionMaking}
-              value={profile.decisionMaking}
-            />
-            <ProfileItem
-              title={content[language].communication}
-              value={profile.communication}
-            />
-            <ProfileItem
-              title={content[language].innovation}
-              value={profile.innovation}
-            />
-            <ProfileItem
-              title={content[language].workLifeBalance}
-              value={profile.workLifeBalance}
-            />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {renderProfileItem(
+              'individualismVsCollectivism',
+              profile.individualismVsCollectivism
+            )}
+            {renderProfileItem(
+              'customerCentricity',
+              profile.customerCentricity
+            )}
+            {renderProfileItem('leadershipStyle', profile.leadershipStyle)}
+            {renderProfileItem(
+              'performanceManagement',
+              profile.performanceManagement
+            )}
+            {renderProfileItem('workEnvironment', profile.workEnvironment)}
+            {renderProfileItem(
+              'flexibilityVsStructure',
+              profile.flexibilityVsStructure
+            )}
+            {renderProfileItem(
+              'decisionMakingStyle',
+              profile.decisionMakingStyle
+            )}
+            {renderProfileItem('workLifeBalance', profile.workLifeBalance)}
+            {renderProfileItem(
+              'communicationStyle',
+              profile.communicationStyle
+            )}
+            {renderProfileItem(
+              'learningAndDevelopment',
+              profile.learningAndDevelopment
+            )}
+            {renderProfileItem(
+              'innovationVsStability',
+              profile.innovationVsStability
+            )}
           </div>
         )}
       </div>
     </DashboardLayout>
-  );
-}
-
-function ProfileItem({ title, value }: { title: string; value: number }) {
-  return (
-    <div className="bg-white rounded-lg p-4 shadow-md">
-      <h3 className="text-lg font-semibold mb-2 text-gray-800">{title}</h3>
-      <div className="w-full bg-gray-200 rounded-full h-2.5">
-        <div
-          className="bg-blue-600 h-2.5 rounded-full"
-          style={{ width: `${value}%` }}
-        ></div>
-      </div>
-      <p className="text-right mt-1 text-sm text-gray-700">{value}%</p>
-    </div>
   );
 }
