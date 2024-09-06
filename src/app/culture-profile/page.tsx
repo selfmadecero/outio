@@ -8,6 +8,57 @@ import { doc, getDoc } from 'firebase/firestore';
 import { User } from 'firebase/auth';
 import DashboardLayout from '../../components/DashboardLayout';
 
+type ContentType = {
+  [key in 'en' | 'ko']: {
+    title: string;
+    noProfile: string;
+    individualismVsCollectivism: string;
+    customerCentricity: string;
+    leadershipStyle: string;
+    performanceManagement: string;
+    workEnvironment: string;
+    innovationVsStability: string;
+    flexibilityVsStructure: string;
+    decisionMakingStyle: string;
+    workLifeBalance: string;
+    communicationStyle: string;
+    learningAndDevelopment: string;
+  };
+};
+
+const content: ContentType = {
+  en: {
+    title: 'Culture Profile',
+    noProfile: 'No culture profile available.',
+    individualismVsCollectivism: 'Individualism vs Collectivism',
+    customerCentricity: 'Customer Centricity',
+    leadershipStyle: 'Leadership Style',
+    performanceManagement: 'Performance Management',
+    workEnvironment: 'Work Environment',
+    innovationVsStability: 'Innovation vs Stability',
+    flexibilityVsStructure: 'Flexibility vs Structure',
+    decisionMakingStyle: 'Decision Making Style',
+    workLifeBalance: 'Work-Life Balance',
+    communicationStyle: 'Communication Style',
+    learningAndDevelopment: 'Learning and Development',
+  },
+  ko: {
+    title: '문화 프로필',
+    noProfile: '사용 가능한 문화 프로필이 없습니다.',
+    individualismVsCollectivism: '개인주의 vs 집단주의',
+    customerCentricity: '고객 중심주의',
+    leadershipStyle: '리더십 스타일',
+    performanceManagement: '성과 관리',
+    workEnvironment: '근무 환경',
+    innovationVsStability: '혁신 vs 안정',
+    flexibilityVsStructure: '유연성 vs 구조',
+    decisionMakingStyle: '의사결정 스타일',
+    workLifeBalance: '일-삶 균형',
+    communicationStyle: '의사소통 스타일',
+    learningAndDevelopment: '학습 및 개발',
+  },
+};
+
 export default function CultureProfile() {
   const [user, setUser] = useState<User | null>(null);
   const [profile, setProfile] = useState<any>(null);
@@ -36,56 +87,21 @@ export default function CultureProfile() {
     }
   };
 
-  const content = {
-    en: {
-      title: 'Culture Profile',
-      noProfile:
-        'No culture profile available yet. Complete a survey to generate your profile.',
-      individualismVsCollectivism: 'Individualism vs Collectivism',
-      customerCentricity: 'Customer Centricity',
-      leadershipStyle: 'Leadership Style',
-      performanceManagement: 'Performance Management and Compensation',
-      workEnvironment: 'Work Environment',
-      flexibilityVsStructure: 'Flexibility vs Structure',
-      decisionMakingStyle: 'Decision-making Style',
-      workLifeBalance: 'Work-Life Balance',
-      communicationStyle: 'Communication Style',
-      learningAndDevelopment: 'Learning and Development',
-      innovationVsStability: 'Innovation vs Stability',
-    },
-    ko: {
-      title: '문화 프로필',
-      noProfile:
-        '아직 문화 프로필이 없습니다. 설문을 완료하여 프로필을 생성하세요.',
-      individualismVsCollectivism: '개인주의 vs 집단주의',
-      customerCentricity: '고객 중심성',
-      leadershipStyle: '리더십 스타일',
-      performanceManagement: '성과 관리 및 보상',
-      workEnvironment: '근무 환경',
-      flexibilityVsStructure: '유연성 vs 구조',
-      decisionMakingStyle: '의사결정 스타일',
-      workLifeBalance: '일-삶 균형',
-      communicationStyle: '의사소통 스타일',
-      learningAndDevelopment: '학습 및 발전',
-      innovationVsStability: '혁신 vs 안정성',
-    },
-  };
-
-  const renderProfileItem = (key: string, value: number) => (
+  const renderProfileItem = (key: keyof ContentType['en'], value: number) => (
     <div className="bg-white rounded-lg shadow p-4">
       <h3 className="text-lg font-semibold mb-2">{content[language][key]}</h3>
       <div className="relative pt-1">
         <div className="flex mb-2 items-center justify-between">
           <div>
-            <span className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-blue-600 bg-blue-200">
+            <span className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-teal-600 bg-teal-200">
               {value}%
             </span>
           </div>
         </div>
-        <div className="overflow-hidden h-2 mb-4 text-xs flex rounded bg-blue-200">
+        <div className="overflow-hidden h-2 mb-4 text-xs flex rounded bg-teal-200">
           <div
             style={{ width: `${value}%` }}
-            className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-500"
+            className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-teal-500"
           ></div>
         </div>
       </div>

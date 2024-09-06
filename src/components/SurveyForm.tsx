@@ -10,7 +10,20 @@ interface Question {
   factorB: string;
 }
 
-export default function SurveyForm({ templateId, userId }) {
+interface SurveyResult {
+  userId: string;
+  templateId: string;
+  answers: { [key: string]: number };
+  timestamp: Date;
+}
+
+export default function SurveyForm({
+  templateId,
+  userId,
+}: {
+  templateId: string;
+  userId: string;
+}) {
   const [questions, setQuestions] = useState<Question[]>([]);
   const [answers, setAnswers] = useState<{ [key: string]: number }>({});
 
@@ -48,7 +61,7 @@ export default function SurveyForm({ templateId, userId }) {
     }
   };
 
-  const analyzeSurveyResult = (result) => {
+  const analyzeSurveyResult = (result: SurveyResult) => {
     // 여기에 설문 결과 분석 로직을 구현합니다.
     // 예: 각 카테고리별 점수 계산, 문화 프로필 생성 등
   };
