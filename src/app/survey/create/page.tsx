@@ -8,12 +8,19 @@ import { doc, getDoc, setDoc, collection, getDocs } from 'firebase/firestore';
 import { User } from 'firebase/auth';
 import DashboardLayout from '../../../components/DashboardLayout';
 
+interface Template {
+  id: string;
+  name: string;
+  description: string;
+  questions: string[];
+}
+
 export default function CreateSurvey() {
   const [user, setUser] = useState<User | null>(null);
   const [companyProfile, setCompanyProfile] = useState<any>(null);
   const [questions, setQuestions] = useState<string[]>([]);
   const [selectedTemplate, setSelectedTemplate] = useState<string>('');
-  const [templates, setTemplates] = useState<any[]>([]);
+  const [templates, setTemplates] = useState<Template[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
   const { language } = useLanguage();
@@ -53,7 +60,7 @@ export default function CreateSurvey() {
     const templatesList = templatesSnapshot.docs.map((doc) => ({
       id: doc.id,
       ...doc.data(),
-    }));
+    })) as Template[];
     setTemplates(templatesList);
   };
 
@@ -116,12 +123,14 @@ export default function CreateSurvey() {
   const content = {
     en: {
       title: 'Create New Survey',
+      selectTemplate: 'Select a Template',
       addQuestion: 'Add Question',
       placeholder: 'Enter a new question',
       submit: 'Create Survey',
     },
     ko: {
       title: '새 설문 만들기',
+      selectTemplate: '템플릿 선택',
       addQuestion: '질문 추가',
       placeholder: '새 질문 입력',
       submit: '설문 생성',
@@ -138,26 +147,33 @@ export default function CreateSurvey() {
           <p className="text-center text-gray-700">Loading...</p>
         ) : (
           <>
-            <div className="mb-6">
-              <label
-                htmlFor="template"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Select Template
-              </label>
-              <select
-                id="template"
-                value={selectedTemplate}
-                onChange={(e) => handleTemplateSelect(e.target.value)}
-                className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
-              >
-                <option value="">Select a template</option>
+            <div className="mb-8">
+              <h3 className="text-xl font-semibold mb-4 text-gray-700">
+                {content[language].selectTemplate}
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {templates.map((template) => (
-                  <option key={template.id} value={template.id}>
-                    {template.name}
-                  </option>
+                  <div
+                    key={template.id}
+                    className={`bg-white rounded-lg shadow-lg p-6 cursor-pointer transition-all duration-300 ${
+                      selectedTemplate === template.id
+                        ? 'ring-2 ring-blue-500 transform scale-105'
+                        : 'hover:shadow-xl'
+                    }`}
+                    onClick={() => handleTemplateSelect(template.id)}
+                  >
+                    <h4 className="text-lg font-semibold mb-2">
+                      {template.name}
+                    </h4>
+                    <p className="text-sm text-gray-600 mb-4">
+                      {template.description}
+                    </p>
+                    <p className="text-xs text-gray-500">
+                      {template.questions.length} questions
+                    </p>
+                  </div>
                 ))}
-              </select>
+              </div>
             </div>
             <form onSubmit={handleSubmit}>
               <div className="mb-6">

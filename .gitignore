@@ -34,3 +34,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# firebase
+config/outio-9027f-firebase-adminsdk-pgqgn-5c118b6143.json
