@@ -1,0 +1,1352 @@
+[
+  {
+    "Number": 1,
+    "Question": "In our organization, performance is...",
+    "Answer A": "Viewed as a result of individual ability and effort.",
+    "Answer B": "Viewed as a result of teamwork and cooperation.",
+    "Category": "Individualism vs Collectivism",
+    "Factor A": "Individualistic",
+    "Factor B": "Collectivistic"
+  },
+  {
+    "Number": 2,
+    "Question": "Work distribution is...",
+    "Answer A": "Tends to clearly define individual responsibilities.",
+    "Answer B": "Tends to share responsibilities as a team.",
+    "Category": "Individualism vs Collectivism",
+    "Factor A": "Emphasizes individual responsibility",
+    "Factor B": "Emphasizes team responsibility"
+  },
+  {
+    "Number": 3,
+    "Question": "Success is...",
+    "Answer A": "Tends to be perceived as individual achievement.",
+    "Answer B": "Tends to be perceived as team or organizational achievement.",
+    "Category": "Individualism vs Collectivism",
+    "Factor A": "Emphasizes individual achievement",
+    "Factor B": "Emphasizes collective achievement"
+  },
+  {
+    "Number": 4,
+    "Question": "Competition among employees is...",
+    "Answer A": "Seen as necessary for individual growth.",
+    "Answer B": "Seen as something to be avoided for organizational harmony.",
+    "Category": "Individualism vs Collectivism",
+    "Factor A": "Promotes competition",
+    "Factor B": "Emphasizes cooperation"
+  },
+  {
+    "Number": 5,
+    "Question": "When performing tasks...",
+    "Answer A": "Respects individual independent judgment.",
+    "Answer B": "Values consensus within the team.",
+    "Category": "Individualism vs Collectivism",
+    "Factor A": "Emphasizes individual judgment",
+    "Factor B": "Emphasizes team consensus"
+  },
+  {
+    "Number": 6,
+    "Question": "When rewarding performance...",
+    "Answer A": "Differentiates based on individual performance.",
+    "Answer B": "Distributes evenly based on overall team performance.",
+    "Category": "Individualism vs Collectivism",
+    "Factor A": "Focuses on individual performance",
+    "Factor B": "Focuses on team performance"
+  },
+  {
+    "Number": 7,
+    "Question": "Employee welfare programs...",
+    "Answer A": "Are applied equally to all employees.",
+    "Answer B": "Can be chosen according to individual needs.",
+    "Category": "Individualism vs Collectivism",
+    "Factor A": "Equal welfare",
+    "Factor B": "Customized welfare"
+  },
+  {
+    "Number": 8,
+    "Question": "The main motivation for work performance is...",
+    "Answer A": "Individual achievement and recognition.",
+    "Answer B": "Achieving organizational goals and contributing.",
+    "Category": "Individualism vs Collectivism",
+    "Factor A": "Focuses on individual motivation",
+    "Factor B": "Focuses on organizational motivation"
+  },
+  {
+    "Number": 9,
+    "Question": "Competition within the organization...",
+    "Answer A": "Is necessary for improving individual performance.",
+    "Answer B": "Should be avoided as it can hinder teamwork.",
+    "Category": "Individualism vs Collectivism",
+    "Factor A": "Encourages competition",
+    "Factor B": "Emphasizes cooperation"
+  },
+  {
+    "Number": 10,
+    "Question": "The organization's success is...",
+    "Answer A": "Achieved through outstanding individual performances.",
+    "Answer B": "Achieved through teamwork and cooperation.",
+    "Category": "Individualism vs Collectivism",
+    "Factor A": "Focuses on individual performance",
+    "Factor B": "Focuses on teamwork"
+  },
+  {
+    "Number": 11,
+    "Question": "Competition among employees...",
+    "Answer A": "Is encouraged for performance improvement.",
+    "Answer B": "Is minimized to promote cooperation.",
+    "Category": "Individualism vs Collectivism",
+    "Factor A": "Competition-oriented",
+    "Factor B": "Cooperation-oriented"
+  },
+  {
+    "Number": 12,
+    "Question": "The company's success is...",
+    "Answer A": "Achieved through outstanding individual performances.",
+    "Answer B": "Achieved through effective teamwork.",
+    "Category": "Individualism vs Collectivism",
+    "Factor A": "Focuses on individual performance",
+    "Factor B": "Focuses on teamwork"
+  },
+  {
+    "Number": 13,
+    "Question": "Regarding customers...",
+    "Answer A": "Focuses on meeting current customer needs.",
+    "Answer B": "Focuses on predicting potential customer needs.",
+    "Category": "Customer Centricity",
+    "Factor A": "Present-oriented",
+    "Factor B": "Future-oriented"
+  },
+  {
+    "Number": 14,
+    "Question": "The organization's success is...",
+    "Answer A": "Mainly evaluated by market share.",
+    "Answer B": "Mainly evaluated by the degree of innovation.",
+    "Category": "Customer Centricity",
+    "Factor A": "Focuses on market share",
+    "Factor B": "Focuses on innovation"
+  },
+  {
+    "Number": 15,
+    "Question": "Customer service...",
+    "Answer A": "Follows standardized processes.",
+    "Answer B": "Responds flexibly according to the situation.",
+    "Category": "Customer Centricity",
+    "Factor A": "Standardized service",
+    "Factor B": "Customized service"
+  },
+  {
+    "Number": 16,
+    "Question": "Customer feedback is...",
+    "Answer A": "Collected through regular satisfaction surveys.",
+    "Answer B": "Continuously collected through daily interactions.",
+    "Category": "Customer Centricity",
+    "Factor A": "Structured feedback",
+    "Factor B": "Unstructured feedback"
+  },
+  {
+    "Number": 17,
+    "Question": "Customer response method is...",
+    "Answer A": "Follows a standardized manual.",
+    "Answer B": "Responds flexibly according to the situation.",
+    "Category": "Customer Centricity",
+    "Factor A": "Standardized customer response",
+    "Factor B": "Flexible customer response"
+  },
+  {
+    "Number": 18,
+    "Question": "When responding to customer requirements...",
+    "Answer A": "Prioritizes internal processes and standards.",
+    "Answer B": "Prioritizes customer satisfaction above all.",
+    "Category": "Customer Centricity",
+    "Factor A": "Focuses on internal standards",
+    "Factor B": "Focuses on customer satisfaction"
+  },
+  {
+    "Number": 19,
+    "Question": "Customer complaint handling...",
+    "Answer A": "Is processed according to set protocols.",
+    "Answer B": "Is responded to flexibly according to the situation.",
+    "Category": "Customer Centricity",
+    "Factor A": "Standardized response",
+    "Factor B": "Customized response"
+  },
+  {
+    "Number": 20,
+    "Question": "Customer feedback is...",
+    "Answer A": "Mainly used for product/service improvement.",
+    "Answer B": "Used for overall business strategy development.",
+    "Category": "Customer Centricity",
+    "Factor A": "Product-centric",
+    "Factor B": "Strategy-centric"
+  },
+  {
+    "Number": 21,
+    "Question": "The approach to customer service is...",
+    "Answer A": "Following standardized processes.",
+    "Answer B": "Responding flexibly to each situation.",
+    "Category": "Customer Centricity",
+    "Factor A": "Standardized service",
+    "Factor B": "Customized service"
+  },
+  {
+    "Number": 22,
+    "Question": "Customer feedback is...",
+    "Answer A": "Only used for product/service improvement.",
+    "Answer B": "Used for overall business strategy development.",
+    "Category": "Customer Centricity",
+    "Factor A": "Product-centric",
+    "Factor B": "Strategy-centric"
+  },
+  {
+    "Number": 23,
+    "Question": "The main role of a leader is...",
+    "Answer A": "To provide clear instructions and management.",
+    "Answer B": "To support and coach team members' growth.",
+    "Category": "Leadership Style",
+    "Factor A": "Managerial leadership",
+    "Factor B": "Coaching leadership"
+  },
+  {
+    "Number": 24,
+    "Question": "The role of a leader is...",
+    "Answer A": "To provide clear instructions and supervision.",
+    "Answer B": "To provide coaching and mentoring.",
+    "Category": "Leadership Style",
+    "Factor A": "Directive leadership",
+    "Factor B": "Coaching leadership"
+  },
+  {
+    "Number": 25,
+    "Question": "The organization's leaders...",
+    "Answer A": "Provide strong direction and control.",
+    "Answer B": "Delegate authority and grant autonomy.",
+    "Category": "Leadership Style",
+    "Factor A": "Controlling leadership",
+    "Factor B": "Delegating leadership"
+  },
+  {
+    "Number": 26,
+    "Question": "Work performance is...",
+    "Answer A": "Mainly evaluated by quantitative indicators.",
+    "Answer B": "Importantly considers qualitative assessments.",
+    "Category": "Performance Management and Compensation",
+    "Factor A": "Objective evaluation",
+    "Factor B": "Subjective evaluation"
+  },
+  {
+    "Number": 27,
+    "Question": "Promotion...",
+    "Answer A": "Importantly considers seniority.",
+    "Answer B": "Prioritizes performance and ability.",
+    "Category": "Performance Management and Compensation",
+    "Factor A": "Emphasizes seniority",
+    "Factor B": "Meritocracy"
+  },
+  {
+    "Number": 28,
+    "Question": "Employee motivation is...",
+    "Answer A": "Mainly achieved through material rewards.",
+    "Answer B": "Mainly achieved through non-material recognition.",
+    "Category": "Performance Management and Compensation",
+    "Factor A": "Material rewards",
+    "Factor B": "Non-material recognition"
+  },
+  {
+    "Number": 29,
+    "Question": "When work fails...",
+    "Answer A": "Focuses on identifying causes and determining responsibility.",
+    "Answer B": "Focuses on developing future improvement measures.",
+    "Category": "Performance Management and Compensation",
+    "Factor A": "Responsibility-centered",
+    "Factor B": "Improvement-centered"
+  },
+  {
+    "Number": 30,
+    "Question": "The organization's success is...",
+    "Answer A": "Mainly measured by financial performance.",
+    "Answer B": "Mainly measured by social impact.",
+    "Category": "Performance Management and Compensation",
+    "Factor A": "Focuses on financial performance",
+    "Factor B": "Focuses on social value"
+  },
+  {
+    "Number": 31,
+    "Question": "Employee evaluation criteria...",
+    "Answer A": "Objective work performance is most important.",
+    "Answer B": "Teamwork and organizational contribution are most important.",
+    "Category": "Performance Management and Compensation",
+    "Factor A": "Performance-centered evaluation",
+    "Factor B": "Contribution-centered evaluation"
+  },
+  {
+    "Number": 32,
+    "Question": "Work performance measurement...",
+    "Answer A": "Considers short-term results as important.",
+    "Answer B": "Considers long-term impact as important.",
+    "Category": "Performance Management and Compensation",
+    "Factor A": "Focuses on short-term performance",
+    "Factor B": "Focuses on long-term impact"
+  },
+  {
+    "Number": 33,
+    "Question": "The organization's success criteria are...",
+    "Answer A": "Competitiveness and market share.",
+    "Answer B": "Employee and customer satisfaction.",
+    "Category": "Performance Management and Compensation",
+    "Factor A": "Market-centered success criteria",
+    "Factor B": "Stakeholder satisfaction-centered"
+  },
+  {
+    "Number": 34,
+    "Question": "When evaluating work performance...",
+    "Answer A": "Goal achievement is considered most important.",
+    "Answer B": "The process and effort towards goal achievement are considered important.",
+    "Category": "Performance Management and Compensation",
+    "Factor A": "Result-centered evaluation",
+    "Factor B": "Process-centered evaluation"
+  },
+  {
+    "Number": 35,
+    "Question": "When evaluating employees...",
+    "Answer A": "Mainly uses objective performance indicators.",
+    "Answer B": "Importantly considers multi-dimensional evaluation and feedback.",
+    "Category": "Performance Management and Compensation",
+    "Factor A": "Quantitative evaluation",
+    "Factor B": "Qualitative evaluation"
+  },
+  {
+    "Number": 36,
+    "Question": "When evaluating employees...",
+    "Answer A": "Emphasizes objective numbers and performance.",
+    "Answer B": "Emphasizes peer evaluation and subjective feedback.",
+    "Category": "Performance Management and Compensation",
+    "Factor A": "Objective evaluation",
+    "Factor B": "Subjective evaluation"
+  },
+  {
+    "Number": 37,
+    "Question": "The measure of organizational success is...",
+    "Answer A": "Financial performance is most important.",
+    "Answer B": "Employee and customer satisfaction are most important.",
+    "Category": "Performance Management and Compensation",
+    "Factor A": "Finance-centered evaluation",
+    "Factor B": "Satisfaction-centered evaluation"
+  },
+  {
+    "Number": 38,
+    "Question": "When evaluating employees...",
+    "Answer A": "Emphasizes individual performance and results.",
+    "Answer B": "Emphasizes contribution to the team and cooperation.",
+    "Category": "Performance Management and Compensation",
+    "Factor A": "Individual performance-centered",
+    "Factor B": "Team contribution-centered"
+  },
+  {
+    "Number": 39,
+    "Question": "Work performance measurement...",
+    "Answer A": "Focuses on short-term results.",
+    "Answer B": "Considers long-term impact.",
+    "Category": "Performance Management and Compensation",
+    "Factor A": "Short-term performance-centered",
+    "Factor B": "Long-term impact-centered"
+  },
+  {
+    "Number": 40,
+    "Question": "During performance evaluation...",
+    "Answer A": "Mainly uses objective indicators.",
+    "Answer B": "Importantly considers peer evaluation and subjective feedback.",
+    "Category": "Performance Management and Compensation",
+    "Factor A": "Objective evaluation",
+    "Factor B": "Subjective evaluation"
+  },
+  {
+    "Number": 41,
+    "Question": "The organization's success criteria are...",
+    "Answer A": "Market share and financial performance.",
+    "Answer B": "Degree of innovation and social impact.",
+    "Category": "Performance Management and Compensation",
+    "Factor A": "Financial performance-centered",
+    "Factor B": "Innovation and impact-centered"
+  },
+  {
+    "Number": 42,
+    "Question": "When evaluating work...",
+    "Answer A": "The quality of the output is considered important.",
+    "Answer B": "The innovativeness of the process is considered important.",
+    "Category": "Performance Management and Compensation",
+    "Factor A": "Result-centered",
+    "Factor B": "Process-centered"
+  },
+  {
+    "Number": 43,
+    "Question": "The work environment is...",
+    "Answer A": "A quiet space focused on individuals.",
+    "Answer B": "An open space with lots of interaction.",
+    "Category": "Work Environment",
+    "Factor A": "Individual-centered environment",
+    "Factor B": "Collaborative environment"
+  },
+  {
+    "Number": 44,
+    "Question": "The organizational atmosphere is...",
+    "Answer A": "Serious and work-centered.",
+    "Answer B": "Comfortable and cheerful.",
+    "Category": "Work Environment",
+    "Factor A": "Formal atmosphere",
+    "Factor B": "Informal atmosphere"
+  },
+  {
+    "Number": 45,
+    "Question": "Relationships between employees are...",
+    "Answer A": "Mostly work-related and professional.",
+    "Answer B": "There are many personal exchanges.",
+    "Category": "Work Environment",
+    "Factor A": "Work-centered relationships",
+    "Factor B": "Personal relationships"
+  },
+  {
+    "Number": 46,
+    "Question": "Work environment improvement...",
+    "Answer A": "Focuses on enhancing efficiency.",
+    "Answer B": "Focuses on improving employee satisfaction.",
+    "Category": "Work Environment",
+    "Factor A": "Efficiency-centered",
+    "Factor B": "Satisfaction-centered"
+  },
+  {
+    "Number": 47,
+    "Question": "The work space...",
+    "Answer A": "Emphasizes functionality and efficiency.",
+    "Answer B": "Is designed to promote creativity and collaboration.",
+    "Category": "Work Environment",
+    "Factor A": "Functional space",
+    "Factor B": "Creative space"
+  },
+  {
+    "Number": 48,
+    "Question": "The layout of the work space...",
+    "Answer A": "Provides independent spaces for individual concentration.",
+    "Answer B": "Mainly uses open spaces for collaboration.",
+    "Category": "Work Environment",
+    "Factor A": "Individual concentration-type",
+    "Factor B": "Collaboration-centered type"
+  },
+  {
+    "Number": 49,
+    "Question": "Office space configuration...",
+    "Answer A": "Is in a form that ensures individual privacy.",
+    "Answer B": "Is in a form that promotes collaboration and communication.",
+    "Category": "Work Environment",
+    "Factor A": "Individual-centered space",
+    "Factor B": "Collaboration-centered space"
+  },
+  {
+    "Number": 50,
+    "Question": "When designing work spaces...",
+    "Answer A": "Prioritizes spaces for individual concentration.",
+    "Answer B": "Prioritizes common spaces for collaboration.",
+    "Category": "Work Environment",
+    "Factor A": "Individual-centered space",
+    "Factor B": "Collaboration-centered space"
+  },
+  {
+    "Number": 51,
+    "Question": "The work environment is...",
+    "Answer A": "Quiet for concentration and efficiency.",
+    "Answer B": "Lively for communication and cooperation.",
+    "Category": "Work Environment",
+    "Factor A": "Concentration-type environment",
+    "Factor B": "Interactive environment"
+  },
+  {
+    "Number": 52,
+    "Question": "Work environment improvement...",
+    "Answer A": "Focuses on enhancing productivity.",
+    "Answer B": "Focuses on improving employee satisfaction.",
+    "Category": "Work Environment",
+    "Factor A": "Productivity-centered",
+    "Factor B": "Satisfaction-centered"
+  },
+  {
+    "Number": 53,
+    "Question": "The work environment is...",
+    "Answer A": "Designed for individual concentration.",
+    "Answer B": "Designed to promote collaboration and communication.",
+    "Category": "Work Environment",
+    "Factor A": "Individual-centered",
+    "Factor B": "Collaboration-centered"
+  },
+  {
+    "Number": 54,
+    "Question": "Relationships between employees are...",
+    "Answer A": "Mostly work-related and professional.",
+    "Answer B": "Personal friendships are also considered important.",
+    "Category": "Work Environment",
+    "Factor A": "Work-centered relationships",
+    "Factor B": "Relationship-centered"
+  },
+  {
+    "Number": 55,
+    "Question": "When performing tasks...",
+    "Answer A": "It's important to follow set procedures and rules.",
+    "Answer B": "It's important to respond flexibly according to the situation.",
+    "Category": "Flexibility vs Structure",
+    "Factor A": "Prefers structure",
+    "Factor B": "Prefers flexibility"
+  },
+  {
+    "Number": 56,
+    "Question": "Meetings...",
+    "Answer A": "Are conducted according to set agendas and schedules.",
+    "Answer B": "Are conducted flexibly as needed.",
+    "Category": "Flexibility vs Structure",
+    "Factor A": "Prefers structure",
+    "Factor B": "Prefers flexibility"
+  },
+  {
+    "Number": 57,
+    "Question": "The organization's structure is...",
+    "Answer A": "Hierarchical and systematic.",
+    "Answer B": "Horizontal and flexible.",
+    "Category": "Flexibility vs Structure",
+    "Factor A": "Hierarchical structure",
+    "Factor B": "Horizontal structure"
+  },
+  {
+    "Number": 58,
+    "Question": "Work plans are...",
+    "Answer A": "Established from a long-term perspective.",
+    "Answer B": "Emphasize short-term, immediate responses.",
+    "Category": "Flexibility vs Structure",
+    "Factor A": "Prefers long-term planning",
+    "Factor B": "Prefers short-term response"
+  },
+  {
+    "Number": 59,
+    "Question": "Work processes are...",
+    "Answer A": "Standardized and consistent.",
+    "Answer B": "Flexibly adjusted according to the situation.",
+    "Category": "Flexibility vs Structure",
+    "Factor A": "Prefers standardization",
+    "Factor B": "Prefers flexibility"
+  },
+  {
+    "Number": 60,
+    "Question": "The way to achieve work performance...",
+    "Answer A": "It's important to follow set methods.",
+    "Answer B": "As long as the results are good, methods are flexible.",
+    "Category": "Flexibility vs Structure",
+    "Factor A": "Method-centered",
+    "Factor B": "Result-centered"
+  },
+  {
+    "Number": 61,
+    "Question": "The organization's rules are...",
+    "Answer A": "Clearly documented.",
+    "Answer B": "Implicitly understood.",
+    "Category": "Flexibility vs Structure",
+    "Factor A": "Explicit rules",
+    "Factor B": "Implicit rules"
+  },
+  {
+    "Number": 62,
+    "Question": "The scope of employees' work is...",
+    "Answer A": "Clearly defined.",
+    "Answer B": "Flexibly adjusted as needed.",
+    "Category": "Flexibility vs Structure",
+    "Factor A": "Clear job definition",
+    "Factor B": "Flexible job scope"
+  },
+  {
+    "Number": 63,
+    "Question": "Work schedules...",
+    "Answer A": "Strictly follow predetermined schedules.",
+    "Answer B": "Are flexibly adjusted according to the situation.",
+    "Category": "Flexibility vs Structure",
+    "Factor A": "Strict schedules",
+    "Factor B": "Flexible schedules"
+  },
+  {
+    "Number": 64,
+    "Question": "Work instructions are...",
+    "Answer A": "Given as clear and specific guidelines.",
+    "Answer B": "Only the general direction is provided, leaving details to autonomy.",
+    "Category": "Flexibility vs Structure",
+    "Factor A": "Specific instructions",
+    "Factor B": "Autonomous execution"
+  },
+  {
+    "Number": 65,
+    "Question": "When expanding the organization's scale...",
+    "Answer A": "Tries to maintain existing structures and systems.",
+    "Answer B": "Restructures to fit the new environment.",
+    "Category": "Flexibility vs Structure",
+    "Factor A": "Maintains structure",
+    "Factor B": "Restructures"
+  },
+  {
+    "Number": 66,
+    "Question": "The organization's rules and policies...",
+    "Answer A": "Are consistently applied to all situations.",
+    "Answer B": "Are flexibly interpreted and applied according to the situation.",
+    "Category": "Flexibility vs Structure",
+    "Factor A": "Strict rule application",
+    "Factor B": "Flexible rule application"
+  },
+  {
+    "Number": 67,
+    "Question": "The organization's change management...",
+    "Answer A": "Proceeds step by step according to a systematic plan.",
+    "Answer B": "Proceeds flexibly and quickly according to the situation.",
+    "Category": "Flexibility vs Structure",
+    "Factor A": "Planned change management",
+    "Factor B": "Flexible change management"
+  },
+  {
+    "Number": 68,
+    "Question": "The way meetings are conducted...",
+    "Answer A": "Strictly follows set agendas and orders.",
+    "Answer B": "Proceeds flexibly and encourages immediate discussion.",
+    "Category": "Flexibility vs Structure",
+    "Factor A": "Structured meetings",
+    "Factor B": "Flexible meetings"
+  },
+  {
+    "Number": 69,
+    "Question": "When conducting projects...",
+    "Answer A": "It's important to execute exactly according to plan.",
+    "Answer B": "It's important to adjust flexibly according to the situation.",
+    "Category": "Flexibility vs Structure",
+    "Factor A": "Plan-centered",
+    "Factor B": "Flexibility-centered"
+  },
+  {
+    "Number": 70,
+    "Question": "The way meetings are conducted...",
+    "Answer A": "Is structured for efficiency.",
+    "Answer B": "Is conducted freely for creativity.",
+    "Category": "Flexibility vs Structure",
+    "Factor A": "Structured meetings",
+    "Factor B": "Flexible meetings"
+  },
+  {
+    "Number": 71,
+    "Question": "The organization's rules and procedures...",
+    "Answer A": "Must be strictly observed.",
+    "Answer B": "Can be flexibly applied according to the situation.",
+    "Category": "Flexibility vs Structure",
+    "Factor A": "Strict rules",
+    "Factor B": "Flexible rules"
+  },
+  {
+    "Number": 72,
+    "Question": "The scope of employees' work...",
+    "Answer A": "Is clearly defined.",
+    "Answer B": "Can change flexibly as needed.",
+    "Category": "Flexibility vs Structure",
+    "Factor A": "Clear roles",
+    "Factor B": "Flexible roles"
+  },
+  {
+    "Number": 73,
+    "Question": "When making decisions...",
+    "Answer A": "Tries to listen to many people's opinions and reach consensus.",
+    "Answer B": "The person in charge tends to make quick decisions.",
+    "Category": "Decision-making Style",
+    "Factor A": "Participative decision-making",
+    "Factor B": "Top-down decision-making"
+  },
+  {
+    "Number": 74,
+    "Question": "When making decisions...",
+    "Answer A": "Values the judgment of senior managers.",
+    "Answer B": "Values the opinions of field employees.",
+    "Category": "Decision-making Style",
+    "Factor A": "Top-down decision-making",
+    "Factor B": "Bottom-up decision-making"
+  },
+  {
+    "Number": 75,
+    "Question": "The organization's goals are...",
+    "Answer A": "Clearly defined and shared.",
+    "Answer B": "Flexibly adjusted according to the situation.",
+    "Category": "Decision-making Style",
+    "Factor A": "Clear goal setting",
+    "Factor B": "Flexible goal setting"
+  },
+  {
+    "Number": 76,
+    "Question": "The organization's decision-making...",
+    "Answer A": "Is mainly done in a top-down manner.",
+    "Answer B": "Is mainly done in a bottom-up manner.",
+    "Category": "Decision-making Style",
+    "Factor A": "Top-down decision-making",
+    "Factor B": "Bottom-up decision-making"
+  },
+  {
+    "Number": 77,
+    "Question": "When making work-related decisions...",
+    "Answer A": "The opinions of higher-ranking individuals are important.",
+    "Answer B": "The opinions of those with relevant experience are important.",
+    "Category": "Decision-making Style",
+    "Factor A": "Rank-centered",
+    "Factor B": "Expertise-centered"
+  },
+  {
+    "Number": 78,
+    "Question": "During meetings...",
+    "Answer A": "The leader takes the lead.",
+    "Answer B": "All participants actively express their opinions.",
+    "Category": "Decision-making Style",
+    "Factor A": "Leader-centered",
+    "Factor B": "Participation-centered"
+  },
+  {
+    "Number": 79,
+    "Question": "When setting work goals...",
+    "Answer A": "Senior managers set and pass down goals.",
+    "Answer B": "Goals are decided through consultation with employees.",
+    "Category": "Decision-making Style",
+    "Factor A": "Top-down goal setting",
+    "Factor B": "Participative goal setting"
+  },
+  {
+    "Number": 80,
+    "Question": "The company's vision and values...",
+    "Answer A": "Are clearly defined by management.",
+    "Answer B": "Continuously evolve reflecting the opinions of members.",
+    "Category": "Decision-making Style",
+    "Factor A": "Top-down vision setting",
+    "Factor B": "Participative vision setting"
+  },
+  {
+    "Number": 81,
+    "Question": "Work process improvement...",
+    "Answer A": "Values the advice of experts or consultants.",
+    "Answer B": "Values the suggestions of field employees.",
+    "Category": "Decision-making Style",
+    "Factor A": "External expert-centered",
+    "Factor B": "Internal opinion-centered"
+  },
+  {
+    "Number": 82,
+    "Question": "When making work-related decisions...",
+    "Answer A": "Emphasizes data and analysis.",
+    "Answer B": "Emphasizes intuition and experience.",
+    "Category": "Decision-making Style",
+    "Factor A": "Data-based decisions",
+    "Factor B": "Experience-based decisions"
+  },
+  {
+    "Number": 83,
+    "Question": "The organization's decision-making process...",
+    "Answer A": "Prioritizes speed above all.",
+    "Answer B": "Prioritizes member consensus above all.",
+    "Category": "Decision-making Style",
+    "Factor A": "Rapid decision-making",
+    "Factor B": "Consensus-based decision-making"
+  },
+  {
+    "Number": 84,
+    "Question": "When establishing long-term organizational strategies...",
+    "Answer A": "Top management takes the lead in deciding.",
+    "Answer B": "Decisions are made by gathering opinions from various levels.",
+    "Category": "Decision-making Style",
+    "Factor A": "Top-down strategy formulation",
+    "Factor B": "Participative strategy formulation"
+  },
+  {
+    "Number": 85,
+    "Question": "In the decision-making process...",
+    "Answer A": "The opinions of higher-ranking individuals are mainly reflected.",
+    "Answer B": "The opinions of all members are equally considered.",
+    "Category": "Decision-making Style",
+    "Factor A": "Vertical decision-making",
+    "Factor B": "Horizontal decision-making"
+  },
+  {
+    "Number": 86,
+    "Question": "The organization's decision-making...",
+    "Answer A": "Heavily relies on experience and intuition.",
+    "Answer B": "Is based on data and analysis.",
+    "Category": "Decision-making Style",
+    "Factor A": "Experience-based",
+    "Factor B": "Data-based"
+  },
+  {
+    "Number": 87,
+    "Question": "In the decision-making process...",
+    "Answer A": "The opinions of higher-ranking individuals are prioritized.",
+    "Answer B": "Opinions from all levels are equally considered.",
+    "Category": "Decision-making Style",
+    "Factor A": "Vertical decision-making",
+    "Factor B": "Horizontal decision-making"
+  },
+  {
+    "Number": 88,
+    "Question": "The organization's decision-making...",
+    "Answer A": "Is led by top management.",
+    "Answer B": "Is made with participation from employees at all levels.",
+    "Category": "Decision-making Style",
+    "Factor A": "Top-down",
+    "Factor B": "Participative"
+  },
+  {
+    "Number": 89,
+    "Question": "Work hours...",
+    "Answer A": "Tend to strictly adhere to set times.",
+    "Answer B": "Can be flexibly adjusted.",
+    "Category": "Work-Life Balance",
+    "Factor A": "Strict time management",
+    "Factor B": "Flexible time management"
+  },
+  {
+    "Number": 90,
+    "Question": "Regarding work-life balance...",
+    "Answer A": "Allows individuals to manage it on their own.",
+    "Answer B": "Actively supports it at the organizational level.",
+    "Category": "Work-Life Balance",
+    "Factor A": "Individual responsibility",
+    "Factor B": "Organizational support"
+  },
+  {
+    "Number": 91,
+    "Question": "Contact outside of work hours...",
+    "Answer A": "Is generally refrained from.",
+    "Answer B": "Is freely done if necessary.",
+    "Category": "Work-Life Balance",
+    "Factor A": "Separation of work and private life",
+    "Factor B": "Flexible work boundaries"
+  },
+  {
+    "Number": 92,
+    "Question": "Regarding overtime...",
+    "Answer A": "Requires prior approval and is strictly managed.",
+    "Answer B": "Can be done autonomously when needed.",
+    "Category": "Work-Life Balance",
+    "Factor A": "Strict working hours",
+    "Factor B": "Flexible working hours"
+  },
+  {
+    "Number": 93,
+    "Question": "Work time management...",
+    "Answer A": "Must comply with company-set hours.",
+    "Answer B": "Can be adjusted autonomously by individuals.",
+    "Category": "Work-Life Balance",
+    "Factor A": "Fixed working hours",
+    "Factor B": "Flexible working hours"
+  },
+  {
+    "Number": 94,
+    "Question": "Non-work activities (dinners, workshops, etc.)...",
+    "Answer A": "Require mandatory participation.",
+    "Answer B": "Allow autonomous participation.",
+    "Category": "Work-Life Balance",
+    "Factor A": "Formal bonding activities",
+    "Factor B": "Autonomous bonding activities"
+  },
+  {
+    "Number": 95,
+    "Question": "Contact outside of work hours...",
+    "Answer A": "Is limited to urgent cases only.",
+    "Answer B": "Can be done anytime if needed.",
+    "Category": "Work-Life Balance",
+    "Factor A": "Strict work hours",
+    "Factor B": "Flexible work hours"
+  },
+  {
+    "Number": 96,
+    "Question": "Work hours...",
+    "Answer A": "Are strictly observed at fixed times.",
+    "Answer B": "Can be flexibly adjusted.",
+    "Category": "Work-Life Balance",
+    "Factor A": "Fixed work",
+    "Factor B": "Flexible work"
+  },
+  {
+    "Number": 97,
+    "Question": "Contact outside of work hours...",
+    "Answer A": "Is limited to urgent cases only.",
+    "Answer B": "Is possible anytime if needed.",
+    "Category": "Work-Life Balance",
+    "Factor A": "Strict boundaries",
+    "Factor B": "Flexible boundaries"
+  },
+  {
+    "Number": 98,
+    "Question": "Feedback...",
+    "Answer A": "Is mainly given through regular performance evaluations.",
+    "Answer B": "Is given frequently through daily conversations.",
+    "Category": "Communication Style",
+    "Factor A": "Formal communication",
+    "Factor B": "Informal communication"
+  },
+  {
+    "Number": 99,
+    "Question": "When communicating...",
+    "Answer A": "Mainly uses official and systematic channels.",
+    "Answer B": "Mainly has informal and free conversations.",
+    "Category": "Communication Style",
+    "Factor A": "Formal communication",
+    "Factor B": "Informal communication"
+  },
+  {
+    "Number": 100,
+    "Question": "Communication within the organization...",
+    "Answer A": "Is mainly done through official channels.",
+    "Answer B": "Is often done through informal networks.",
+    "Category": "Communication Style",
+    "Factor A": "Formal communication",
+    "Factor B": "Informal communication"
+  },
+  {
+    "Number": 101,
+    "Question": "Organizational conflicts...",
+    "Answer A": "Are tried to be resolved through official procedures.",
+    "Answer B": "Are tried to be resolved through informal conversations.",
+    "Category": "Communication Style",
+    "Factor A": "Formal resolution",
+    "Factor B": "Informal resolution"
+  },
+  {
+    "Number": 102,
+    "Question": "Organizational information...",
+    "Answer A": "Is selectively shared only with those who need it.",
+    "Answer B": "Is disclosed to all members as much as possible.",
+    "Category": "Communication Style",
+    "Factor A": "Selective information sharing",
+    "Factor B": "Transparent information sharing"
+  },
+  {
+    "Number": 103,
+    "Question": "Differences of opinion among employees...",
+    "Answer A": "Are tried to be coordinated as quickly as possible.",
+    "Answer B": "Are recognized and respected as diversity.",
+    "Category": "Communication Style",
+    "Factor A": "Quick consensus seeking",
+    "Factor B": "Respecting diversity"
+  },
+  {
+    "Number": 104,
+    "Question": "News within the organization...",
+    "Answer A": "Is regularly delivered through official channels.",
+    "Answer B": "Spreads naturally through informal networks.",
+    "Category": "Communication Style",
+    "Factor A": "Official channel-centered",
+    "Factor B": "Informal network-centered"
+  },
+  {
+    "Number": 105,
+    "Question": "Communication between employees...",
+    "Answer A": "Is mainly done through official meetings or reports.",
+    "Answer B": "Is often done through informal conversations or gatherings.",
+    "Category": "Communication Style",
+    "Factor A": "Formal communication-centered",
+    "Factor B": "Informal communication-centered"
+  },
+  {
+    "Number": 106,
+    "Question": "The way feedback is provided...",
+    "Answer A": "Is done through regular official evaluations.",
+    "Answer B": "Is done frequently through daily informal conversations.",
+    "Category": "Communication Style",
+    "Factor A": "Formal feedback",
+    "Factor B": "Informal feedback"
+  },
+  {
+    "Number": 107,
+    "Question": "When resolving organizational conflicts...",
+    "Answer A": "Follows official mediation procedures.",
+    "Answer B": "Encourages resolution through dialogue between parties involved.",
+    "Category": "Communication Style",
+    "Factor A": "Formal conflict resolution",
+    "Factor B": "Informal conflict resolution"
+  },
+  {
+    "Number": 108,
+    "Question": "Information sharing among employees...",
+    "Answer A": "Selectively shares only necessary information.",
+    "Answer B": "Shares all possible information widely.",
+    "Category": "Communication Style",
+    "Factor A": "Selective information sharing",
+    "Factor B": "Open information sharing"
+  },
+  {
+    "Number": 109,
+    "Question": "Work-related information...",
+    "Answer A": "Is provided only to those who need it.",
+    "Answer B": "Is shared overall and accessible.",
+    "Category": "Communication Style",
+    "Factor A": "Information restriction",
+    "Factor B": "Information sharing"
+  },
+  {
+    "Number": 110,
+    "Question": "Communication within the organization...",
+    "Answer A": "Is done through official channels.",
+    "Answer B": "Is often done through informal networks.",
+    "Category": "Communication Style",
+    "Factor A": "Formal communication",
+    "Factor B": "Informal communication"
+  },
+  {
+    "Number": 111,
+    "Question": "Communication style...",
+    "Answer A": "Prefers direct and clear communication.",
+    "Answer B": "Prefers indirect and roundabout communication.",
+    "Category": "Communication Style",
+    "Factor A": "Direct communication",
+    "Factor B": "Indirect communication"
+  },
+  {
+    "Number": 112,
+    "Question": "Information flow within the organization...",
+    "Answer A": "Is shared limitedly only with those who need it.",
+    "Answer B": "Is shared transparently overall.",
+    "Category": "Communication Style",
+    "Factor A": "Limited information sharing",
+    "Factor B": "Transparent information sharing"
+  },
+  {
+    "Number": 113,
+    "Question": "Our organization...",
+    "Answer A": "Values expertise and in-depth knowledge.",
+    "Answer B": "Values broad knowledge in various fields.",
+    "Category": "Learning and Development",
+    "Factor A": "Emphasizes expertise",
+    "Factor B": "Emphasizes diversity"
+  },
+  {
+    "Number": 114,
+    "Question": "When assigning work...",
+    "Answer A": "Tends to focus on individual's area of expertise.",
+    "Answer B": "Tends to provide experience in various tasks.",
+    "Category": "Learning and Development",
+    "Factor A": "Specialization",
+    "Factor B": "Diversification"
+  },
+  {
+    "Number": 115,
+    "Question": "Employee education...",
+    "Answer A": "Focuses on strengthening current job competencies.",
+    "Answer B": "Focuses on developing future necessary competencies.",
+    "Category": "Learning and Development",
+    "Factor A": "Present-focused",
+    "Factor B": "Future-focused"
+  },
+  {
+    "Number": 116,
+    "Question": "Regarding mistakes...",
+    "Answer A": "Tends to clarify responsibility.",
+    "Answer B": "Tends to view them as learning opportunities.",
+    "Category": "Learning and Development",
+    "Factor A": "Responsibility-centered",
+    "Factor B": "Learning-centered"
+  },
+  {
+    "Number": 117,
+    "Question": "Work assignment...",
+    "Answer A": "Is based on individual expertise.",
+    "Answer B": "Considers individual interests and growth potential.",
+    "Category": "Learning and Development",
+    "Factor A": "Expertise-centered",
+    "Factor B": "Growth potential-centered"
+  },
+  {
+    "Number": 118,
+    "Question": "Employee growth...",
+    "Answer A": "Is seen as an individual responsibility.",
+    "Answer B": "Is seen as an organizational responsibility.",
+    "Category": "Learning and Development",
+    "Factor A": "Individual responsibility",
+    "Factor B": "Organizational responsibility"
+  },
+  {
+    "Number": 119,
+    "Question": "When assigning work...",
+    "Answer A": "Is based on current abilities.",
+    "Answer B": "Considers growth potential.",
+    "Category": "Learning and Development",
+    "Factor A": "Current ability-centered",
+    "Factor B": "Growth potential-centered"
+  },
+  {
+    "Number": 120,
+    "Question": "When hiring employees...",
+    "Answer A": "Values the ability to contribute immediately.",
+    "Answer B": "Values long-term growth potential.",
+    "Category": "Learning and Development",
+    "Factor A": "Immediate performance-centered",
+    "Factor B": "Potential-centered"
+  },
+  {
+    "Number": 121,
+    "Question": "Education programs...",
+    "Answer A": "Focus on improving current job skills.",
+    "Answer B": "Focus on developing future necessary competencies.",
+    "Category": "Learning and Development",
+    "Factor A": "Current competency-centered",
+    "Factor B": "Future competency-centered"
+  },
+  {
+    "Number": 122,
+    "Question": "Knowledge sharing within the organization...",
+    "Answer A": "Is done through formal documentation and education.",
+    "Answer B": "Is done through informal mentoring and conversations.",
+    "Category": "Learning and Development",
+    "Factor A": "Formal knowledge sharing",
+    "Factor B": "Informal knowledge sharing"
+  },
+  {
+    "Number": 123,
+    "Question": "The method of talent development...",
+    "Answer A": "Is done through systematic education programs.",
+    "Answer B": "Is mainly done through actual work experiences.",
+    "Category": "Learning and Development",
+    "Factor A": "Formal education-centered",
+    "Factor B": "Experiential learning-centered"
+  },
+  {
+    "Number": 124,
+    "Question": "When assigning work...",
+    "Answer A": "Primarily considers individual expertise and experience.",
+    "Answer B": "Primarily considers individual growth opportunities and challenges.",
+    "Category": "Learning and Development",
+    "Factor A": "Expertise-based assignment",
+    "Factor B": "Growth opportunity-based assignment"
+  },
+  {
+    "Number": 125,
+    "Question": "Regarding work mistakes...",
+    "Answer A": "It's important to clarify responsibility.",
+    "Answer B": "It's more important to find ways for improvement.",
+    "Category": "Learning and Development",
+    "Factor A": "Responsibility-centered approach",
+    "Factor B": "Improvement-centered approach"
+  },
+  {
+    "Number": 126,
+    "Question": "Employee competency development...",
+    "Answer A": "Is done through formal education programs.",
+    "Answer B": "Happens naturally during work performance.",
+    "Category": "Learning and Development",
+    "Factor A": "Formal education-centered",
+    "Factor B": "Practical experience-centered"
+  },
+  {
+    "Number": 127,
+    "Question": "When assigning work...",
+    "Answer A": "Is based on individual expertise.",
+    "Answer B": "Considers individual interests and development potential.",
+    "Category": "Learning and Development",
+    "Factor A": "Expertise-centered",
+    "Factor B": "Potential-centered"
+  },
+  {
+    "Number": 128,
+    "Question": "When mistakes occur during work...",
+    "Answer A": "Focuses on finding the responsible person to prevent recurrence.",
+    "Answer B": "Analyzes causes and seeks improvement measures.",
+    "Category": "Learning and Development",
+    "Factor A": "Responsibility-centered",
+    "Factor B": "Improvement-centered"
+  },
+  {
+    "Number": 129,
+    "Question": "Employee skill development...",
+    "Answer A": "Focuses on skills needed for current jobs.",
+    "Answer B": "Predicts and prepares for future necessary competencies.",
+    "Category": "Learning and Development",
+    "Factor A": "Present-centered",
+    "Factor B": "Future-centered"
+  },
+  {
+    "Number": 130,
+    "Question": "When assigning work...",
+    "Answer A": "Is based on individual expertise.",
+    "Answer B": "Considers opportunities to acquire new skills.",
+    "Category": "Learning and Development",
+    "Factor A": "Expertise-centered",
+    "Factor B": "Growth opportunity-centered"
+  },
+  {
+    "Number": 131,
+    "Question": "Employee education...",
+    "Answer A": "Focuses on acquiring essential skills.",
+    "Answer B": "Supports overall individual growth.",
+    "Category": "Learning and Development",
+    "Factor A": "Skill-centered",
+    "Factor B": "Holistic growth"
+  },
+  {
+    "Number": 132,
+    "Question": "Employee competency development...",
+    "Answer A": "Focuses on skills needed for current jobs.",
+    "Answer B": "Develops competencies considering future industry trends.",
+    "Category": "Learning and Development",
+    "Factor A": "Present-centered",
+    "Factor B": "Future-oriented"
+  },
+  {
+    "Number": 133,
+    "Question": "When assigning work...",
+    "Answer A": "Is based on individual's current abilities.",
+    "Answer B": "Considers individual potential and growth possibilities.",
+    "Category": "Learning and Development",
+    "Factor A": "Current ability-centered",
+    "Factor B": "Potential-centered"
+  },
+  {
+    "Number": 134,
+    "Question": "Our organization...",
+    "Answer A": "Tends to quickly try new ideas.",
+    "Answer B": "Tends to stably maintain proven methods.",
+    "Category": "Innovation vs Stability",
+    "Factor A": "Innovation-oriented",
+    "Factor B": "Stability-oriented"
+  },
+  {
+    "Number": 135,
+    "Question": "Our organization...",
+    "Answer A": "Values industry traditions and practices.",
+    "Answer B": "Strives to lead new trends.",
+    "Category": "Innovation vs Stability",
+    "Factor A": "Tradition-oriented",
+    "Factor B": "Innovation-oriented"
+  },
+  {
+    "Number": 136,
+    "Question": "When solving problems...",
+    "Answer A": "Tends to apply existing proven methods.",
+    "Answer B": "Tends to try new approaches.",
+    "Category": "Innovation vs Stability",
+    "Factor A": "Conservative approach",
+    "Factor B": "Innovative approach"
+  },
+  {
+    "Number": 137,
+    "Question": "The organization's goals...",
+    "Answer A": "Focus on maintaining stability and consistency.",
+    "Answer B": "Focus on growth and change.",
+    "Category": "Innovation vs Stability",
+    "Factor A": "Stability-oriented",
+    "Factor B": "Growth-oriented"
+  },
+  {
+    "Number": 138,
+    "Question": "Regarding risks...",
+    "Answer A": "Tends to avoid them as much as possible.",
+    "Answer B": "Is willing to take them if necessary.",
+    "Category": "Innovation vs Stability",
+    "Factor A": "Risk-averse",
+    "Factor B": "Risk-accepting"
+  },
+  {
+    "Number": 139,
+    "Question": "The organization's values...",
+    "Answer A": "Focus on tradition and stability.",
+    "Answer B": "Focus on innovation and change.",
+    "Category": "Innovation vs Stability",
+    "Factor A": "Tradition-oriented",
+    "Factor B": "Innovation-oriented"
+  },
+  {
+    "Number": 140,
+    "Question": "Regarding organizational expansion...",
+    "Answer A": "Is cautious and conservative.",
+    "Answer B": "Is active and aggressive.",
+    "Category": "Innovation vs Stability",
+    "Factor A": "Conservative growth",
+    "Factor B": "Aggressive growth"
+  },
+  {
+    "Number": 141,
+    "Question": "New ideas...",
+    "Answer A": "Are introduced after careful review.",
+    "Answer B": "Are quickly tried and improved.",
+    "Category": "Innovation vs Stability",
+    "Factor A": "Cautious innovation",
+    "Factor B": "Rapid experimentation"
+  },
+  {
+    "Number": 142,
+    "Question": "When conducting projects...",
+    "Answer A": "Strictly follows proven methodologies.",
+    "Answer B": "Modifies and applies methodologies to fit the situation.",
+    "Category": "Innovation vs Stability",
+    "Factor A": "Stability-centered",
+    "Factor B": "Flexibility-centered"
+  },
+  {
+    "Number": 143,
+    "Question": "Adoption of new technologies...",
+    "Answer A": "Proceeds cautiously after sufficient verification.",
+    "Answer B": "Proceeds quickly to secure competitiveness.",
+    "Category": "Innovation vs Stability",
+    "Factor A": "Cautious technology adoption",
+    "Factor B": "Active technology adoption"
+  },
+  {
+    "Number": 144,
+    "Question": "When forming project teams...",
+    "Answer A": "Consists of experts in each field.",
+    "Answer B": "Consists of members with diverse backgrounds.",
+    "Category": "Innovation vs Stability",
+    "Factor A": "Expertise-centered",
+    "Factor B": "Diversity-centered"
+  },
+  {
+    "Number": 145,
+    "Question": "When proposing new ideas...",
+    "Answer A": "They are received through an official proposal system.",
+    "Answer B": "They can be freely shared with superiors or colleagues.",
+    "Category": "Innovation vs Stability",
+    "Factor A": "Systematic proposal system",
+    "Factor B": "Free idea sharing"
+  },
+  {
+    "Number": 146,
+    "Question": "When starting new projects...",
+    "Answer A": "Follows existing proven methods.",
+    "Answer B": "Tries new approaches.",
+    "Category": "Innovation vs Stability",
+    "Factor A": "Emphasizes stability",
+    "Factor B": "Emphasizes innovation"
+  },
+  {
+    "Number": 147,
+    "Question": "The speed of organizational change...",
+    "Answer A": "Proceeds slowly for stability.",
+    "Answer B": "Occurs quickly for rapid adaptation.",
+    "Category": "Innovation vs Stability",
+    "Factor A": "Stability-oriented",
+    "Factor B": "Change-oriented"
+  },
+  {
+    "Number": 148,
+    "Question": "Risk management...",
+    "Answer A": "Prevents all possible risks in advance.",
+    "Answer B": "Accepts necessary risks and manages them.",
+    "Category": "Innovation vs Stability",
+    "Factor A": "Risk avoidance",
+    "Factor B": "Risk acceptance"
+  },
+  {
+    "Number": 149,
+    "Question": "Proposing new ideas...",
+    "Answer A": "Is done through official procedures.",
+    "Answer B": "Can be done freely at any time.",
+    "Category": "Innovation vs Stability",
+    "Factor A": "Structured innovation",
+    "Factor B": "Free innovation"
+  },
+  {
+    "Number": 150,
+    "Question": "Organizational change...",
+    "Answer A": "Occurs gradually and stably.",
+    "Answer B": "Occurs radically and innovatively.",
+    "Category": "Innovation vs Stability",
+    "Factor A": "Gradual change",
+    "Factor B": "Radical change"
+  }
+]
