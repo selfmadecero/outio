@@ -1,100 +1,136 @@
-import Image from "next/image";
+'use client';
+
+import { useState, useEffect } from 'react';
+import LanguageSelector from '../components/LanguageSelector';
+import AuthButton from '../components/AuthButton';
+import Link from 'next/link';
+import { User } from 'firebase/auth';
+import { auth } from '../firebase';
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const [language, setLanguage] = useState('en');
+  const [user, setUser] = useState<User | null>(null);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged(setUser);
+    return () => unsubscribe();
+  }, []);
+
+  const content = {
+    en: {
+      title: 'Outio',
+      subtitle: 'Innovative Culture-Fit Hiring Solution',
+      description:
+        'Understand your organizational culture and find the best-fitting talent.',
+      feature1: 'Continuous Culture Diagnosis',
+      feature2: 'Dynamic Culture Profile',
+      feature3: 'Tailored Hiring Solution',
+      cta: 'Get Started',
+    },
+    ko: {
+      title: 'Outio',
+      subtitle: '혁신적인 문화 적합성 채용 솔루션',
+      description: '조직 문화를 이해하고 가장 잘 맞는 인재를 찾으세요.',
+      feature1: '지속적인 문화 진단',
+      feature2: '동적 문화 프로필',
+      feature3: '맞춤형 채용 솔루션',
+      cta: '시작하기',
+    },
+  };
+
+  return (
+    <div className="flex flex-col min-h-screen bg-gradient-to-br from-blue-50 to-purple-50">
+      <header className="bg-white bg-opacity-80 backdrop-blur-md shadow-sm">
+        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+          <Link
+            href={user ? '/dashboard' : '/'}
+            className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-600"
           >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+            {content[language].title}
+          </Link>
+          <div className="flex items-center space-x-4">
+            <LanguageSelector onChange={setLanguage} />
+            <AuthButton
+              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300"
+              signInText={language === 'en' ? 'Sign In' : '로그인'}
+              signOutText={language === 'en' ? 'Sign Out' : '로그아웃'}
             />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+          </div>
         </div>
+      </header>
+
+      <main className="flex-grow">
+        <section className="py-20">
+          <div className="container mx-auto px-4 text-center">
+            <h1 className="text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-600">
+              {content[language].subtitle}
+            </h1>
+            <p className="text-xl mb-12 text-gray-700 max-w-2xl mx-auto">
+              {content[language].description}
+            </p>
+            {user ? (
+              <Link
+                href="/dashboard"
+                className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-8 py-4 rounded-full text-lg font-semibold hover:from-blue-600 hover:to-purple-700 transition duration-300 shadow-lg hover:shadow-xl"
+              >
+                {content[language].cta}
+              </Link>
+            ) : (
+              <AuthButton
+                className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-8 py-4 rounded-full text-lg font-semibold hover:from-blue-600 hover:to-purple-700 transition duration-300 shadow-lg hover:shadow-xl"
+                signInText={content[language].cta}
+              />
+            )}
+          </div>
+        </section>
+
+        <section className="py-20">
+          <div className="container mx-auto px-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+              {[
+                content[language].feature1,
+                content[language].feature2,
+                content[language].feature3,
+              ].map((feature, index) => (
+                <div
+                  key={index}
+                  className="bg-white bg-opacity-60 backdrop-blur-md rounded-2xl p-8 shadow-lg hover:shadow-xl transition duration-300"
+                >
+                  <div className="w-16 h-16 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full mb-6 flex items-center justify-center">
+                    <svg
+                      className="w-8 h-8 text-white"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M13 10V3L4 14h7v7l9-11h-7z"
+                      />
+                    </svg>
+                  </div>
+                  <h3 className="text-xl font-semibold mb-4 text-gray-800">
+                    {feature}
+                  </h3>
+                  <p className="text-gray-600">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
+                    do eiusmod tempor incididunt ut labore et dolore magna
+                    aliqua.
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
       </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
+
+      <footer className="bg-white bg-opacity-80 backdrop-blur-md py-8">
+        <div className="container mx-auto px-4 text-center text-gray-600">
+          <p>&copy; 2024 Outio. All rights reserved.</p>
+        </div>
       </footer>
     </div>
   );
