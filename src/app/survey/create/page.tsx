@@ -9,13 +9,13 @@ import { User } from 'firebase/auth';
 import DashboardLayout from '../../../components/DashboardLayout';
 
 interface Question {
-  Number: number;
-  Question: string;
-  'Answer A': string;
-  'Answer B': string;
-  Category: string;
-  'Factor A': string;
-  'Factor B': string;
+  번호: number;
+  질문: string;
+  'A 답변': string;
+  'B 답변': string;
+  카테고리: string;
+  'A 팩터': string;
+  'B 팩터': string;
 }
 
 interface Template {
@@ -192,13 +192,13 @@ export default function CreateSurvey() {
                   {randomQuestions.map((question, index) => (
                     <div key={index} className="p-4 bg-gray-50 rounded-lg">
                       <p className="text-sm font-semibold text-gray-800 mb-2">
-                        {content[language].question}: {question.Question}
+                        {content[language].question}: {question.질문}
                       </p>
                       <p className="text-sm text-gray-700 mb-1">
-                        {content[language].answerA}: {question['Answer A']}
+                        {content[language].answerA}: {question['A 답변']}
                       </p>
                       <p className="text-sm text-gray-700">
-                        {content[language].answerB}: {question['Answer B']}
+                        {content[language].answerB}: {question['B 답변']}
                       </p>
                     </div>
                   ))}
