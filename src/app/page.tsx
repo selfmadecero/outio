@@ -13,6 +13,8 @@ import {
   PuzzlePieceIcon,
   LightBulbIcon,
   StarIcon,
+  ChartPieIcon,
+  ShieldCheckIcon,
 } from '@heroicons/react/24/outline';
 
 export default function Home() {
@@ -27,22 +29,39 @@ export default function Home() {
   const content = {
     en: {
       title: 'Outio',
-      subtitle: 'Innovative Culture-Fit Hiring Solution',
+      subtitle: 'Decode Your Culture. Hire Your Perfect Match.',
       description:
-        'Understand your organizational culture and find the best-fitting talent.',
+        'Harness the power of AI-driven pulse surveys to understand your unique organizational DNA and find talent that truly fits.',
       feature1: 'Continuous Culture Diagnosis',
       feature1Description:
         'Regular pulse surveys to keep your culture profile up-to-date.',
+      feature1Benefit:
+        'Stay ahead of cultural shifts and address issues proactively.',
       feature2: 'Dynamic Culture Profile',
       feature2Description:
         'Real-time analysis to create a dynamic cultural profile of your organization.',
+      feature2Benefit:
+        'Make data-driven decisions about your organizational culture.',
       feature3: 'Tailored Hiring Solution',
       feature3Description:
         'Automatically generated interview questions and evaluation criteria based on your culture.',
+      feature3Benefit: 'Improve hiring success rates and reduce turnover.',
       feature4: 'AI-Powered Insights',
       feature4Description:
         'Leverage advanced AI to gain deep insights into your organizational culture.',
-      cta: 'Get Started',
+      feature4Benefit:
+        'Uncover hidden patterns and trends in your organizational culture.',
+      feature5: 'Customizable Surveys',
+      feature5Description:
+        "Tailor surveys to your organization's unique needs and goals.",
+      feature5Benefit:
+        "Get insights that are truly relevant to your company's specific context and challenges.",
+      feature6: 'Data Security & Privacy',
+      feature6Description:
+        'Enterprise-grade security measures to protect your sensitive cultural data.',
+      feature6Benefit:
+        'Ensure confidentiality and build trust with your employees.',
+      cta: 'Start Your Cultural Journey',
       login: 'Log In',
       signup: 'Sign Up',
       howItWorks: 'How It Works',
@@ -67,24 +86,40 @@ export default function Home() {
         text: 'The AI-powered insights have given us a deeper understanding of our organizational culture. Highly recommended!',
         author: 'John Smith, CEO of InnovateCo',
       },
+      featuresTitle: 'Powerful Features for Cultural Excellence',
+      keyBenefit: 'Key Benefit:',
     },
     ko: {
       title: 'Outio',
-      subtitle: '혁신적인 문화 적합성 채용 솔루션',
-      description: '조직 문화를 이해하고 가장 잘 맞는 인재를 찾으세요.',
+      subtitle: '문화를 해독하다. 최적의 인재를 만나다.',
+      description:
+        'AI 기반 펄스 서베이로 귀사만의 독특한 조직 DNA를 이해하고, 진정으로 어울리는 인재를 찾으세요.',
       feature1: '지속적인 문화 진단',
       feature1Description:
         '정기적인 펄스 설문조사로 문화 프로필을 최신 상태로 유지합니다.',
+      feature1Benefit: '문화적 변화를 선제적으로 파악하고 대응하세요.',
       feature2: '동적 문화 프로필',
       feature2Description:
         '실시간 분석을 통해 조직의 동적 문화 프로필을 생성합니다.',
+      feature2Benefit: '조직 문화에 대한 데이터 기반 의사결정을 내리세요.',
       feature3: '맞춤형 채용 솔루션',
       feature3Description:
         '귀사의 문화를 바탕으로 자동 생성된 면접 질문과 평가 기준을 제공합니다.',
+      feature3Benefit: '채용 성공률을 높이고 이직률을 낮추세요.',
       feature4: 'AI 기반 인사이트',
       feature4Description:
         '고급 AI를 활용하여 조직 문화에 대한 깊이 있는 통찰력을 얻으세요.',
-      cta: '시작하기',
+      feature4Benefit: '조직 문화의 숨겨진 패턴과 트렌드를 발견하세요.',
+      feature5: '맞춤형 설문조사',
+      feature5Description:
+        '귀사의 고유한 요구사항과 목표에 맞는 설문조사를 설계하세요.',
+      feature5Benefit:
+        '회사의 특정 상황과 과제에 진정으로 관련된 인사이트를 얻으세요.',
+      feature6: '데이터 보안 및 개인정보 보호',
+      feature6Description:
+        '민감한 문화 데이터를 보호하기 위한 기업 수준의 보안 조치.',
+      feature6Benefit: '기밀성을 보장하고 직원들과의 신뢰를 구축하세요.',
+      cta: '문화 여정을 시작하세요',
       login: '로그인',
       signup: '회원가입',
       howItWorks: '서비스 이용 방법',
@@ -105,6 +140,8 @@ export default function Home() {
         text: 'AI 기반 인사이트를 통해 우리 조직 문화에 대한 더 깊은 이해를 얻을 수 있었습니다. 강력 추천합니다!',
         author: '존 스미스, InnovateCo CEO',
       },
+      featuresTitle: '문화적 우수성을 위한 강력한 기능',
+      keyBenefit: '주요 이점:',
     },
   };
 
@@ -130,30 +167,55 @@ export default function Home() {
         </div>
       </header>
 
-      <main className="flex-1 flex flex-col items-center justify-center text-center py-20 px-4">
+      <main className="flex-1 flex flex-col items-center justify-center text-center py-32 px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="max-w-4xl"
+          className="max-w-5xl"
         >
-          <h1 className="text-5xl sm:text-6xl md:text-7xl tracking-tight font-extrabold mb-6">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl tracking-tight font-extrabold mb-8 leading-tight">
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
-              {content[language].subtitle}
+              {language === 'en' ? (
+                <>
+                  Decode Your Culture.
+                  <br className="hidden sm:inline" /> Hire Your Perfect Match.
+                </>
+              ) : (
+                <>
+                  문화를 해독하다.
+                  <br className="hidden sm:inline" /> 최적의 인재를 만나다.
+                </>
+              )}
             </span>
           </h1>
-          <p className="mt-3 text-xl sm:text-2xl text-gray-300 max-w-3xl mx-auto">
-            {content[language].description}
+          <p className="mt-6 text-lg sm:text-xl md:text-2xl lg:text-3xl text-gray-300 max-w-4xl mx-auto">
+            {language === 'en' ? (
+              <>
+                Harness the power of AI-driven pulse surveys
+                <br className="hidden md:inline" /> to understand your unique
+                organizational DNA
+                <br className="hidden md:inline" /> and find talent that truly
+                fits.
+              </>
+            ) : (
+              <>
+                AI 기반 펄스 서베이로 귀사만의 독특한
+                <br className="hidden md:inline" /> 조직 DNA를 이해하고,
+                진정으로
+                <br className="hidden md:inline" /> 어울리는 인재를 찾으세요.
+              </>
+            )}
           </p>
           <motion.div
             initial={{ opacity: 0, scale: 0.5 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5, delay: 0.3 }}
-            className="mt-10"
+            className="mt-12"
           >
             <Link
               href="/auth"
-              className="inline-block px-8 py-4 text-lg font-semibold rounded-full text-white bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg"
+              className="inline-block px-8 sm:px-10 py-4 sm:py-5 text-lg sm:text-xl font-semibold rounded-full text-white bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg"
             >
               {content[language].cta}
             </Link>
@@ -212,29 +274,45 @@ export default function Home() {
       <section className="bg-gray-900 py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-4xl font-extrabold text-center mb-16 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
-            Features
+            {content[language].featuresTitle}
           </h2>
-          <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-4">
+          <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-3">
             {[
               {
                 title: content[language].feature1,
                 description: content[language].feature1Description,
                 icon: ChartBarIcon,
+                benefit: content[language].feature1Benefit,
               },
               {
                 title: content[language].feature2,
                 description: content[language].feature2Description,
                 icon: UserGroupIcon,
+                benefit: content[language].feature2Benefit,
               },
               {
                 title: content[language].feature3,
                 description: content[language].feature3Description,
                 icon: PuzzlePieceIcon,
+                benefit: content[language].feature3Benefit,
               },
               {
                 title: content[language].feature4,
                 description: content[language].feature4Description,
                 icon: LightBulbIcon,
+                benefit: content[language].feature4Benefit,
+              },
+              {
+                title: content[language].feature5,
+                description: content[language].feature5Description,
+                icon: ChartPieIcon,
+                benefit: content[language].feature5Benefit,
+              },
+              {
+                title: content[language].feature6,
+                description: content[language].feature6Description,
+                icon: ShieldCheckIcon,
+                benefit: content[language].feature6Benefit,
               },
             ].map((feature, index) => (
               <motion.div
@@ -244,16 +322,20 @@ export default function Home() {
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 className="bg-gray-800 rounded-2xl shadow-xl p-8 hover:shadow-2xl transition duration-300 transform hover:scale-105"
               >
-                <div className="flex flex-col items-center">
+                <div className="flex flex-col items-start">
                   <div className="flex-shrink-0 mb-6">
-                    <feature.icon className="h-14 w-14 text-blue-400" />
+                    <feature.icon className="h-12 w-12 text-blue-400" />
                   </div>
-                  <h3 className="text-xl font-semibold text-white mb-3">
+                  <h3 className="text-2xl font-semibold text-white mb-3">
                     {feature.title}
                   </h3>
-                  <p className="text-gray-300 text-center">
-                    {feature.description}
-                  </p>
+                  <p className="text-gray-300 mb-4">{feature.description}</p>
+                  <div className="mt-auto">
+                    <h4 className="text-lg font-medium text-blue-400 mb-2">
+                      {content[language].keyBenefit}
+                    </h4>
+                    <p className="text-gray-300">{feature.benefit}</p>
+                  </div>
                 </div>
               </motion.div>
             ))}
