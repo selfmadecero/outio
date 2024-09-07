@@ -19,6 +19,7 @@ import {
   InformationCircleIcon,
   CogIcon,
 } from '@heroicons/react/24/outline';
+import { useRouter } from 'next/navigation';
 
 const content = {
   en: {
@@ -100,6 +101,7 @@ interface MetricData {
 }
 
 const Dashboard = () => {
+  const router = useRouter();
   const { language } = useLanguage();
   const [userName, setUserName] = useState('');
   const [cultureScore, setCultureScore] = useState<MetricData>({
@@ -146,7 +148,7 @@ const Dashboard = () => {
   >({});
 
   useEffect(() => {
-    // 여기서 실제 데이터를 가져오는 API 호출을 수행합니다.
+    // 여기서 실제 데이터를 가져오는 API 호출을 수행��니다.
     setUserName('김지영');
     setCultureScore({ current: 78, previous: 75 });
     setEmployeeEngagement({ current: 82, previous: 80 });
@@ -184,7 +186,7 @@ const Dashboard = () => {
     <motion.div
       whileHover={{ scale: 1.05 }}
       className="bg-white rounded-xl shadow-lg p-6 flex flex-col items-start space-y-4 cursor-pointer"
-      onClick={() => (window.location.href = link)}
+      onClick={() => router.push(link)}
     >
       <div className="p-3 bg-indigo-100 rounded-full">{icon}</div>
       <h3 className="text-xl font-semibold text-gray-800">{title}</h3>
@@ -342,6 +344,22 @@ const Dashboard = () => {
     </motion.div>
   );
 
+  const handleQuickAction = (action: string) => {
+    switch (action) {
+      case 'createSurvey':
+        router.push('/surveys/create');
+        break;
+      case 'inviteEmployees':
+        router.push('/settings?section=employee-management');
+        break;
+      case 'viewLatestResults':
+        router.push('/surveys/results');
+        break;
+      default:
+        console.error('Unknown action:', action);
+    }
+  };
+
   return (
     <DashboardLayout>
       <div className="p-8 bg-gradient-to-br from-indigo-50 to-purple-100 min-h-screen">
@@ -362,13 +380,22 @@ const Dashboard = () => {
             {content[language].quickActions}
           </h2>
           <div className="flex flex-wrap gap-4">
-            <button className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition duration-300">
+            <button
+              className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition duration-300"
+              onClick={() => handleQuickAction('createSurvey')}
+            >
               {content[language].createSurvey}
             </button>
-            <button className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition duration-300">
+            <button
+              className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition duration-300"
+              onClick={() => handleQuickAction('inviteEmployees')}
+            >
               {content[language].inviteEmployees}
             </button>
-            <button className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition duration-300">
+            <button
+              className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition duration-300"
+              onClick={() => handleQuickAction('viewLatestResults')}
+            >
               {content[language].viewLatestResults}
             </button>
           </div>

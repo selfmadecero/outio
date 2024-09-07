@@ -155,7 +155,7 @@ export default function SurveyList() {
         </h1>
         <p className="text-gray-600 mb-6">{content[language].description}</p>
         <Link
-          href="/survey/create"
+          href="/surveys/create" // 여기를 /survey/create에서 /surveys/create로 변경
           className="bg-indigo-500 text-white px-6 py-3 rounded-lg hover:bg-indigo-600 transition duration-300 shadow-md flex items-center inline-block"
         >
           <PlusIcon className="h-5 w-5 mr-2" />

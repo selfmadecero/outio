@@ -73,7 +73,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
     en: {
       dashboard: 'Dashboard',
       cultureProfile: 'Culture Profile',
-      survey: 'Survey',
+      surveys: 'Surveys', // 'survey'를 'surveys'로 변경
       hiring: 'Hiring',
       feedback: 'Feedback',
       settings: 'Settings',
@@ -87,11 +87,11 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
     ko: {
       dashboard: '대시보드',
       cultureProfile: '문화 프로필',
-      survey: '설문조사',
+      surveys: '설문조사', // 'survey'를 '설문조사'로 변경 (이미 올바르게 되어 있다면 그대로 두세요)
       hiring: '채용',
       feedback: '피드백',
       settings: '설정',
-      signOut: '로그아웃',
+      signOut: '로그아���',
       demo: '데모 버전',
       joinWaitlist: '웨이트리스트 등록',
       demoAlert: '현재 데모 버전을 보고 계십니다.',
@@ -108,9 +108,9 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       href: '/culture-profile',
     },
     {
-      name: content[language].survey,
+      name: content[language].surveys, // 'survey'를 'surveys'로 변경
       icon: ClipboardDocumentCheckIcon,
-      href: '/survey',
+      href: '/surveys', // '/survey'를 '/surveys'로 변경
     },
     {
       name: content[language].hiring,
@@ -295,14 +295,16 @@ function SidebarContent({
             key={item.name}
             href={item.href}
             className={`flex items-center py-3 px-6 transition duration-300 ${
-              pathname === item.href
+              pathname === item.href || pathname.startsWith(`${item.href}/`)
                 ? 'bg-gradient-to-r from-blue-100 to-purple-100 border-r-4 border-blue-500 text-blue-600'
                 : 'text-gray-500 hover:bg-gray-100 hover:text-gray-700'
             }`}
           >
             <item.icon
               className={`h-6 w-6 ${
-                pathname === item.href ? 'text-blue-500' : ''
+                pathname === item.href || pathname.startsWith(`${item.href}/`)
+                  ? 'text-blue-500'
+                  : ''
               }`}
             />
             <span className="mx-3 font-medium">{item.name}</span>
