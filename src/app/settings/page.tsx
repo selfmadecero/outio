@@ -46,7 +46,7 @@ const dummyEmployees = [
   },
   {
     id: 4,
-    koreanName: '정수빈',
+    koreanName: '정수��',
     englishName: 'Su-bin Jung',
     email: 'subin.jung@example.com',
     role: 'HR Specialist',
@@ -254,7 +254,7 @@ const dummyEmployees = [
   },
   {
     id: 30,
-    koreanName: '신유진',
+    koreanName: '신유��',
     englishName: 'Yu-jin Shin',
     email: 'yujin.shin@example.com',
     role: 'QA Engineer',
@@ -485,7 +485,7 @@ export default function Settings() {
     }, 1000);
 
     // URL 파라미터에서 섹션 확인
-    const section = searchParams.get('section');
+    const section = (searchParams as URLSearchParams).get('section');
     if (section === 'employee-management') {
       setActiveTab('employeeManagement');
     }
