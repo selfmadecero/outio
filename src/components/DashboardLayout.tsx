@@ -1,5 +1,6 @@
 'use client';
 
+import React from 'react';
 import { useState, useEffect, ReactNode } from 'react';
 import { User } from 'firebase/auth';
 import { auth } from '../firebase';
@@ -16,8 +17,11 @@ import {
   Bars3Icon,
   XMarkIcon,
   ClipboardDocumentCheckIcon,
+  BellIcon,
 } from '@heroicons/react/24/outline';
 import { useLanguage } from '../contexts/LanguageContext';
+import LanguageSelector from './LanguageSelector';
+import AuthButton from './AuthButton';
 
 interface DashboardLayoutProps {
   children: ReactNode;
@@ -59,6 +63,11 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       feedback: 'Feedback',
       settings: 'Settings',
       signOut: 'Sign Out',
+      demo: 'Demo Version',
+      joinWaitlist: 'Join Waitlist',
+      demoAlert: 'You are currently viewing a demo version.',
+      joinWaitlistCTA:
+        'Join our waitlist for early access to the full version!',
     },
     ko: {
       dashboard: '대시보드',
@@ -68,6 +77,11 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       feedback: '피드백',
       settings: '설정',
       signOut: '로그아웃',
+      demo: '데모 버전',
+      joinWaitlist: '웨이트리스트 등록',
+      demoAlert: '현재 데모 버전을 보고 계십니다.',
+      joinWaitlistCTA:
+        '정식 버전 얼리 액세스를 위해 웨이트리스트에 등록하세요!',
     },
   };
 
@@ -104,9 +118,22 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
 
   return (
     <div className="flex h-screen bg-gradient-to-br from-blue-50 to-purple-50">
+      {/* Demo Alert Banner */}
+      <div className="fixed top-0 left-0 right-0 bg-yellow-500 text-white py-2 px-4 text-center z-50">
+        <p className="text-sm font-medium">
+          {content[language].demoAlert}{' '}
+          <Link
+            href="/waitlist"
+            className="underline font-bold hover:text-yellow-200 transition-colors duration-300"
+          >
+            {content[language].joinWaitlistCTA}
+          </Link>
+        </p>
+      </div>
+
       {/* Sidebar for desktop */}
       <div
-        className={`hidden md:block w-64 bg-white bg-opacity-80 backdrop-filter backdrop-blur-lg shadow-lg`}
+        className={`hidden md:block w-64 bg-white bg-opacity-80 backdrop-filter backdrop-blur-lg shadow-lg mt-10`}
       >
         <SidebarContent
           menuItems={menuItems}
@@ -146,7 +173,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       {/* Main Content */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Top bar */}
-        <header className="h-16 bg-white bg-opacity-70 backdrop-filter backdrop-blur-lg border-b border-gray-200">
+        <header className="h-16 bg-white bg-opacity-70 backdrop-filter backdrop-blur-lg border-b border-gray-200 mt-10">
           <div className="h-full flex justify-between items-center px-6">
             <div className="flex items-center">
               <button
@@ -155,16 +182,19 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
               >
                 <Bars3Icon className="h-6 w-6" />
               </button>
-              {/* 여기서 '대시보드' 텍스트를 제거했습니다 */}
+              <span className="text-sm font-medium text-gray-500">
+                {content[language].demo}
+              </span>
             </div>
             <div className="flex items-center space-x-4">
-              <button
-                onClick={() => setLanguage(language === 'en' ? 'ko' : 'en')}
-                className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-full text-gray-500 bg-white hover:bg-gray-50 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-300"
+              <Link
+                href="/waitlist"
+                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-full text-white bg-gradient-to-r from-green-400 to-blue-500 hover:from-green-500 hover:to-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition duration-300 animate-pulse"
               >
-                <LanguageIcon className="h-5 w-5 mr-2" />
-                {language === 'en' ? '한국어' : 'English'}
-              </button>
+                <BellIcon className="h-5 w-5 mr-2" />
+                {content[language].joinWaitlist}
+              </Link>
+              <LanguageSelector onChange={() => {}} />
               <button
                 onClick={handleSignOut}
                 className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-full text-white bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-300"
@@ -177,9 +207,20 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         </header>
 
         {/* Main content */}
-        <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50">
+        <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50 mt-10">
           {children}
         </main>
+      </div>
+
+      {/* Floating Waitlist Button */}
+      <div className="fixed bottom-4 right-4 md:bottom-8 md:right-8">
+        <Link
+          href="/waitlist"
+          className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-full text-white bg-gradient-to-r from-green-400 to-blue-500 hover:from-green-500 hover:to-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition duration-300 shadow-lg hover:shadow-xl"
+        >
+          <BellIcon className="h-5 w-5 mr-2" />
+          {content[language].joinWaitlist}
+        </Link>
       </div>
     </div>
   );

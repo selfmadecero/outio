@@ -150,8 +150,8 @@ export default function Dashboard() {
 
   return (
     <DashboardLayout>
-      <div className="container mx-auto px-6 py-8 bg-gradient-to-br from-gray-900 to-gray-800 min-h-screen text-white">
-        <h1 className="text-4xl font-bold mb-8 text-white">
+      <div className="container mx-auto px-6 py-8 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 min-h-screen text-gray-900 dark:text-white">
+        <h1 className="text-4xl font-bold mb-8 text-gray-900 dark:text-white">
           {content[language].welcome}, {companyProfile.name[language]}
         </h1>
 
@@ -190,25 +190,31 @@ export default function Dashboard() {
           ].map((item, index) => (
             <div
               key={index}
-              className="bg-gray-800 rounded-xl p-6 shadow-lg hover:shadow-xl transition duration-300 transform hover:scale-105"
+              className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg hover:shadow-xl transition duration-300 transform hover:scale-105"
             >
               <div className="flex items-center justify-between mb-4">
                 <div>
-                  <p className="text-sm text-gray-400">{item.title}</p>
-                  <p className="text-3xl font-bold text-white mt-2">
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                    {item.title}
+                  </p>
+                  <p className="text-3xl font-bold text-gray-900 dark:text-white mt-2">
                     {item.value}
                   </p>
                 </div>
                 <div
-                  className={`p-4 rounded-full bg-${item.color}-500 bg-opacity-20`}
+                  className={`p-4 rounded-full bg-${item.color}-100 dark:bg-${item.color}-900 bg-opacity-20`}
                 >
-                  <item.icon className={`h-8 w-8 text-${item.color}-400`} />
+                  <item.icon
+                    className={`h-8 w-8 text-${item.color}-500 dark:text-${item.color}-400`}
+                  />
                 </div>
               </div>
               {item.change !== 0 && (
                 <div
                   className={`flex items-center ${
-                    item.change > 0 ? 'text-green-400' : 'text-red-400'
+                    item.change > 0
+                      ? 'text-green-500 dark:text-green-400'
+                      : 'text-red-500 dark:text-red-400'
                   }`}
                 >
                   {item.change > 0 ? (
@@ -231,54 +237,56 @@ export default function Dashboard() {
 
         {/* Recent Activity and Culture Insights sections */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
-          <div className="bg-gray-800 rounded-xl p-6 shadow-lg">
-            <h2 className="text-2xl font-semibold mb-6 text-white flex items-center">
-              <ClipboardDocumentListIcon className="h-7 w-7 mr-3 text-blue-400" />
+          <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg">
+            <h2 className="text-2xl font-semibold mb-6 text-gray-900 dark:text-white flex items-center">
+              <ClipboardDocumentListIcon className="h-7 w-7 mr-3 text-blue-500 dark:text-blue-400" />
               {content[language].recentActivity}
             </h2>
             <div className="space-y-4">
               {dummyRecentActivities[language].map((activity) => (
                 <div
                   key={activity.id}
-                  className="flex justify-between items-center border-b border-gray-700 pb-4"
+                  className="flex justify-between items-center border-b border-gray-200 dark:border-gray-700 pb-4"
                 >
-                  <span className="text-gray-300 text-lg">
+                  <span className="text-gray-900 dark:text-gray-300 text-lg">
                     {activity.action}
                   </span>
-                  <span className="text-gray-400 text-sm">{activity.date}</span>
+                  <span className="text-gray-500 dark:text-gray-400 text-sm">
+                    {activity.date}
+                  </span>
                 </div>
               ))}
             </div>
             <Link
               href="/activities"
-              className="text-blue-400 hover:underline mt-6 inline-block text-lg"
+              className="text-blue-500 dark:text-blue-400 hover:underline mt-6 inline-block text-lg"
             >
               {content[language].viewAll}
             </Link>
           </div>
-          <div className="bg-gray-800 rounded-xl p-6 shadow-lg">
-            <h2 className="text-2xl font-semibold mb-6 text-white flex items-center">
-              <ArrowTrendingUpIcon className="h-7 w-7 mr-3 text-purple-400" />
+          <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg">
+            <h2 className="text-2xl font-semibold mb-6 text-gray-900 dark:text-white flex items-center">
+              <ArrowTrendingUpIcon className="h-7 w-7 mr-3 text-purple-500 dark:text-purple-400" />
               {content[language].cultureInsights}
             </h2>
             <div className="space-y-4">
               {dummyCultureInsights[language].map((insight) => (
                 <div
                   key={insight.id}
-                  className="flex justify-between items-center border-b border-gray-700 pb-4"
+                  className="flex justify-between items-center border-b border-gray-200 dark:border-gray-700 pb-4"
                 >
-                  <span className="text-gray-300 text-lg">
+                  <span className="text-gray-900 dark:text-gray-300 text-lg">
                     {insight.insight}
                   </span>
                   <span
                     className={`text-sm px-3 py-1 rounded-full ${
                       insight.importance === 'High' ||
                       insight.importance === '높음'
-                        ? 'bg-red-500 bg-opacity-20 text-red-400'
+                        ? 'bg-red-500 bg-opacity-20 text-red-500 dark:text-red-400'
                         : insight.importance === 'Medium' ||
                           insight.importance === '중간'
-                        ? 'bg-yellow-500 bg-opacity-20 text-yellow-400'
-                        : 'bg-green-500 bg-opacity-20 text-green-400'
+                        ? 'bg-yellow-500 bg-opacity-20 text-yellow-500 dark:text-yellow-400'
+                        : 'bg-green-500 bg-opacity-20 text-green-500 dark:text-green-400'
                     }`}
                   >
                     {insight.importance}
@@ -288,7 +296,7 @@ export default function Dashboard() {
             </div>
             <Link
               href="/insights"
-              className="text-purple-400 hover:underline mt-6 inline-block text-lg"
+              className="text-purple-500 dark:text-purple-400 hover:underline mt-6 inline-block text-lg"
             >
               {content[language].viewAll}
             </Link>
@@ -297,20 +305,24 @@ export default function Dashboard() {
 
         {/* Upcoming Surveys and Team Feedback sections */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
-          <div className="bg-gray-800 rounded-xl p-6 shadow-lg">
-            <h2 className="text-2xl font-semibold mb-6 text-white flex items-center">
-              <CalendarIcon className="h-7 w-7 mr-3 text-green-400" />
+          <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg">
+            <h2 className="text-2xl font-semibold mb-6 text-gray-900 dark:text-white flex items-center">
+              <CalendarIcon className="h-7 w-7 mr-3 text-green-500 dark:text-green-400" />
               {content[language].upcomingSurveys}
             </h2>
             <div className="space-y-4">
               {dummyUpcomingSurveys[language].map((survey) => (
                 <div
                   key={survey.id}
-                  className="flex justify-between items-center border-b border-gray-700 pb-4"
+                  className="flex justify-between items-center border-b border-gray-200 dark:border-gray-700 pb-4"
                 >
                   <div>
-                    <span className="text-gray-300 text-lg">{survey.name}</span>
-                    <p className="text-gray-400 text-sm">{survey.date}</p>
+                    <span className="text-gray-900 dark:text-gray-300 text-lg">
+                      {survey.name}
+                    </span>
+                    <p className="text-gray-500 dark:text-gray-400 text-sm">
+                      {survey.date}
+                    </p>
                   </div>
                   <Link
                     href={`/surveys/${survey.id}`}
@@ -322,22 +334,22 @@ export default function Dashboard() {
               ))}
             </div>
           </div>
-          <div className="bg-gray-800 rounded-xl p-6 shadow-lg">
-            <h2 className="text-2xl font-semibold mb-6 text-white flex items-center">
-              <ChatBubbleLeftRightIcon className="h-7 w-7 mr-3 text-yellow-400" />
+          <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg">
+            <h2 className="text-2xl font-semibold mb-6 text-gray-900 dark:text-white flex items-center">
+              <ChatBubbleLeftRightIcon className="h-7 w-7 mr-3 text-yellow-500 dark:text-yellow-400" />
               {content[language].teamFeedback}
             </h2>
             <div className="space-y-4">
               {dummyTeamFeedback[language].map((feedback) => (
                 <div
                   key={feedback.id}
-                  className="border-b border-gray-700 pb-4"
+                  className="border-b border-gray-200 dark:border-gray-700 pb-4"
                 >
-                  <p className="text-gray-300 text-lg mb-2">
+                  <p className="text-gray-900 dark:text-gray-300 text-lg mb-2">
                     "{feedback.message}"
                   </p>
                   <div className="flex justify-between items-center">
-                    <span className="text-gray-400 text-sm">
+                    <span className="text-gray-500 dark:text-gray-400 text-sm">
                       - {feedback.from}
                     </span>
                     <button className="px-4 py-2 bg-yellow-500 text-white rounded-full hover:bg-yellow-600 transition duration-300">
