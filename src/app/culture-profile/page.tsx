@@ -113,11 +113,11 @@ const content = {
   ko: {
     title: '문화 프로필',
     description: '직원들의 피드백을 바탕으로 한 귀사의 고유한 문화적 특성',
-    lastUpdated: '마지막 업데이트',
+    lastUpdated: '최종 업데이트',
     cultureProfileOverview: '문화 프로필 개요',
     whatIsCultureProfile: '문화 프로필이란?',
     cultureProfileExplanation:
-      '문화 프로필은 조직의 가치, 행동, 관행을 데이터 기반으로 표현한 것입니다. 직원들이 정기적으로 참여하는 펄스 설문조사를 통해 생성되며, 회사의 문화적 역동성에 대한 실시간 인사이트를 제공합니다. 이 프로필은 조직의 강점을 이해하고, 개선이 필요한 영역을 식별하며, 새로운 인재가 귀사의 고유한 문화와 잘 맞는지 확인하는 데 도움을 줍니다.',
+      '문화 프로필은 조직의 가치관, 행동 양식, 그리고 관행을 데이터에 기반하여 표현한 것입니다. 직원들이 정기적으로 참여하는 펄스 설문조사를 통해 생성되며, 회사의 문화적 역동성에 대한 실시간 인사이트를 제공합니다. 이 프로필은 조직의 강점을 이해하고, 개선이 필요한 영역을 식별하며, 새로운 인재가 귀사의 고유한 문화와 잘 부합하는지 확인하는 데 도움을 줍니다.',
     collaborationIndex: '협업 지수',
     innovationIndex: '혁신 지수',
     customerFocusIndex: '고객 중심 지수',
@@ -126,31 +126,31 @@ const content = {
     employeeEngagement: '직원 참여도',
     learningCulture: '학습 문화',
     decisionMakingEfficiency: '의사결정 효율성',
-    findCandidates: '우리 문화에 알맞은 인재 찾기',
+    findCandidates: '우리 문화에 적합한 인재 찾기',
     cultureSummary: '문화 프로필 요약',
     cultureSummaryText:
-      '귀사의 문화는 혁신과 협력을 중시하는 특성을 보입니다. 특히 고객 중심적인 접근과 학습 문화가 강으로 나타났습니다. 의사결정 과정에서는 참여적 방식을 선호하며, 개방적 소통 문화를 가지고 있습니다. 다만, 일-삶의 균형과 구조화된 프로세스 측면에서는 개선의 여지가 있습니다.',
+      '귀사의 문화는 혁신과 협력을 중시하는 특성을 강하게 보입니다. 특히 고객 중심적인 접근과 학습 문화가 주목할 만한 강점으로 나타났습니다. 의사결정 과정에서는 참여적 방식을 선호하며, 개방적 소통 문화를 가지고 있습니다. 다만, 일과 삶의 균형 및 구조화된 프로세스 측면에서는 개선의 여지가 있습니다.',
     strengthsAndWeaknesses: '주요 강점 및 개선 영역',
     strengths: '강점',
     weaknesses: '개선 영역',
     industryComparison: '산업 평균과의 비교',
-    trendAnalysis: '문화 지수 트렌드 분석',
+    trendAnalysis: '문화 지수 추세 분석',
     trendAnalysisText:
-      '최근 5개월간 귀사의 전반적인 문화 지수가 꾸준히 상승��고 있습니다. 특히 직원 참여도와 학습 문화 측면에서 큰 개선이 있었습니다.',
+      '최근 5개월간 귀사의 전반적인 문화 지수가 꾸준히 상승하고 있습니다. 특히 직원 참여도와 학습 문화 측면에서 큰 개선이 있었습니다.',
     improvementSuggestions: '맞춤형 개선 제안',
-    improvementSuggestionsText: `맞춤형 개선 제안:
-      - 의사결정 프로세스 개선: 빠른 의사결정을 위한 프레임워크 도입 고려
+    improvementSuggestionsText: `개선 제안:
+      - 의사결정 프로세스 개선: 신속한 의사결정을 위한 프레임워크 도입 고려
       - 혁신 문화 강화: 정기적인 아이디어 공유 세션 또는 해커톤 이벤트 개최
-      - 적응성 향상: 크로스 펑셔널 팀 활동 장려 및 직무 로테이션 프로그램 도입
-      - 일-삶 형 개선: 유연근무제 확대 및 웰빙 프로그램 강화`,
-    cultureType: '문화 유형 분',
+      - 적응성 향상: 부서 간 협업 활동 장려 및 직무 순환 프로그램 도입
+      - 일-삶 균형 개선: 유연근무제 확대 및 웰빙 프로그램 강화`,
+    cultureType: '문화 유형 분류',
     cultureTypeText:
-      '귀사의 문화 "혁신 주도형"과 "협력 중심형"의 성을 강하게 보이고 있습니다. 이는 창의적인 아이디어를 중시하면서도 팀워크를 통한 실행을 중요하게 여기는 문화입니다.',
+      '귀사의 문화는 "혁신 주도형"과 "협력 중심형"의 특성을 강하게 보이고 있습니다. 이는 창의적인 아이디어를 중시하면서도 팀워크를 통한 실행을 중요하게 여기는 문화입니다.',
     innovationDriven: '혁신 주도형: 새로운 아이디어와 변화를 적극적으로 수용',
     collaborationCentric:
       '협력 중심형: 팀워크와 개방적 소통을 통한 문제 해결 강조',
-    customerCentric: '고객 중심형: 고객 니즈에 빠르게 대응하는 문화',
-    learningOriented: '학습 지향형: 지속적인 성장과 발전을 중시하는 문화',
+    customerCentric: '고객 중심형: 고객 니즈에 신속하게 대응하는 문화',
+    learningOriented: '학습 지향형: 지속적인 성장과 발전에 초점을 맞추는 문화',
     symmetricBarChart: '대칭 막대 차트',
     cultureDimensions: '문화 차원',
     cultureTags: ['혁신', '협업', '고객 중심', '학습'],
@@ -158,13 +158,13 @@ const content = {
     overallCultureScoreDescription:
       '조직 문화의 전반적인 건강도와 강점을 반영하는 종합 점수입니다.',
     overallCultureScoreInterpretation:
-      '귀사의 점수는 잘 발달된 강한 문화를 나타내며, 일부 개선 영역이 있습니다.',
+      '귀사의 점수는 잘 발달된 강한 문화를 나타내며, 일부 개선 영역이 있음을 시사합니다.',
     strengthsWeaknessesDescription:
-      '이는 귀사의 문화 프로필을 기반으로 한 주요 강점과 개선 영역입니다. 강점은 귀사 뛰난 분야이며, 개선 영역은 문화를 욱 강화하기 위해 개선 수 있는 분야입니다.',
+      '이는 귀사의 문화 프로필을 기반으로 한 주요 강점과 개선 영역입니다. 강점은 귀사가 뛰어난 분야이며, 개선 영역은 문화를 더욱 강화하기 위해 향상시킬 수 있는 분야입니다.',
     overviewExplanation: '문화 프로필 개요 설명',
     overviewDescription: '이는 문화 프로필 개요 섹션에 대한 설명입니다.',
     cultureDimensionsDescription:
-      '이 차트는 조직의 문화 차원 간의 균형을 나타냅니다. 각 막대는 특정 차원의 강점을 나타내며, 왼쪽은 한 측면을 나타내고 오른쪽은 반대 측면을 나타냅니다. 막대의 중앙은 두 측면 간의 전반적인 균형을 나타냅니다.',
+      '이 차트는 조직의 문화 차원 간의 균형을 나타냅니다. 각 막대는 특정 차원의 강점을 나타내며, 왼쪽은 한 측면을, 오른쪽은 반대 측면을 나타냅니다. 막대의 중앙은 두 측면 간의 전반적인 균형을 나타냅니다.',
     cultureDimensionsInterpretation:
       '이 차트는 조직의 문화 차원 간의 균형과 분포에 대한 통찰력을 제공합니다. 각 차원의 강점과 개선 영역을 이해하는 데 도움이 됩니다.',
   },
@@ -202,7 +202,7 @@ const profileDescriptions = {
   },
   ko: {
     collaborationIndex: '조직 내 팀워크와 집단적 노력의 수준을 측정합니다.',
-    innovationIndex: '회사의 창성과 새로운 아이디어 창출 능력을 측정합니다.',
+    innovationIndex: '회사의 창의성과 새로운 아이디어 창출 능력을 나타냅니다.',
     customerFocusIndex:
       '조직이 고객 니즈와 만족도를 얼마나 잘 우선시하는지 반영합니다.',
     adaptabilityIndex:
@@ -212,7 +212,7 @@ const profileDescriptions = {
     employeeEngagement: '직원들의 헌신, 동기부여, 만족도 수준을 측정합니다.',
     learningCulture:
       '조직이 지속적인 학습과 개발을 얼마나 잘 지원하는지 나타냅니다.',
-    decisionMakingEfficiency: '의사결정 과정의 속도와 효율성을 반영합니다.',
+    decisionMakingEfficiency: '의사결정 과정의 속도와 효과성을 반영합니다.',
   },
 };
 
