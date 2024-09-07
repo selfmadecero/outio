@@ -9,6 +9,26 @@ import { User } from 'firebase/auth';
 import DashboardLayout from '../../components/DashboardLayout';
 import { motion } from 'framer-motion';
 import LoadingSpinner from '../../components/LoadingSpinner';
+import {
+  RadarChart,
+  PolarGrid,
+  PolarAngleAxis,
+  PolarRadiusAxis,
+  Radar,
+  ResponsiveContainer,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  Cell,
+} from 'recharts';
+import {
+  InformationCircleIcon,
+  ArrowPathIcon,
+} from '@heroicons/react/24/outline';
 
 type ContentType = {
   [key in 'en' | 'ko']: {
@@ -25,6 +45,12 @@ type ContentType = {
     workLifeBalance: string;
     communicationStyle: string;
     learningAndDevelopment: string;
+    description: string;
+    lastUpdated: string;
+    radarChart: string;
+    barChart: string;
+    whatIsCultureProfile: string;
+    cultureProfileExplanation: string;
   };
 };
 
@@ -43,6 +69,14 @@ const content: ContentType = {
     workLifeBalance: 'Work-Life Balance',
     communicationStyle: 'Communication Style',
     learningAndDevelopment: 'Learning and Development',
+    description:
+      "Your organization's unique cultural fingerprint based on employee feedback",
+    lastUpdated: 'Last updated',
+    radarChart: 'Culture Profile Overview',
+    barChart: 'Detailed Culture Metrics',
+    whatIsCultureProfile: 'What is a Culture Profile?',
+    cultureProfileExplanation:
+      "A Culture Profile is a data-driven representation of your organization's values, behaviors, and practices. It's created from regular pulse surveys completed by your employees, providing real-time insights into your company's cultural dynamics. This profile helps in understanding your organization's strengths, identifying areas for improvement, and ensuring that new hires align well with your unique culture.",
   },
   ko: {
     title: '문화 프로필',
@@ -58,6 +92,13 @@ const content: ContentType = {
     workLifeBalance: '일-삶 균형',
     communicationStyle: '의사소통 스타일',
     learningAndDevelopment: '학습 및 개발',
+    description: '직원들의 피드백을 바탕으로 한 귀사의 고유한 문화적 특성',
+    lastUpdated: '마지막 업데이트',
+    radarChart: '문화 프로필 개요',
+    barChart: '상세 문화 지표',
+    whatIsCultureProfile: '문화 프로필이란?',
+    cultureProfileExplanation:
+      '문화 프로필은 조직의 가치, 행동, 관행을 데이터 기반으로 표현한 것입니다. 직원들이 정기적으로 참여하는 펄스 설문조사를 통해 생성되며, 회사의 문화적 역동성에 대한 실시간 인사이트를 제공합니다. 이 프로필은 조직의 강점을 이해하고, 개선이 필요한 영역을 식별하며, 새로운 인재가 귀사의 고유한 문화와 잘 맞는지 확인하는 데 도움을 줍니다.',
   },
 };
 
@@ -126,10 +167,21 @@ const profileDescriptions = {
   },
 };
 
+const renderProfileItem = (key: keyof typeof sampleProfile, value: number) => {
+  // 여기에 프로필 항목을 렌더링하는 로직을 구현하세요
+  return (
+    <div key={key}>
+      <h3>{content[language][key]}</h3>
+      <p>{value}</p>
+    </div>
+  );
+};
+
 export default function CultureProfile() {
   const [user, setUser] = useState<User | null>(null);
   const [profile, setProfile] = useState<any>(sampleProfile);
   const [loading, setLoading] = useState(true);
+  const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
   const router = useRouter();
   const { language } = useLanguage();
 
@@ -152,53 +204,36 @@ export default function CultureProfile() {
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
         setProfile(docSnap.data());
+        setLastUpdated(docSnap.data().lastUpdated?.toDate() || new Date());
       } else {
         console.log('No culture profile found, using sample data.');
         setProfile(sampleProfile);
+        setLastUpdated(new Date());
       }
     } catch (error) {
       console.error('Error fetching culture profile:', error);
       setProfile(sampleProfile);
+      setLastUpdated(new Date());
     } finally {
       setLoading(false);
     }
   };
 
-  const renderProfileItem = (
-    key: keyof typeof sampleProfile,
-    value: number
-  ) => (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-      className="bg-white rounded-lg shadow-lg p-6 transform hover:scale-105 transition-all duration-300"
-    >
-      <h3 className="text-xl font-semibold mb-4 text-gray-800">
-        {content[language][key]}
-      </h3>
-      <div className="relative pt-1">
-        <div className="flex mb-2 items-center justify-between">
-          <div>
-            <span className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-teal-600 bg-teal-200">
-              {value}%
-            </span>
-          </div>
-        </div>
-        <div className="overflow-hidden h-2 mb-4 text-xs flex rounded bg-teal-200">
-          <motion.div
-            initial={{ width: 0 }}
-            animate={{ width: `${value}%` }}
-            transition={{ duration: 0.8, ease: 'easeOut' }}
-            className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-teal-500"
-          ></motion.div>
-        </div>
-      </div>
-      <p className="text-sm text-gray-600 mt-2">
-        {profileDescriptions[language][key]}
-      </p>
-    </motion.div>
-  );
+  const radarData = Object.entries(profile).map(([key, value]) => ({
+    subject: content[language][key as keyof typeof content.en],
+    A: value,
+    fullMark: 100,
+  }));
+
+  const barData = Object.entries(profile).map(([key, value]) => ({
+    name: content[language][key as keyof typeof content.en],
+    value: value as number,
+  }));
+
+  const symmetricBarData = Object.entries(profile).map(([key, value]) => ({
+    name: content[language][key as keyof typeof content.en],
+    value: value as number,
+  }));
 
   if (loading) {
     return (
@@ -211,21 +246,120 @@ export default function CultureProfile() {
   return (
     <DashboardLayout>
       <div className="container mx-auto px-4 py-8">
-        <motion.h2
+        <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="text-4xl font-bold text-center mb-12 text-gray-800 bg-clip-text text-transparent bg-gradient-to-r from-teal-400 to-blue-500"
+          className="bg-white rounded-lg shadow-lg p-8 mb-8"
         >
-          {content[language].title}
-        </motion.h2>
+          <h1 className="text-4xl font-bold text-center mb-4 text-gray-800 bg-clip-text text-transparent bg-gradient-to-r from-teal-400 to-blue-500">
+            {content[language].title}
+          </h1>
+          <p className="text-center text-gray-600 mb-4">
+            {content[language].description}
+          </p>
+          <div className="flex justify-center items-center text-sm text-gray-500">
+            <ArrowPathIcon className="h-4 w-4 mr-2" />
+            {content[language].lastUpdated}: {lastUpdated?.toLocaleDateString()}
+          </div>
+        </motion.div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5 }}
+            className="bg-white rounded-lg shadow-lg p-6"
+          >
+            <h2 className="text-2xl font-semibold mb-4">
+              {content[language].radarChart}
+            </h2>
+            <ResponsiveContainer width="100%" height={400}>
+              <RadarChart cx="50%" cy="50%" outerRadius="80%" data={radarData}>
+                <PolarGrid />
+                <PolarAngleAxis dataKey="subject" />
+                <PolarRadiusAxis angle={30} domain={[0, 100]} />
+                <Radar
+                  name="Culture Profile"
+                  dataKey="A"
+                  stroke="#8884d8"
+                  fill="#8884d8"
+                  fillOpacity={0.6}
+                />
+              </RadarChart>
+            </ResponsiveContainer>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5 }}
+            className="bg-white rounded-lg shadow-lg p-6"
+          >
+            <h2 className="text-2xl font-semibold mb-4">
+              {content[language].barChart}
+            </h2>
+            <ResponsiveContainer width="100%" height={400}>
+              <BarChart data={barData} layout="vertical">
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis type="number" domain={[0, 100]} />
+                <YAxis dataKey="name" type="category" width={150} />
+                <Tooltip />
+                <Legend />
+                <Bar dataKey="value" fill="#82ca9d" />
+              </BarChart>
+            </ResponsiveContainer>
+          </motion.div>
+        </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="bg-white rounded-lg shadow-lg p-6 mb-8"
+        >
+          <h3 className="text-xl font-semibold mb-4">Symmetric Bar Chart</h3>
+          <ResponsiveContainer width="100%" height={400}>
+            <BarChart data={symmetricBarData} layout="vertical">
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis type="number" domain={[-50, 50]} />
+              <YAxis dataKey="name" type="category" width={150} />
+              <Tooltip />
+              <Legend />
+              <Bar dataKey="value">
+                {symmetricBarData.map((entry, index) => (
+                  <Cell
+                    key={`cell-${index}`}
+                    fill={entry.value > 0 ? '#82ca9d' : '#8884d8'}
+                  />
+                ))}
+              </Bar>
+            </BarChart>
+          </ResponsiveContainer>
+        </motion.div>
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {Object.entries(profile).map(([key, value]) =>
-            renderProfileItem(
-              key as keyof typeof sampleProfile,
-              value as number
-            )
-          )}
+          {Object.entries(profile).map(([key, value], index) => (
+            <motion.div
+              key={key}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              className="bg-white rounded-lg shadow-lg p-6 transform hover:scale-105 transition-all duration-300"
+            >
+              <h3 className="text-xl font-semibold mb-4 text-gray-800">
+                {content[language][key as keyof typeof content.en]}
+              </h3>
+              <p className="text-gray-600">{value}</p>
+              <p className="text-gray-600 mt-4">
+                {
+                  profileDescriptions[language][
+                    key as keyof typeof profileDescriptions.en
+                  ]
+                }
+              </p>
+            </motion.div>
+          ))}
         </div>
       </div>
     </DashboardLayout>
