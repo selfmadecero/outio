@@ -105,7 +105,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       >
         <SidebarContent
           menuItems={menuItems}
-          pathname={pathname}
+          pathname={pathname || ''}
           language={language}
         />
       </div>
@@ -132,7 +132,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
           </div>
           <SidebarContent
             menuItems={menuItems}
-            pathname={pathname}
+            pathname={pathname || ''}
             language={language}
           />
         </div>
@@ -182,7 +182,23 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   );
 }
 
-function SidebarContent({ menuItems, pathname, language }) {
+interface MenuItem {
+  name: string;
+  icon: React.ElementType;
+  href: string;
+}
+
+interface SidebarContentProps {
+  menuItems: MenuItem[];
+  pathname: string;
+  language: 'en' | 'ko';
+}
+
+function SidebarContent({
+  menuItems,
+  pathname,
+  language,
+}: SidebarContentProps) {
   return (
     <>
       <div className="flex items-center justify-center h-16 border-b border-gray-200">
