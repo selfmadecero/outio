@@ -41,6 +41,7 @@ import {
   ArrowTrendingUpIcon,
   ArrowUpIcon,
   ArrowDownIcon,
+  ExclamationTriangleIcon,
 } from '@heroicons/react/24/solid';
 
 // content 객체의 타입 정의에 strategicRecommendations 추가
@@ -102,6 +103,12 @@ type ContentType = {
   comparisonWithIndustry: string;
   insightExplanation: (dimension: string, difference: number) => string;
   strategicRecommendations: string;
+  keyTrendInsights: string;
+  actionableInsights: string;
+  trendAnalysisInsights: string[];
+  trendAnalysisRecommendations: string[];
+  futurePrediction: string;
+  predictionText: string;
 };
 
 const content: Record<'en' | 'ko', ContentType> = {
@@ -205,6 +212,24 @@ const content: Record<'en' | 'ko', ContentType> = {
       }
     },
     strategicRecommendations: 'Strategic Recommendations',
+    keyTrendInsights: 'Key Trend Insights',
+    actionableInsights: 'Actionable Insights',
+    trendAnalysisInsights: [
+      'Overall culture score has shown a steady increase over the past 5 months, indicating positive cultural development.',
+      'Customer Focus index has seen the most significant improvement, rising from 70% to 78%.',
+      'Innovation index has grown consistently, reflecting an increased focus on creativity and new ideas.',
+      'Collaboration and Adaptability indices have also shown steady growth, suggesting a more flexible and team-oriented workplace.',
+    ],
+    trendAnalysisRecommendations: [
+      'Capitalize on the improving Customer Focus by implementing more customer-centric initiatives and sharing success stories across the organization.',
+      'Continue fostering innovation through dedicated time for creative projects and cross-departmental innovation challenges.',
+      'Enhance collaboration further by introducing more cross-functional projects and team-building activities.',
+      'Develop adaptability training programs to maintain the positive trend in the Adaptability index.',
+      'Conduct deep-dive analyses into specific cultural dimensions to identify drivers of improvement and areas needing attention.',
+    ],
+    futurePrediction: 'Future Trend Prediction',
+    predictionText:
+      'Based on the current trend, we predict that your overall culture score will continue to improve, potentially reaching 80% within the next 3 months if the current growth rate is maintained. Focus on innovation and adaptability indices to accelerate overall cultural growth.',
   },
   ko: {
     title: '문화 프로필',
@@ -225,17 +250,17 @@ const content: Record<'en' | 'ko', ContentType> = {
     findCandidates: '우리 문화에 적합한 인재 찾기',
     cultureSummary: '문화 프로필 요약',
     cultureSummaryText:
-      '귀사의 문화는 혁신과 협력을 중시하는 특성을 강하게 보입니다. 특히 고객 중심적인 접근과 학습 문화가 주목할 만한 강점으로 나타났습니다. 의사결정 과정에서는 참여적 방식을 선호하며, 개방적 소통 문화를 가지고 있습니다. 다만, 일과 삶의 균형 및 구조화된 프로세스 측면에서는 개선의 여지가 있습니다.',
+      '귀사의 문화는 혁신과 협력을 강조하는 특성을 보입니다. 특히 고객 중심적 접근과 학습 문화가 주목할 만한 강점입니다. 의사결정 과정에서는 참여적 방식을 선호하며, 개방적 소통 문화를 가지고 있습니다. 다만, 일과 삶의 균형 및 구조화된 프로세스 측면에서는 개선의 여지가 있습니다.',
     strengthsAndWeaknesses: '주요 강점 및 개선 영역',
     strengths: '강점',
     weaknesses: '개선 영역',
     industryComparison: '산업 평균과의 비교',
-    trendAnalysis: '문화 지수 추세 분석',
+    trendAnalysis: '문화 지수 트렌드 분석',
     trendAnalysisText:
-      '최근 5개월간 귀사의 전반적인 문화 지수가 꾸준히 상승하고 있습니다. 특히 직원 참여도와 학습 문화 측면에서 큰 개선이 있었습니다.',
+      '지난 5개월 동안 귀사의 전반적인 문화 지수가 꾸준히 상승하고 있습니다. 특히 직원 참여도와 학습 문화 측면에서 큰 개선이 있었습니다.',
     improvementSuggestions: '맞춤형 개선 제안',
     improvementSuggestionsText: `개선 제안:
-      - 의사결정 프로세스 개선: 신속한 의사결정을 위한 프레임워크 도입 고려
+      - 의사결정 프로세스 개선: 더 빠른 의사결정을 위한 프레임워크 도입 고려
       - 혁신 문화 강화: 정기적인 아이디어 공유 세션 또는 해커톤 이벤트 개최
       - 적응성 향상: 부서 간 협업 활동 장려 및 직무 순환 프로그램 도입
       - 일-삶 균형 개선: 유연근무제 확대 및 웰빙 프로그램 강화`,
@@ -260,12 +285,12 @@ const content: Record<'en' | 'ko', ContentType> = {
     overviewExplanation: '문화 프로필 개요 설명',
     overviewDescription: '이는 문화 프로필 개요 섹션에 대한 설명입니다.',
     cultureDimensionsDescription:
-      '이 차트는 조직의 문화 차원 간의 균형을 나타냅니다. 각 막대는 특정 차원의 강점을 나타내며, 왼쪽은 한 측면을, 오른쪽은 반대 측면을 나타냅니다. 막대의 중앙은 두 측면 간의 전반적인 균형을 나타냅니다.',
+      '이 차트는 조직의 다양한 문화적 차원 간의 균형을 나타냅니다. 각 막대는 특정 차원의 강도를 나타내며, 왼쪽은 한 측면을, 오른쪽은 반대 측면을 나타냅니다. 막대의 중앙은 두 측면 간의 전반적인 균형을 나타냅니다.',
     cultureDimensionsInterpretation:
       '이 차트는 조직의 문화 차원 간의 균형과 분포에 대한 통찰력을 제공합니다. 각 차원의 강점과 개선 영역을 이해하는 데 도움이 됩니다.',
     yourCompany: '귀사',
     industryAverage: '산업 평균',
-    keyInsights: '핵심 인사이트',
+    keyInsights: '주요 인사이트',
     comparisonInsight: (
       dimension: string,
       difference: number,
@@ -297,6 +322,24 @@ const content: Record<'en' | 'ko', ContentType> = {
       }
     },
     strategicRecommendations: '전략적 제안',
+    keyTrendInsights: '주요 트렌드 인사이트',
+    actionableInsights: '실행 가능한 인사이트',
+    trendAnalysisInsights: [
+      '전반적인 문화 점수가 지난 5개월 동안 꾸준히 상승하여 긍정적인 문화 발전을 보여줍니다.',
+      '고객 중심 지수가 70%에서 78%로 가장 큰 개선을 보였습니다.',
+      '혁신 지수가 지속적으로 성장하여 창의성과 새로운 아이디어에 대한 집중도가 높아졌음을 반영합니다.',
+      '협업 및 적응성 지수도 꾸준한 성장을 보여 더욱 유연하고 팀 지향적인 직장 환경을 시사합니다.',
+    ],
+    trendAnalysisRecommendations: [
+      '고객 중심 개선을 활용하여 더 많은 고객 중심 이니셔티브를 구현하고 성공 사례를 조직 전체와 공유하세요.',
+      '창의적 프로젝트를 위한 전용 시간과 부서 간 혁신 챌린지를 통해 혁신을 계속 육성하세요.',
+      '더 많은 부서 간 프로젝트와 팀 빌딩 활동을 도입하여 협업을 더욱 강화하세요.',
+      '적응성 지수의 긍정적인 추세를 유지하기 위해 적응성 훈련 프로그램을 개발하세요.',
+      '특정 문화 차원에 대한 심층 분석을 수행하여 개선 동인과 주의가 필요한 영역을 파악하세요.',
+    ],
+    futurePrediction: '미래 트렌드 예측',
+    predictionText:
+      '현재 트렌드를 바탕으로 미래 3개월 동안 귀사의 전체 문화 점수가 계속 개선될 것으로 예측됩니다. 현재 성장률을 유지한다면 80%에 도달할 수 있을 것입니다. 혁신과 적응성 지수에 집중하여 전체 문화 성장을 가속화하세요.',
   },
 };
 
@@ -376,7 +419,7 @@ const cultureDimensions = {
     { left: '참여적 의사결정', right: '하향식 의사결정', value: -20 },
     { left: '유연성', right: '구조화', value: 10 },
     { left: '개인주의', right: '집단주의', value: -15 },
-    { left: '협력적 환경', right: '개인 중심 환경', value: 25 },
+    { left: '협력적 환경', right: '개인 심 환경', value: 25 },
     { left: '개방적 소통', right: '공식적 소통', value: 40 },
     { left: '성과 중심 보상', right: '평등 분배 보상', value: 5 },
     { left: '학습 지향', right: '현상 유지', value: 35 },
@@ -397,12 +440,462 @@ const industryAverage = {
 };
 
 const trendData = [
-  { month: 'Jan', value: 65 },
-  { month: 'Feb', value: 68 },
-  { month: 'Mar', value: 70 },
-  { month: 'Apr', value: 72 },
-  { month: 'May', value: 75 },
+  {
+    month: '2023-10',
+    overall: 65,
+    collaboration: 62,
+    innovation: 58,
+    customerFocus: 70,
+    adaptability: 65,
+  },
+  {
+    month: '2023-11',
+    overall: 66,
+    collaboration: 63,
+    innovation: 59,
+    customerFocus: 71,
+    adaptability: 66,
+  },
+  {
+    month: '2023-12',
+    overall: 68,
+    collaboration: 65,
+    innovation: 60,
+    customerFocus: 72,
+    adaptability: 67,
+  },
+  {
+    month: '2024-01',
+    overall: 69,
+    collaboration: 66,
+    innovation: 62,
+    customerFocus: 73,
+    adaptability: 68,
+  },
+  {
+    month: '2024-02',
+    overall: 70,
+    collaboration: 68,
+    innovation: 63,
+    customerFocus: 74,
+    adaptability: 69,
+  },
+  {
+    month: '2024-03',
+    overall: 71,
+    collaboration: 69,
+    innovation: 65,
+    customerFocus: 75,
+    adaptability: 70,
+  },
+  {
+    month: '2024-04',
+    overall: 72,
+    collaboration: 70,
+    innovation: 67,
+    customerFocus: 76,
+    adaptability: 71,
+  },
+  {
+    month: '2024-05',
+    overall: 73,
+    collaboration: 71,
+    innovation: 68,
+    customerFocus: 77,
+    adaptability: 72,
+  },
+  {
+    month: '2024-06',
+    overall: 74,
+    collaboration: 72,
+    innovation: 69,
+    customerFocus: 77,
+    adaptability: 73,
+  },
+  {
+    month: '2024-07',
+    overall: 75,
+    collaboration: 73,
+    innovation: 70,
+    customerFocus: 78,
+    adaptability: 74,
+  },
+  {
+    month: '2024-08',
+    overall: 76,
+    collaboration: 74,
+    innovation: 71,
+    customerFocus: 78,
+    adaptability: 75,
+  },
+  {
+    month: '2024-09',
+    overall: 77,
+    collaboration: 75,
+    innovation: 72,
+    customerFocus: 79,
+    adaptability: 76,
+  },
 ];
+
+const language: 'en' | 'ko' = 'ko'; // 또는 "en"
+
+const renderTrendAnalysis = () => (
+  <motion.div
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.5, delay: 0.6 }}
+    className="bg-white rounded-3xl shadow-xl p-8 mb-8 border border-gray-100 hover:shadow-2xl transition-all duration-300"
+  >
+    <h2 className="text-2xl font-semibold mb-6 text-indigo-800 flex items-center">
+      <ArrowTrendingUpIcon className="h-7 w-7 mr-3 text-indigo-600" />
+      {content[language].trendAnalysis}
+    </h2>
+    <div className="mb-8">
+      <ResponsiveContainer width="100%" height={400}>
+        <LineChart data={trendData}>
+          <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" />
+          <XAxis
+            dataKey="month"
+            tick={{ fill: '#4a5568', fontSize: 12 }}
+            tickFormatter={(value) => {
+              const date = new Date(value);
+              return date.toLocaleString('default', { month: 'short' });
+            }}
+          />
+          <YAxis tick={{ fill: '#4a5568', fontSize: 12 }} domain={[50, 100]} />
+          <Tooltip
+            contentStyle={{
+              backgroundColor: 'rgba(255, 255, 255, 0.8)',
+              borderRadius: '12px',
+              boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+              border: 'none',
+            }}
+            labelFormatter={(value) => {
+              const date = new Date(value);
+              return date.toLocaleString('default', {
+                month: 'long',
+                year: 'numeric',
+              });
+            }}
+          />
+          <Legend />
+          <Line
+            type="monotone"
+            dataKey="overall"
+            name={content[language].overallCultureScore}
+            stroke="#8b5cf6"
+            strokeWidth={3}
+            dot={{ r: 6 }}
+          />
+          <Line
+            type="monotone"
+            dataKey="collaboration"
+            name={content[language].collaborationIndex}
+            stroke="#3b82f6"
+            strokeWidth={2}
+          />
+          <Line
+            type="monotone"
+            dataKey="innovation"
+            name={content[language].innovationIndex}
+            stroke="#10b981"
+            strokeWidth={2}
+          />
+          <Line
+            type="monotone"
+            dataKey="customerFocus"
+            name={content[language].customerFocusIndex}
+            stroke="#f59e0b"
+            strokeWidth={2}
+          />
+          <Line
+            type="monotone"
+            dataKey="adaptability"
+            name={content[language].adaptabilityIndex}
+            stroke="#ef4444"
+            strokeWidth={2}
+          />
+        </LineChart>
+      </ResponsiveContainer>
+    </div>
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="bg-gradient-to-br from-indigo-100 to-purple-100 rounded-3xl shadow-lg p-6">
+        <h3 className="text-lg font-semibold mb-4 text-indigo-800 flex items-center">
+          <ChartBarIcon className="h-6 w-6 mr-2 text-indigo-600" />
+          {content[language].keyTrendInsights}
+        </h3>
+        <ul className="list-disc pl-5 space-y-2">
+          {content[language].trendAnalysisInsights.map((insight, index) => (
+            <li key={index} className="text-gray-700">
+              {insight}
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div className="bg-gradient-to-br from-green-100 to-teal-100 rounded-3xl shadow-lg p-6">
+        <h3 className="text-lg font-semibold mb-4 text-teal-800 flex items-center">
+          <LightBulbIcon className="h-6 w-6 mr-2 text-teal-600" />
+          {content[language].actionableInsights}
+        </h3>
+        <ul className="list-disc pl-5 space-y-2">
+          {content[language].trendAnalysisRecommendations.map(
+            (recommendation, index) => (
+              <li key={index} className="text-gray-700">
+                {recommendation}
+              </li>
+            )
+          )}
+        </ul>
+      </div>
+    </div>
+    <div className="mt-8">
+      <h3 className="text-lg font-semibold mb-4 text-indigo-800 flex items-center">
+        <ArrowTrendingUpIcon className="h-6 w-6 mr-2 text-indigo-600" />
+        {content[language].futurePrediction}
+      </h3>
+      <p className="text-gray-700">{content[language].predictionText}</p>
+    </div>
+  </motion.div>
+);
+
+const renderSpecificInsight = (dimension: string, difference: number) => {
+  if (difference > 10) {
+    return (
+      <div className="bg-gradient-to-br from-green-100 to-teal-100 rounded-3xl shadow-lg p-6 mb-4">
+        <h3 className="text-lg font-semibold mb-2 text-teal-800 flex items-center">
+          <CheckCircleIcon className="h-6 w-6 mr-2 text-teal-600" />
+          {dimension}
+        </h3>
+        <p className="text-sm text-teal-700">
+          이 차원에서 귀사는 산업 평균을 크게 상회하고 있습니다. 이는 주요 경쟁
+          우위가 될 수 있습니다.
+        </p>
+      </div>
+    );
+  } else if (difference > 0) {
+    return (
+      <div className="bg-gradient-to-br from-blue-100 to-indigo-100 rounded-3xl shadow-lg p-6 mb-4">
+        <h3 className="text-lg font-semibold mb-2 text-indigo-800 flex items-center">
+          <ArrowUpIcon className="h-6 w-6 mr-2 text-indigo-600" />
+          {dimension}
+        </h3>
+        <p className="text-sm text-indigo-700">
+          이 차원에서 귀사는 산업 평균보다 약간 높습니다. 이 강점을 더욱
+          발전시킬 기회가 있습니다.
+        </p>
+      </div>
+    );
+  } else if (difference > -10) {
+    return (
+      <div className="bg-gradient-to-br from-yellow-100 to-amber-100 rounded-3xl shadow-lg p-6 mb-4">
+        <h3 className="text-lg font-semibold mb-2 text-amber-800 flex items-center">
+          <ExclamationTriangleIcon className="h-6 w-6 mr-2 text-amber-600" />
+          {dimension}
+        </h3>
+        <p className="text-sm text-amber-700">
+          이 차원에서 귀사는 산업 평균보다 약간 낮습니다. 개선을 위한 노력이
+          필요할 수 있습니다.
+        </p>
+      </div>
+    );
+  } else {
+    return (
+      <div className="bg-gradient-to-br from-red-100 to-rose-100 rounded-3xl shadow-lg p-6 mb-4">
+        <h3 className="text-lg font-semibold mb-2 text-rose-800 flex items-center">
+          <ExclamationCircleIcon className="h-6 w-6 mr-2 text-rose-600" />
+          {dimension}
+        </h3>
+        <p className="text-sm text-rose-700">
+          이 차원에서 귀사는 산업 평균보다 크게 낮습니다. 즉각적인 개선 조치가
+          필요할 수 있습니다.
+        </p>
+      </div>
+    );
+  }
+};
+
+const renderIndustryComparison = () => (
+  <motion.div
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.5, delay: 0.6 }}
+    className="bg-white rounded-3xl shadow-xl p-8 mb-8 border border-gray-100 hover:shadow-2xl transition-all duration-300"
+  >
+    <h2 className="text-2xl font-semibold mb-6 text-indigo-800 flex items-center">
+      <ChartBarIcon className="h-7 w-7 mr-3 text-indigo-600" />
+      {content[language].industryComparison}
+    </h2>
+    <div className="mb-8">
+      <ResponsiveContainer width="100%" height={400}>
+        <BarChart
+          data={[sampleProfile, industryAverage]}
+          margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+        >
+          <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" />
+          <XAxis dataKey="name" tick={{ fill: '#4a5568', fontSize: 12 }} />
+          <YAxis tick={{ fill: '#4a5568', fontSize: 12 }} domain={[0, 100]} />
+          <Tooltip
+            contentStyle={{
+              backgroundColor: 'rgba(255, 255, 255, 0.8)',
+              borderRadius: '12px',
+              boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+              border: 'none',
+            }}
+          />
+          <Legend />
+          <Bar
+            dataKey="collaborationIndex"
+            name={content[language].collaborationIndex}
+            fill="#3b82f6"
+          />
+          <Bar
+            dataKey="innovationIndex"
+            name={content[language].innovationIndex}
+            fill="#10b981"
+          />
+          <Bar
+            dataKey="customerFocusIndex"
+            name={content[language].customerFocusIndex}
+            fill="#f59e0b"
+          />
+          <Bar
+            dataKey="adaptabilityIndex"
+            name={content[language].adaptabilityIndex}
+            fill="#ef4444"
+          />
+          <Bar
+            dataKey="leadershipEffectiveness"
+            name={content[language].leadershipEffectiveness}
+            fill="#8b5cf6"
+          />
+          <Bar
+            dataKey="employeeEngagement"
+            name={content[language].employeeEngagement}
+            fill="#6366f1"
+          />
+          <Bar
+            dataKey="learningCulture"
+            name={content[language].learningCulture}
+            fill="#2563eb"
+          />
+          <Bar
+            dataKey="decisionMakingEfficiency"
+            name={content[language].decisionMakingEfficiency}
+            fill="#06b6d4"
+          />
+        </BarChart>
+      </ResponsiveContainer>
+    </div>
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="bg-gradient-to-br from-indigo-100 to-purple-100 rounded-3xl shadow-lg p-6">
+        <h3 className="text-lg font-semibold mb-4 text-indigo-800 flex items-center">
+          <ChartBarIcon className="h-6 w-6 mr-2 text-indigo-600" />
+          {content[language].keyInsights}
+        </h3>
+        <ul className="list-disc pl-5 space-y-2">
+          {Object.entries(sampleProfile).map(([key, value]) => (
+            <li key={key} className="text-gray-700">
+              {content[language].comparisonInsight(
+                content[language][key as keyof ContentType] as string,
+                value - industryAverage[key as keyof typeof industryAverage],
+                value > industryAverage[key as keyof typeof industryAverage]
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div className="bg-gradient-to-br from-green-100 to-teal-100 rounded-3xl shadow-lg p-6">
+        <h3 className="text-lg font-semibold mb-4 text-teal-800 flex items-center">
+          <LightBulbIcon className="h-6 w-6 mr-2 text-teal-600" />
+          {content[language].actionableRecommendations}
+        </h3>
+        <ul className="list-disc pl-5 space-y-2">
+          {content[language].industryComparisonRecommendations.map(
+            (recommendation, index) => (
+              <li key={index} className="text-gray-700">
+                {recommendation}
+              </li>
+            )
+          )}
+        </ul>
+      </div>
+    </div>
+  </motion.div>
+);
+
+const renderCultureDimensions = () => (
+  <motion.div
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.5, delay: 0.6 }}
+    className="bg-white rounded-3xl shadow-xl p-8 mb-8 border border-gray-100 hover:shadow-2xl transition-all duration-300"
+  >
+    <h2 className="text-2xl font-semibold mb-6 text-indigo-800 flex items-center">
+      <ChartPieIcon className="h-7 w-7 mr-3 text-indigo-600" />
+      {content[language].cultureDimensions}
+    </h2>
+    <div className="mb-8">
+      <ResponsiveContainer width="100%" height={600}>
+        <BarChart
+          layout="vertical"
+          data={cultureDimensions[language]}
+          margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+        >
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis type="number" domain={[-50, 50]} />
+          <YAxis dataKey="left" type="category" width={150} />
+          <Tooltip
+            content={({ payload, label }) => {
+              if (payload && payload.length) {
+                const data = payload[0].payload;
+                return (
+                  <div className="bg-white p-4 rounded shadow-lg border border-gray-200">
+                    <p className="font-bold">{`${data.left} vs ${data.right}`}</p>
+                    <p className="text-sm">{`Value: ${data.value}`}</p>
+                    <p className="text-xs mt-2">{data.description}</p>
+                  </div>
+                );
+              }
+              return null;
+            }}
+          />
+          <Bar dataKey="value" fill="#8884d8">
+            {cultureDimensions[language].map((entry, index) => (
+              <Cell
+                key={`cell-${index}`}
+                fill={entry.value > 0 ? '#4C51BF' : '#E53E3E'}
+              />
+            ))}
+          </Bar>
+        </BarChart>
+      </ResponsiveContainer>
+    </div>
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="bg-gradient-to-br from-indigo-50 to-purple-100 rounded-2xl p-6 shadow-lg">
+        <h3 className="text-lg font-semibold mb-4 text-indigo-800">
+          문화 차원 설명
+        </h3>
+        <p className="text-gray-700">
+          이 차트는 조직의 다양한 문화적 차원을 보여줍니다. 왼쪽은 각 차원의 한
+          극단을, 오른쪽은 반대 극단을 나타냅니다. 막대가 중앙에서 멀어질수록
+          해당 특성이 더 강하게 나타남을 의미합니다.
+        </p>
+      </div>
+      <div className="bg-gradient-to-br from-green-50 to-teal-100 rounded-2xl p-6 shadow-lg">
+        <h3 className="text-lg font-semibold mb-4 text-teal-800">
+          주요 인사이트
+        </h3>
+        <ul className="list-disc pl-5 space-y-2 text-gray-700">
+          <li>혁신과 안정성 사이에서 혁신 쪽으로 약간 기울어 있습니다.</li>
+          <li>의사결정 과정에서 참여적 접근을 선호합니다.</li>
+          <li>개방적 소통 문화가 강하게 나타납니다.</li>
+          <li>고객 중심적 접근이 내부 프로세스보다 우선시됩니다.</li>
+        </ul>
+      </div>
+    </div>
+  </motion.div>
+);
 
 export default function CultureProfile() {
   const [user, setUser] = useState<User | null>(null);
@@ -634,7 +1127,7 @@ export default function CultureProfile() {
             ].map((item) => (
               <li key={item.key} className="flex items-center justify-between">
                 <span className="text-red-600 flex items-center">
-                  <ExclamationCircleIcon className="h-5 w-5 mr-2" />
+                  <ExclamationTriangleIcon className="h-5 w-5 mr-2" />
                   {
                     content[language][
                       item.key as keyof typeof content.en
@@ -938,31 +1431,109 @@ export default function CultureProfile() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.6 }}
-      className="bg-white rounded-3xl shadow-xl p-8 mb-8 border border-gray-100 hover:shadow-2xl transition-shadow duration-300"
+      className="bg-white rounded-3xl shadow-xl p-8 mb-8 border border-gray-100 hover:shadow-2xl transition-all duration-300"
     >
       <h2 className="text-2xl font-semibold mb-6 text-indigo-800 flex items-center">
         <ArrowTrendingUpIcon className="h-7 w-7 mr-3 text-indigo-600" />
         {content[language].trendAnalysis}
       </h2>
-      <ResponsiveContainer width="100%" height={300}>
-        <LineChart data={trendData}>
-          <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" />
-          <XAxis dataKey="month" tick={{ fill: '#4a5568', fontSize: 12 }} />
-          <YAxis tick={{ fill: '#4a5568', fontSize: 12 }} />
-          <Tooltip
-            contentStyle={{
-              backgroundColor: '#f7fafc',
-              border: '1px solid #e2e8f0',
-              borderRadius: '8px',
-            }}
-          />
-          <Legend />
-          <Line type="monotone" dataKey="value" stroke="#8b5cf6" />
-        </LineChart>
-      </ResponsiveContainer>
-      <p className="mt-4 text-gray-600">
-        {content[language].trendAnalysisText}
-      </p>
+      <div className="mb-8">
+        <ResponsiveContainer width="100%" height={400}>
+          <LineChart data={trendData}>
+            <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" />
+            <XAxis dataKey="month" tick={{ fill: '#4a5568', fontSize: 12 }} />
+            <YAxis
+              tick={{ fill: '#4a5568', fontSize: 12 }}
+              domain={[50, 100]}
+            />
+            <Tooltip
+              contentStyle={{
+                backgroundColor: 'rgba(255, 255, 255, 0.8)',
+                borderRadius: '12px',
+                boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+                border: 'none',
+              }}
+            />
+            <Legend />
+            <Line
+              type="monotone"
+              dataKey="overall"
+              name={content[language].overallCultureScore}
+              stroke="#8b5cf6"
+              strokeWidth={3}
+              dot={{ r: 6 }}
+            />
+            <Line
+              type="monotone"
+              dataKey="collaboration"
+              name={content[language].collaborationIndex}
+              stroke="#3b82f6"
+              strokeWidth={2}
+            />
+            <Line
+              type="monotone"
+              dataKey="innovation"
+              name={content[language].innovationIndex}
+              stroke="#10b981"
+              strokeWidth={2}
+            />
+            <Line
+              type="monotone"
+              dataKey="customerFocus"
+              name={content[language].customerFocusIndex}
+              stroke="#f59e0b"
+              strokeWidth={2}
+            />
+            <Line
+              type="monotone"
+              dataKey="adaptability"
+              name={content[language].adaptabilityIndex}
+              stroke="#ef4444"
+              strokeWidth={2}
+            />
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="bg-gradient-to-br from-indigo-50 to-purple-100 rounded-2xl p-6 shadow-lg">
+          <h3 className="text-lg font-semibold mb-4 text-indigo-800">
+            {content[language].keyTrendInsights}
+          </h3>
+          <ul className="space-y-3">
+            {content[language].trendAnalysisInsights.map((insight, index) => (
+              <li key={index} className="flex items-start">
+                <ArrowTrendingUpIcon className="h-5 w-5 mr-2 text-green-500 flex-shrink-0 mt-1" />
+                <span className="text-gray-700 text-sm">{insight}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className="bg-gradient-to-br from-purple-50 to-pink-100 rounded-2xl p-6 shadow-lg">
+          <h3 className="text-lg font-semibold mb-4 text-purple-800">
+            {content[language].actionableInsights}
+          </h3>
+          <ul className="space-y-3">
+            {content[language].trendAnalysisRecommendations.map(
+              (recommendation, index) => (
+                <li key={index} className="flex items-start">
+                  <LightBulbIcon className="h-5 w-5 mr-2 text-yellow-500 flex-shrink-0 mt-1" />
+                  <span className="text-gray-700 text-sm">
+                    {recommendation}
+                  </span>
+                </li>
+              )
+            )}
+          </ul>
+        </div>
+      </div>
+      <div className="mt-8 p-6 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-2xl">
+        <h3 className="text-lg font-semibold mb-4 text-indigo-800">
+          {content[language].futurePrediction}
+        </h3>
+        <p className="text-gray-700 text-sm">
+          {content[language].predictionText}
+        </p>
+      </div>
     </motion.div>
   );
 
