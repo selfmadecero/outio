@@ -42,6 +42,7 @@ import {
   ArrowUpIcon,
   ArrowDownIcon,
   ExclamationTriangleIcon,
+  ArrowSmallRightIcon,
 } from '@heroicons/react/24/solid';
 
 // content 객체의 타입 정의에 strategicRecommendations 추가
@@ -141,11 +142,10 @@ const content: Record<'en' | 'ko', ContentType> = {
     trendAnalysisText:
       "Over the past 5 months, your organization's overall culture index has been steadily increasing. There have been significant improvements in employee engagement and learning culture.",
     improvementSuggestions: 'Tailored Improvement Suggestions',
-    improvementSuggestionsText: `Improvement Suggestions:
-      - Decision Process Improvement: Consider implementing a framework for faster decision-making
-      - Enhance Innovation Culture: Organize regular idea sharing sessions or hackathon events
-      - Improve Adaptability: Encourage cross-functional team activities and introduce job rotation programs
-      - Enhance Work-Life Balance: Expand flexible work arrangements and strengthen wellness programs`,
+    improvementSuggestionsText: `Decision Process Improvement: Consider implementing a framework for faster decision-making
+      Enhance Innovation Culture: Organize regular idea sharing sessions or hackathon events
+      Improve Adaptability: Encourage cross-functional team activities and introduce job rotation programs
+      Enhance Work-Life Balance: Expand flexible work arrangements and strengthen wellness programs`,
     cultureType: 'Culture Type Classification',
     cultureTypeText:
       "Your organization's culture strongly exhibits characteristics of both 'Innovation-Driven' and 'Collaboration-Centric'. This is a culture that values creative ideas while also emphasizing teamwork and execution through collaboration.",
