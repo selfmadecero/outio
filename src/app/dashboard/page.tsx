@@ -64,7 +64,7 @@ const content = {
     cultureProfileDesc: '조직의 문화를 확인하고 분석하세요',
     hiring: '채용',
     hiringDesc: '귀사의 문화에 맞는 후보자를 찾으세요',
-    surveys: '설문조사',
+    surveys: '설문조��',
     surveysDesc: '문화 설문조사를 생성하고 관리하세요',
     insights: 'AI 인사이트',
     insightsDesc: 'AI 기반 문화 개선 추천을 받으세요',
@@ -148,7 +148,7 @@ const Dashboard = () => {
   >({});
 
   useEffect(() => {
-    // 여기서 실제 데이터를 가져오는 API 호출을 수행��니다.
+    // 여기서 실제 데이터를 가져오는 API 호출을 수행니다.
     setUserName('김지영');
     setCultureScore({ current: 78, previous: 75 });
     setEmployeeEngagement({ current: 82, previous: 80 });

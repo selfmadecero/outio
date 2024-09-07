@@ -16,6 +16,7 @@ import {
   XMarkIcon,
 } from '@heroicons/react/24/outline';
 import LoadingSpinner from '../../components/LoadingSpinner';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 // 더미 데이터
 const dummyEmployees = [
@@ -409,7 +410,6 @@ const InviteEmployeePopup: React.FC<InviteEmployeePopupProps> = ({
     </div>
   );
 };
-
 export default function Settings() {
   const { language, setLanguage } = useLanguage();
   const [notifications, setNotifications] = useState(true);
@@ -420,6 +420,8 @@ export default function Settings() {
   const [employees, setEmployees] = useState(dummyEmployees);
   const [searchTerm, setSearchTerm] = useState('');
   const [isInvitePopupOpen, setIsInvitePopupOpen] = useState(false);
+  const router = useRouter();
+  const searchParams = useSearchParams();
 
   const content = {
     en: {
@@ -481,7 +483,13 @@ export default function Settings() {
     setTimeout(() => {
       setIsLoading(false);
     }, 1000);
-  }, []);
+
+    // URL 파라미터에서 섹션 확인
+    const section = searchParams.get('section');
+    if (section === 'employee-management') {
+      setActiveTab('employeeManagement');
+    }
+  }, [searchParams]);
 
   const handleLanguageChange = (lang: 'en' | 'ko') => {
     setLanguage(lang);
@@ -506,6 +514,22 @@ export default function Settings() {
     );
     // 여기에 실제 초대 로직을 구현할 수 있습니다.
     setIsInvitePopupOpen(false);
+  };
+
+  const handleQuickAction = (action: string) => {
+    switch (action) {
+      case 'createSurvey':
+        router.push('/surveys/create');
+        break;
+      case 'inviteEmployees':
+        router.push('/settings?section=employee-management');
+        break;
+      case 'viewLatestResults':
+        router.push('/surveys/results');
+        break;
+      default:
+        console.error('Unknown action:', action);
+    }
   };
 
   const renderEmployeeManagement = () => (
