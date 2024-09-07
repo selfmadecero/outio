@@ -97,7 +97,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
     {
       name: content[language].survey,
       icon: ClipboardDocumentCheckIcon,
-      href: '/survey/create',
+      href: '/survey',
     },
     {
       name: content[language].hiring,
