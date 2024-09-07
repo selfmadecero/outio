@@ -27,14 +27,20 @@ import {
   Line,
   Cell,
 } from 'recharts';
-// @ts-ignore
 import {
   InformationCircleIcon,
   ArrowPathIcon,
   LightBulbIcon,
   ChartBarIcon,
   UserGroupIcon,
-} from '@heroicons/react/24/outline';
+  ChartPieIcon,
+  SparklesIcon,
+  CheckCircleIcon,
+  ExclamationCircleIcon,
+  ArrowTrendingUpIcon,
+  ArrowUpIcon,
+  ArrowDownIcon,
+} from '@heroicons/react/24/solid';
 
 const content = {
   en: {
@@ -84,6 +90,19 @@ const content = {
       'Learning-Oriented: Focuses on continuous growth and development',
     symmetricBarChart: 'Symmetric Bar Chart',
     cultureDimensions: 'Culture Dimensions',
+    cultureTags: [
+      'Innovation',
+      'Collaboration',
+      'Customer-Centric',
+      'Learning',
+    ],
+    overallCultureScore: 'Overall Culture Score',
+    overallCultureScoreDescription:
+      'A composite score reflecting the overall health and strength of your organizational culture.',
+    overallCultureScoreInterpretation:
+      'Your score indicates a strong, well-developed culture with some areas for improvement.',
+    strengthsWeaknessesDescription:
+      "These are the key strengths and areas for improvement based on your organization's culture profile. Strengths are areas where your organization excels, while areas for improvement are areas that could be enhanced to further strengthen your culture.",
   },
   ko: {
     title: '문화 프로필',
@@ -118,7 +137,7 @@ const content = {
       - 의사결정 프로세스 개선: 빠른 의사결정을 위한 프레임워크 도입 고려
       - 혁신 문화 강화: 정기적인 아이디어 공유 세션 또는 해커톤 이벤트 개최
       - 적응성 향상: 크로스 펑셔널 팀 활동 장려 및 직무 로테이션 프로그램 도입
-      - 일-삶 균형 개선: 유연근무제 확대 및 웰빙 프로그램 강화`,
+      - 일-삶 형 개선: 유연근무제 확대 및 웰빙 프로그램 강화`,
     cultureType: '문화 유형 분류',
     cultureTypeText:
       '귀사의 문화는 "혁신 주도형"과 "협력 중심형"의 특성을 강하게 보이고 있습니다. 이는 창의적인 아이디어를 중시하면서도 팀워크를 통한 실행을 중요하게 여기는 문화입니다.',
@@ -129,6 +148,14 @@ const content = {
     learningOriented: '학습 지향형: 지속적인 성장과 개발을 중시하는 문화',
     symmetricBarChart: '대칭 막대 차트',
     cultureDimensions: '문화 차원',
+    cultureTags: ['혁신', '협업', '고객 중심', '학습'],
+    overallCultureScore: '전체 문화 점수',
+    overallCultureScoreDescription:
+      '조직 문화의 전반적인 건강도와 강점을 반영하는 종합 점수입니다.',
+    overallCultureScoreInterpretation:
+      '귀사의 점수는 잘 발달된 강한 문화를 나타내며, 일부 개선 영역이 있습니다.',
+    strengthsWeaknessesDescription:
+      '이는 귀사의 문화 프로필을 기반으로 한 주요 강점과 개선 영역입니다. 강점은 귀사가 뛰어난 분야이며, 개선 영역은 문화를 더욱 강화하기 위해 개선할 수 있는 분야입니다.',
   },
 };
 
@@ -164,7 +191,7 @@ const profileDescriptions = {
   },
   ko: {
     collaborationIndex: '조직 내 팀워크와 집단적 노력의 수준을 측정합니다.',
-    innovationIndex: '회사의 창의성과 새로운 아이디어 창출 능력을 나타냅니다.',
+    innovationIndex: '회사의 창의성과 새로운 아이디어 창출 능력을 측정합니다.',
     customerFocusIndex:
       '조직이 고객 니즈와 만족도를 얼마나 잘 우선시하는지 반영합니다.',
     adaptabilityIndex:
@@ -301,12 +328,75 @@ export default function CultureProfile() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="bg-white rounded-lg shadow-lg p-6 mb-8"
+      className="bg-white rounded-3xl shadow-xl p-8 mb-8 border border-gray-100 hover:shadow-2xl transition-shadow duration-300"
     >
-      <h2 className="text-2xl font-semibold mb-4">
+      <h2 className="text-3xl font-bold mb-6 text-indigo-800 flex items-center">
+        <ChartPieIcon className="h-8 w-8 mr-3 text-indigo-600" />
         {content[language].cultureSummary}
       </h2>
-      <p className="text-gray-600">{content[language].cultureSummaryText}</p>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="col-span-2">
+          <p className="text-gray-600 leading-relaxed mb-4">
+            {content[language].cultureSummaryText}
+          </p>
+          <div className="flex flex-wrap gap-4 mt-6">
+            {content[language].cultureTags.map((tag) => (
+              <span
+                key={tag}
+                className="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-sm font-medium"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+        </div>
+        <div className="bg-gradient-to-br from-indigo-100 to-purple-100 rounded-2xl p-6 flex flex-col justify-center items-center">
+          <h3 className="text-xl font-semibold text-indigo-800 mb-2">
+            {content[language].overallCultureScore}
+          </h3>
+          <p className="text-sm text-gray-600 mb-4 text-center">
+            {content[language].overallCultureScoreDescription}
+          </p>
+          <div className="relative w-32 h-32">
+            <svg className="w-full h-full" viewBox="0 0 100 100">
+              <circle
+                className="text-gray-200 stroke-current"
+                strokeWidth="10"
+                cx="50"
+                cy="50"
+                r="40"
+                fill="transparent"
+              ></circle>
+              <circle
+                className="text-indigo-600 progress-ring__circle stroke-current"
+                strokeWidth="10"
+                strokeLinecap="round"
+                cx="50"
+                cy="50"
+                r="40"
+                fill="transparent"
+                strokeDasharray="251.2"
+                strokeDashoffset="50.24"
+                transform="rotate(-90 50 50)"
+              ></circle>
+              <text
+                x="50"
+                y="50"
+                fontFamily="Verdana"
+                fontSize="20"
+                textAnchor="middle"
+                alignmentBaseline="central"
+                fill="#4F46E5"
+              >
+                80%
+              </text>
+            </svg>
+          </div>
+          <p className="mt-2 text-sm text-gray-600 text-center">
+            {content[language].overallCultureScoreInterpretation}
+          </p>
+        </div>
+      </div>
     </motion.div>
   );
 
@@ -315,32 +405,189 @@ export default function CultureProfile() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.2 }}
-      className="bg-white rounded-lg shadow-lg p-6 mb-8"
+      className="bg-white rounded-3xl shadow-xl p-8 mb-8 border border-gray-100 hover:shadow-2xl transition-shadow duration-300"
     >
-      <h2 className="text-2xl font-semibold mb-4">
+      <h2 className="text-2xl font-semibold mb-6 text-indigo-800 flex items-center">
+        <SparklesIcon className="h-7 w-7 mr-3 text-indigo-600" />
         {content[language].strengthsAndWeaknesses}
       </h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-          <h3 className="text-xl font-semibold text-green-600 mb-2">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="bg-gradient-to-br from-green-50 to-emerald-100 rounded-2xl p-6">
+          <h3 className="text-xl font-semibold text-green-700 mb-4 flex items-center">
+            <ArrowUpIcon className="h-5 w-5 mr-2" />
             {content[language].strengths}
           </h3>
-          <ul className="list-disc list-inside text-gray-600">
-            <li>{content[language].customerFocusIndex} (82%)</li>
-            <li>{content[language].learningCulture} (80%)</li>
-            <li>{content[language].employeeEngagement} (78%)</li>
+          <ul className="space-y-4">
+            {[
+              { key: 'customerFocusIndex', value: 82 },
+              { key: 'learningCulture', value: 80 },
+              { key: 'employeeEngagement', value: 78 },
+            ].map((item) => (
+              <li key={item.key} className="flex items-center justify-between">
+                <span className="text-green-600 flex items-center">
+                  <CheckCircleIcon className="h-5 w-5 mr-2" />
+                  {content[language][item.key as keyof typeof content.en]}
+                </span>
+                <div className="flex items-center">
+                  <span className="text-2xl font-bold text-green-700">
+                    {item.value}%
+                  </span>
+                  <div className="ml-2 w-20 h-2 bg-green-200 rounded-full overflow-hidden">
+                    <div
+                      className="h-full bg-green-500"
+                      style={{ width: `${item.value}%` }}
+                    ></div>
+                  </div>
+                </div>
+              </li>
+            ))}
           </ul>
         </div>
-        <div>
-          <h3 className="text-xl font-semibold text-red-600 mb-2">
+        <div className="bg-gradient-to-br from-red-50 to-orange-100 rounded-2xl p-6">
+          <h3 className="text-xl font-semibold text-red-700 mb-4 flex items-center">
+            <ArrowDownIcon className="h-5 w-5 mr-2" />
             {content[language].weaknesses}
           </h3>
-          <ul className="list-disc list-inside text-gray-600">
-            <li>{content[language].decisionMakingEfficiency} (65%)</li>
-            <li>{content[language].innovationIndex} (68%)</li>
-            <li>{content[language].adaptabilityIndex} (70%)</li>
+          <ul className="space-y-4">
+            {[
+              { key: 'decisionMakingEfficiency', value: 65 },
+              { key: 'innovationIndex', value: 68 },
+              { key: 'adaptabilityIndex', value: 70 },
+            ].map((item) => (
+              <li key={item.key} className="flex items-center justify-between">
+                <span className="text-red-600 flex items-center">
+                  <ExclamationCircleIcon className="h-5 w-5 mr-2" />
+                  {content[language][item.key as keyof typeof content.en]}
+                </span>
+                <div className="flex items-center">
+                  <span className="text-2xl font-bold text-red-700">
+                    {item.value}%
+                  </span>
+                  <div className="ml-2 w-20 h-2 bg-red-200 rounded-full overflow-hidden">
+                    <div
+                      className="h-full bg-red-500"
+                      style={{ width: `${item.value}%` }}
+                    ></div>
+                  </div>
+                </div>
+              </li>
+            ))}
           </ul>
         </div>
+      </div>
+      <div className="mt-6 p-4 bg-indigo-50 rounded-xl">
+        <p className="text-indigo-800 text-sm">
+          {content[language].strengthsWeaknessesDescription}
+        </p>
+      </div>
+    </motion.div>
+  );
+
+  const renderRadarChart = () => (
+    <motion.div
+      initial={{ opacity: 0, x: -20 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.5 }}
+      className="bg-white rounded-3xl shadow-xl p-8 border border-gray-100 hover:shadow-2xl transition-shadow duration-300"
+    >
+      <h2 className="text-2xl font-semibold mb-6 text-indigo-800 flex items-center">
+        <ChartPieIcon className="h-7 w-7 mr-3 text-indigo-600" />
+        {content[language].radarChart}
+      </h2>
+      <ResponsiveContainer width="100%" height={400}>
+        <RadarChart cx="50%" cy="50%" outerRadius="80%" data={radarData}>
+          <PolarGrid stroke="#e0e0e0" />
+          <PolarAngleAxis
+            dataKey="subject"
+            tick={{ fill: '#4a5568', fontSize: 12 }}
+          />
+          <PolarRadiusAxis angle={30} domain={[0, 100]} tick={false} />
+          <Radar
+            name="Culture Profile"
+            dataKey="A"
+            stroke="#8b5cf6"
+            fill="#8b5cf6"
+            fillOpacity={0.6}
+          />
+        </RadarChart>
+      </ResponsiveContainer>
+    </motion.div>
+  );
+
+  const renderBarChart = () => (
+    <motion.div
+      initial={{ opacity: 0, x: 20 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.5 }}
+      className="bg-white rounded-3xl shadow-xl p-8 border border-gray-100 hover:shadow-2xl transition-shadow duration-300"
+    >
+      <h2 className="text-2xl font-semibold mb-6 text-indigo-800 flex items-center">
+        <ChartBarIcon className="h-7 w-7 mr-3 text-indigo-600" />
+        {content[language].barChart}
+      </h2>
+      <ResponsiveContainer width="100%" height={400}>
+        <BarChart data={barData} layout="vertical">
+          <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" />
+          <XAxis type="number" domain={[0, 100]} />
+          <YAxis
+            dataKey="name"
+            type="category"
+            width={150}
+            tick={{ fill: '#4a5568', fontSize: 12 }}
+          />
+          <Tooltip
+            contentStyle={{
+              backgroundColor: '#f7fafc',
+              border: '1px solid #e2e8f0',
+              borderRadius: '8px',
+            }}
+          />
+          <Legend />
+          <Bar dataKey="value" fill="#8b5cf6">
+            {barData.map((entry, index) => (
+              <Cell
+                key={`cell-${index}`}
+                fill={`hsl(${index * 30}, 70%, 60%)`}
+              />
+            ))}
+          </Bar>
+        </BarChart>
+      </ResponsiveContainer>
+    </motion.div>
+  );
+
+  const renderSymmetricBarChart = () => (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className="bg-white rounded-3xl shadow-xl p-8 mb-8 border border-gray-100 hover:shadow-2xl transition-shadow duration-300"
+    >
+      <h3 className="text-2xl font-semibold mb-6 text-indigo-800 flex items-center">
+        <ChartBarIcon className="h-7 w-7 mr-3 text-indigo-600" />
+        {content[language].symmetricBarChart}
+      </h3>
+      <div className="space-y-4">
+        {cultureDimensions[language].map((dimension, index) => (
+          <div key={index} className="flex items-center">
+            <span className="w-1/4 text-right pr-2 text-sm text-gray-600">
+              {dimension.left}
+            </span>
+            <div className="w-1/2 h-4 bg-gray-200 rounded-full overflow-hidden">
+              <div
+                className="h-full bg-purple-500"
+                style={{
+                  width: `${50 + dimension.value / 2}%`,
+                  marginLeft: dimension.value < 0 ? '0' : 'auto',
+                  marginRight: dimension.value > 0 ? '0' : 'auto',
+                }}
+              ></div>
+            </div>
+            <span className="w-1/4 text-left pl-2 text-sm text-gray-600">
+              {dimension.right}
+            </span>
+          </div>
+        ))}
       </div>
     </motion.div>
   );
@@ -350,9 +597,10 @@ export default function CultureProfile() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.4 }}
-      className="bg-white rounded-lg shadow-lg p-6 mb-8"
+      className="bg-white rounded-3xl shadow-xl p-8 mb-8 border border-gray-100 hover:shadow-2xl transition-shadow duration-300"
     >
-      <h2 className="text-2xl font-semibold mb-4">
+      <h2 className="text-2xl font-semibold mb-6 text-indigo-800 flex items-center">
+        <ChartBarIcon className="h-7 w-7 mr-3 text-indigo-600" />
         {content[language].industryComparison}
       </h2>
       <ResponsiveContainer width="100%" height={400}>
@@ -363,13 +611,19 @@ export default function CultureProfile() {
             industry: industryAverage[key as keyof typeof industryAverage],
           }))}
         >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
-          <YAxis />
-          <Tooltip />
+          <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" />
+          <XAxis dataKey="name" tick={{ fill: '#4a5568', fontSize: 12 }} />
+          <YAxis tick={{ fill: '#4a5568', fontSize: 12 }} />
+          <Tooltip
+            contentStyle={{
+              backgroundColor: '#f7fafc',
+              border: '1px solid #e2e8f0',
+              borderRadius: '8px',
+            }}
+          />
           <Legend />
-          <Bar dataKey="company" fill="#8884d8" name="귀사" />
-          <Bar dataKey="industry" fill="#82ca9d" name="산업 평균" />
+          <Bar dataKey="company" fill="#8b5cf6" name="귀사" />
+          <Bar dataKey="industry" fill="#f6ad55" name="산업 평균" />
         </BarChart>
       </ResponsiveContainer>
     </motion.div>
@@ -380,19 +634,26 @@ export default function CultureProfile() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.6 }}
-      className="bg-white rounded-lg shadow-lg p-6 mb-8"
+      className="bg-white rounded-3xl shadow-xl p-8 mb-8 border border-gray-100 hover:shadow-2xl transition-shadow duration-300"
     >
-      <h2 className="text-2xl font-semibold mb-4">
+      <h2 className="text-2xl font-semibold mb-6 text-indigo-800 flex items-center">
+        <ArrowTrendingUpIcon className="h-7 w-7 mr-3 text-indigo-600" />
         {content[language].trendAnalysis}
       </h2>
       <ResponsiveContainer width="100%" height={300}>
         <LineChart data={trendData}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="month" />
-          <YAxis />
-          <Tooltip />
+          <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" />
+          <XAxis dataKey="month" tick={{ fill: '#4a5568', fontSize: 12 }} />
+          <YAxis tick={{ fill: '#4a5568', fontSize: 12 }} />
+          <Tooltip
+            contentStyle={{
+              backgroundColor: '#f7fafc',
+              border: '1px solid #e2e8f0',
+              borderRadius: '8px',
+            }}
+          />
           <Legend />
-          <Line type="monotone" dataKey="value" stroke="#8884d8" />
+          <Line type="monotone" dataKey="value" stroke="#8b5cf6" />
         </LineChart>
       </ResponsiveContainer>
       <p className="mt-4 text-gray-600">
@@ -406,17 +667,20 @@ export default function CultureProfile() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.8 }}
-      className="bg-white rounded-lg shadow-lg p-6 mb-8"
+      className="bg-white rounded-3xl shadow-xl p-8 mb-8 border border-gray-100 hover:shadow-2xl transition-shadow duration-300"
     >
-      <h2 className="text-2xl font-semibold mb-4 flex items-center">
-        <LightBulbIcon className="h-6 w-6 mr-2 text-yellow-500" />
+      <h2 className="text-2xl font-semibold mb-6 text-indigo-800 flex items-center">
+        <LightBulbIcon className="h-7 w-7 mr-3 text-indigo-600" />
         {content[language].improvementSuggestions}
       </h2>
-      <ul className="list-disc list-inside text-gray-600 space-y-2">
+      <ul className="space-y-2">
         {content[language].improvementSuggestionsText
           .split('\n')
           .map((suggestion, index) => (
-            <li key={index}>{suggestion}</li>
+            <li key={index} className="flex items-center text-gray-600">
+              <CheckCircleIcon className="h-5 w-5 mr-2 text-green-500" />
+              {suggestion}
+            </li>
           ))}
       </ul>
     </motion.div>
@@ -427,54 +691,119 @@ export default function CultureProfile() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 1 }}
-      className="bg-white rounded-lg shadow-lg p-6 mb-8"
+      className="bg-white rounded-3xl shadow-xl p-8 mb-8 border border-gray-100 hover:shadow-2xl transition-shadow duration-300"
     >
-      <h2 className="text-2xl font-semibold mb-4 flex items-center">
-        <ChartBarIcon className="h-6 w-6 mr-2 text-blue-500" />
+      <h2 className="text-2xl font-semibold mb-6 text-indigo-800 flex items-center">
+        <ChartBarIcon className="h-7 w-7 mr-3 text-indigo-600" />
         {content[language].cultureType}
       </h2>
-      <p className="text-gray-600 mb-4">{content[language].cultureTypeText}</p>
-      <ul className="list-disc list-inside text-gray-600 space-y-2">
-        <li>{content[language].innovationDriven}</li>
-        <li>{content[language].collaborationCentric}</li>
-        <li>{content[language].customerCentric}</li>
-        <li>{content[language].learningOriented}</li>
+      <p className="text-gray-600 mb-6">{content[language].cultureTypeText}</p>
+      <ul className="space-y-2">
+        <li className="flex items-center text-gray-600">
+          <CheckCircleIcon className="h-5 w-5 mr-2 text-green-500" />
+          {content[language].innovationDriven}
+        </li>
+        <li className="flex items-center text-gray-600">
+          <CheckCircleIcon className="h-5 w-5 mr-2 text-green-500" />
+          {content[language].collaborationCentric}
+        </li>
+        <li className="flex items-center text-gray-600">
+          <CheckCircleIcon className="h-5 w-5 mr-2 text-green-500" />
+          {content[language].customerCentric}
+        </li>
+        <li className="flex items-center text-gray-600">
+          <CheckCircleIcon className="h-5 w-5 mr-2 text-green-500" />
+          {content[language].learningOriented}
+        </li>
       </ul>
     </motion.div>
   );
 
-  const renderSymmetricBarChart = () => (
+  const renderProfileCards = () =>
+    Object.entries(profile).map(([key, value], index) => (
+      <motion.div
+        key={key}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: index * 0.1 }}
+        className="bg-white rounded-3xl shadow-xl p-8 border border-gray-100 transform hover:scale-105 transition-all duration-300"
+      >
+        <h3 className="text-xl font-semibold mb-4 text-indigo-800">
+          {content[language][key as keyof typeof content.en]}
+        </h3>
+        <div className="flex items-center justify-between mb-4">
+          <p className="text-4xl font-bold text-purple-600">
+            {value as number}%
+          </p>
+          <div className="w-16 h-16 rounded-full bg-purple-100 flex items-center justify-center">
+            <ChartPieIcon className="h-8 w-8 text-purple-600" />
+          </div>
+        </div>
+        <p className="text-gray-600 mt-4 text-sm leading-relaxed">
+          {
+            profileDescriptions[language][
+              key as keyof typeof profileDescriptions.en
+            ]
+          }
+        </p>
+      </motion.div>
+    ));
+
+  const renderTopCard = () => (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="bg-white rounded-lg shadow-lg p-6 mb-8"
+      className="bg-gradient-to-br from-indigo-600 to-purple-600 rounded-3xl shadow-xl p-8 mb-8 text-white relative overflow-hidden"
     >
-      <h3 className="text-xl font-semibold mb-4">
-        {content[language].symmetricBarChart}
-      </h3>
-      <div className="space-y-4">
-        {cultureDimensions[language].map((dimension, index) => (
-          <div key={index} className="flex items-center">
-            <span className="w-1/4 text-right pr-2 text-sm">
-              {dimension.left}
-            </span>
-            <div className="w-1/2 h-4 bg-gray-200 rounded-full overflow-hidden">
-              <div
-                className="h-full bg-blue-500"
-                style={{
-                  width: `${50 + dimension.value / 2}%`,
-                  marginLeft: dimension.value < 0 ? '0' : 'auto',
-                  marginRight: dimension.value > 0 ? '0' : 'auto',
-                }}
-              ></div>
-            </div>
-            <span className="w-1/4 text-left pl-2 text-sm">
-              {dimension.right}
-            </span>
-          </div>
-        ))}
+      <div className="absolute top-0 left-0 w-full h-full bg-white opacity-10 z-0">
+        <svg
+          className="w-full h-full"
+          viewBox="0 0 100 100"
+          preserveAspectRatio="none"
+        >
+          <path d="M0,0 L100,0 L100,100 L0,100 Z" fill="url(#grid)" />
+        </svg>
+        <defs>
+          <pattern
+            id="grid"
+            width="10"
+            height="10"
+            patternUnits="userSpaceOnUse"
+          >
+            <path
+              d="M 10 0 L 0 0 0 10"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="0.5"
+            />
+          </pattern>
+        </defs>
       </div>
+      <div className="relative z-10">
+        <h1 className="text-5xl font-bold text-center mb-6 text-white drop-shadow-lg">
+          {content[language].title}
+        </h1>
+        <p className="text-center text-white text-lg mb-6 max-w-2xl mx-auto leading-relaxed">
+          {content[language].description}
+        </p>
+        <div className="flex justify-center items-center text-sm text-white bg-white bg-opacity-20 rounded-full py-2 px-4 w-max mx-auto">
+          <ArrowTrendingUpIcon className="h-5 w-5 mr-2" />
+          {content[language].lastUpdated}: {lastUpdated?.toLocaleDateString()}
+        </div>
+      </div>
+      <motion.div
+        className="absolute bottom-0 right-0 w-32 h-32 bg-white bg-opacity-20 rounded-full"
+        initial={{ scale: 0 }}
+        animate={{ scale: 1 }}
+        transition={{ duration: 0.5, delay: 0.2 }}
+      />
+      <motion.div
+        className="absolute top-0 left-0 w-24 h-24 bg-white bg-opacity-20 rounded-full"
+        initial={{ scale: 0 }}
+        animate={{ scale: 1 }}
+        transition={{ duration: 0.5, delay: 0.3 }}
+      />
     </motion.div>
   );
 
@@ -488,109 +817,24 @@ export default function CultureProfile() {
 
   return (
     <DashboardLayout>
-      <div className="container mx-auto px-4 py-8">
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="bg-white rounded-lg shadow-lg p-8 mb-8"
-        >
-          <h1 className="text-4xl font-bold text-center mb-4 text-gray-800 bg-clip-text text-transparent bg-gradient-to-r from-teal-400 to-blue-500">
-            {content[language].title}
-          </h1>
-          <p className="text-center text-gray-600 mb-4">
-            {content[language].description}
-          </p>
-          <div className="flex justify-center items-center text-sm text-gray-500">
-            <ArrowPathIcon className="h-4 w-4 mr-2" />
-            {content[language].lastUpdated}: {lastUpdated?.toLocaleDateString()}
-          </div>
-        </motion.div>
-
+      <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 p-8">
+        {renderTopCard()}
         {renderCultureSummary()}
         {renderStrengthsAndWeaknesses()}
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
-            className="bg-white rounded-lg shadow-lg p-6"
-          >
-            <h2 className="text-2xl font-semibold mb-4">
-              {content[language].radarChart}
-            </h2>
-            <ResponsiveContainer width="100%" height={400}>
-              <RadarChart
-                cx="50%"
-                cy="50%"
-                outerRadius="80%"
-                data={Object.entries(profile).map(([key, value]) => ({
-                  subject: content[language][key as keyof typeof content.en],
-                  A: value,
-                  fullMark: 100,
-                }))}
-              >
-                <PolarGrid />
-                <PolarAngleAxis dataKey="subject" />
-                <PolarRadiusAxis angle={30} domain={[0, 100]} />
-                <Radar
-                  name="Culture Profile"
-                  dataKey="A"
-                  stroke="#8884d8"
-                  fill="#8884d8"
-                  fillOpacity={0.6}
-                />
-              </RadarChart>
-            </ResponsiveContainer>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
-            className="bg-white rounded-lg shadow-lg p-6"
-          >
-            <h2 className="text-2xl font-semibold mb-4">
-              {content[language].barChart}
-            </h2>
-            <ResponsiveContainer width="100%" height={400}>
-              <BarChart data={barData} layout="vertical">
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis type="number" domain={[0, 100]} />
-                <YAxis dataKey="name" type="category" width={150} />
-                <Tooltip />
-                <Legend />
-                <Bar dataKey="value" fill="#82ca9d" />
-              </BarChart>
-            </ResponsiveContainer>
-          </motion.div>
+          {renderRadarChart()}
+          {renderBarChart()}
         </div>
 
         {renderSymmetricBarChart()}
+        {renderIndustryComparison()}
+        {renderTrendAnalysis()}
+        {renderImprovementSuggestions()}
+        {renderCultureType()}
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {Object.entries(profile).map(([key, value], index) => (
-            <motion.div
-              key={key}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="bg-white rounded-lg shadow-lg p-6 transform hover:scale-105 transition-all duration-300"
-            >
-              <h3 className="text-xl font-semibold mb-4 text-gray-800">
-                {content[language][key as keyof typeof content.en]}
-              </h3>
-              <p className="text-gray-600">{value as number}</p>
-              <p className="text-gray-600 mt-4">
-                {
-                  profileDescriptions[language][
-                    key as keyof typeof profileDescriptions.en
-                  ]
-                }
-              </p>
-            </motion.div>
-          ))}
+          {renderProfileCards()}
         </div>
       </div>
     </DashboardLayout>
