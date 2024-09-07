@@ -26,6 +26,7 @@ import {
   LineChart,
   Line,
   Cell,
+  ReferenceLine,
 } from 'recharts';
 import {
   InformationCircleIcon,
@@ -42,7 +43,68 @@ import {
   ArrowDownIcon,
 } from '@heroicons/react/24/solid';
 
-const content = {
+// content 객체의 타입 정의에 strategicRecommendations 추가
+type ContentType = {
+  title: string;
+  description: string;
+  lastUpdated: string;
+  cultureProfileOverview: string;
+  whatIsCultureProfile: string;
+  cultureProfileExplanation: string;
+  collaborationIndex: string;
+  innovationIndex: string;
+  customerFocusIndex: string;
+  adaptabilityIndex: string;
+  leadershipEffectiveness: string;
+  employeeEngagement: string;
+  learningCulture: string;
+  decisionMakingEfficiency: string;
+  findCandidates: string;
+  cultureSummary: string;
+  cultureSummaryText: string;
+  strengthsAndWeaknesses: string;
+  strengths: string;
+  weaknesses: string;
+  industryComparison: string;
+  trendAnalysis: string;
+  trendAnalysisText: string;
+  improvementSuggestions: string;
+  improvementSuggestionsText: string;
+  cultureType: string;
+  cultureTypeText: string;
+  innovationDriven: string;
+  collaborationCentric: string;
+  customerCentric: string;
+  learningOriented: string;
+  symmetricBarChart: string;
+  cultureDimensions: string;
+  cultureTags: string[];
+  overallCultureScore: string;
+  overallCultureScoreDescription: string;
+  overallCultureScoreInterpretation: string;
+  strengthsWeaknessesDescription: string;
+  overviewExplanation: string;
+  overviewDescription: string;
+  cultureDimensionsDescription: string;
+  cultureDimensionsInterpretation: string;
+  yourCompany: string;
+  industryAverage: string;
+  keyInsights: string;
+  comparisonInsight: (
+    dimension: string,
+    difference: number,
+    isHigher: boolean
+  ) => string;
+  actionableRecommendations: string;
+  industryComparisonRecommendations: string[];
+  industryComparisonDescription: string;
+  difference: string;
+  comparisonWithIndustry: string;
+  insightExplanation: (dimension: string, difference: number) => string;
+  strategicRecommendations: string;
+};
+
+const content: Record<'en' | 'ko', ContentType> = {
   en: {
     title: 'Culture Profile',
     description:
@@ -109,6 +171,32 @@ const content = {
       "This chart represents the balance between different dimensions of your organization's culture. Each bar indicates the strength of a particular dimension, with the left side representing one aspect and the right side representing the opposite aspect. The center of the bar indicates the overall balance between the two aspects.",
     cultureDimensionsInterpretation:
       "This chart provides insights into the balance and distribution of various dimensions of your organization's culture. It helps you understand the strengths and areas for improvement in each dimension.",
+    yourCompany: 'Your Company',
+    industryAverage: 'Industry Average',
+    keyInsights: 'Key Insights',
+    comparisonInsight: (
+      dimension: string,
+      difference: number,
+      isHigher: boolean
+    ) =>
+      `Your ${dimension} is ${difference.toFixed(1)} points ${
+        isHigher ? 'higher' : 'lower'
+      } than the industry average.`,
+    actionableRecommendations: 'Actionable Recommendations',
+    industryComparisonRecommendations: [
+      'Leverage your strengths in areas where you exceed the industry average to create competitive advantages.',
+      'Develop targeted improvement plans for dimensions where you fall below the industry average.',
+      'Regularly benchmark your culture metrics against industry standards to track progress and identify emerging trends.',
+      'Share insights from this comparison with your team to foster a culture of continuous improvement.',
+    ],
+    industryComparisonDescription: '산업 평균과의 비교 설명',
+    difference: 'Difference',
+    comparisonWithIndustry: 'Comparison with Industry',
+    insightExplanation: (dimension, difference) =>
+      `The ${dimension} is ${Math.abs(difference)}% ${
+        difference > 0 ? 'higher' : 'lower'
+      } than industry average.`,
+    strategicRecommendations: 'Strategic Recommendations',
   },
   ko: {
     title: '문화 프로필',
@@ -146,7 +234,7 @@ const content = {
     cultureType: '문화 유형 분류',
     cultureTypeText:
       '귀사의 문화는 "혁신 주도형"과 "협력 중심형"의 특성을 강하게 보이고 있습니다. 이는 창의적인 아이디어를 중시하면서도 팀워크를 통한 실행을 중요하게 여기는 문화입니다.',
-    innovationDriven: '혁신 주도형: 새로운 아이디어와 변화를 적극적으로 수용',
+    innovationDriven: '혁신 주도: 새로운 아이디어와 변화를 적극적으로 수용',
     collaborationCentric:
       '협력 중심형: 팀워크와 개방적 소통을 통한 문제 해결 강조',
     customerCentric: '고객 중심형: 고객 니즈에 신속하게 대응하는 문화',
@@ -167,6 +255,32 @@ const content = {
       '이 차트는 조직의 문화 차원 간의 균형을 나타냅니다. 각 막대는 특정 차원의 강점을 나타내며, 왼쪽은 한 측면을, 오른쪽은 반대 측면을 나타냅니다. 막대의 중앙은 두 측면 간의 전반적인 균형을 나타냅니다.',
     cultureDimensionsInterpretation:
       '이 차트는 조직의 문화 차원 간의 균형과 분포에 대한 통찰력을 제공합니다. 각 차원의 강점과 개선 영역을 이해하는 데 도움이 됩니다.',
+    yourCompany: '귀사',
+    industryAverage: '산업 평균',
+    keyInsights: '주요 인사이트',
+    comparisonInsight: (
+      dimension: string,
+      difference: number,
+      isHigher: boolean
+    ) =>
+      `귀사의 ${dimension}은(는) 산업 평균보다 ${difference.toFixed(
+        1
+      )} 포인트 ${isHigher ? '높습니다' : '낮습니다'}.`,
+    actionableRecommendations: '실행 가능한 제안',
+    industryComparisonRecommendations: [
+      '산업 평균을 초과하는 영역에서의 강점을 활용하여 경쟁 우위를 창출하세요.',
+      '산업 평균에 미치지 못하는 차원에 대해 목표 지향적인 개선 계획을 수립하세요.',
+      '진행 상황을 추적하고 새로운 트렌드를 파악하기 위해 문화 지표를 정기적으로 산업 표준과 비교하요.',
+      '이 비교에서 얻은 인사이트를 팀과 공유하여 지속적인 개선 문화를 조성하세요.',
+    ],
+    industryComparisonDescription: '산업 평균과의 비교 설명',
+    difference: '차이',
+    comparisonWithIndustry: '산업 평균과의 비교',
+    insightExplanation: (dimension, difference) =>
+      `${dimension}은(는) 업계 평균보다 ${Math.abs(difference)}% ${
+        difference > 0 ? '높습니다' : '낮습니다'
+      }.`,
+    strategicRecommendations: '전략적 권장사항',
   },
 };
 
@@ -202,7 +316,7 @@ const profileDescriptions = {
   },
   ko: {
     collaborationIndex: '조직 내 팀워크와 집단적 노력의 수준을 측정합니다.',
-    innovationIndex: '회사의 창의성과 새로운 아이디어 창출 능력을 나타냅니다.',
+    innovationIndex: '회사의 창의성과 새로운 아이디어 창출 능력을 나타냅��다.',
     customerFocusIndex:
       '조직이 고객 니즈와 만족도를 얼마나 잘 우선시하는지 반영합니다.',
     adaptabilityIndex:
@@ -212,7 +326,7 @@ const profileDescriptions = {
     employeeEngagement: '직원들의 헌신, 동기부여, 만족도 수준을 측정합니다.',
     learningCulture:
       '조직이 지속적인 학습과 개발을 얼마나 잘 지원하는지 나타냅니다.',
-    decisionMakingEfficiency: '의사결정 과정의 속도와 효과성을 반영합니다.',
+    decisionMakingEfficiency: '의결정 과정의 속도와 효과성을 반영합니다.',
   },
 };
 
@@ -248,7 +362,7 @@ const cultureDimensions = {
     { left: '개인주의', right: '집단주의', value: -15 },
     { left: '협력적 환경', right: '개인 중심 환경', value: 25 },
     { left: '개방적 소통', right: '공식적 소통', value: 40 },
-    { left: '성과 중심 보상', right: '평등 분배 보상', value: 5 },
+    { left: '성과 중심 보상', right: '평등 분배 ���상', value: 5 },
     { left: '학습 지향', right: '현상 유지', value: 35 },
     { left: '고객 중심', right: '내부 프로세스 중심', value: 45 },
     { left: '일 중심', right: '삶 중심', value: -10 },
@@ -470,7 +584,11 @@ export default function CultureProfile() {
               <li key={item.key} className="flex items-center justify-between">
                 <span className="text-green-600 flex items-center">
                   <CheckCircleIcon className="h-5 w-5 mr-2" />
-                  {content[language][item.key as keyof typeof content.en]}
+                  {
+                    content[language][
+                      item.key as keyof typeof content.en
+                    ] as React.ReactNode
+                  }
                 </span>
                 <div className="flex items-center">
                   <span className="text-2xl font-bold text-green-700">
@@ -501,7 +619,11 @@ export default function CultureProfile() {
               <li key={item.key} className="flex items-center justify-between">
                 <span className="text-red-600 flex items-center">
                   <ExclamationCircleIcon className="h-5 w-5 mr-2" />
-                  {content[language][item.key as keyof typeof content.en]}
+                  {
+                    content[language][
+                      item.key as keyof typeof content.en
+                    ] as React.ReactNode
+                  }
                 </span>
                 <div className="flex items-center">
                   <span className="text-2xl font-bold text-red-700">
@@ -576,9 +698,11 @@ export default function CultureProfile() {
             <ul className="space-y-2">
               {radarData.map((item, index) => (
                 <li key={index} className="flex items-center justify-between">
-                  <span className="text-gray-700">{item.subject}</span>
+                  <span className="text-gray-700">
+                    {item.subject as React.ReactNode}
+                  </span>
                   <span className="font-semibold text-indigo-600">
-                    {item.A}%
+                    {item.A as number}%
                   </span>
                 </li>
               ))}
@@ -642,42 +766,156 @@ export default function CultureProfile() {
     </motion.div>
   );
 
-  const renderIndustryComparison = () => (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: 0.4 }}
-      className="bg-white rounded-3xl shadow-xl p-8 mb-8 border border-gray-100 hover:shadow-2xl transition-shadow duration-300"
-    >
-      <h2 className="text-2xl font-semibold mb-6 text-indigo-800 flex items-center">
-        <ChartBarIcon className="h-7 w-7 mr-3 text-indigo-600" />
-        {content[language].industryComparison}
-      </h2>
-      <ResponsiveContainer width="100%" height={400}>
-        <BarChart
-          data={Object.entries(profile).map(([key, value]) => ({
-            name: content[language][key as keyof typeof content.en],
-            company: value,
-            industry: industryAverage[key as keyof typeof industryAverage],
-          }))}
-        >
-          <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" />
-          <XAxis dataKey="name" tick={{ fill: '#4a5568', fontSize: 12 }} />
-          <YAxis tick={{ fill: '#4a5568', fontSize: 12 }} />
-          <Tooltip
-            contentStyle={{
-              backgroundColor: '#f7fafc',
-              border: '1px solid #e2e8f0',
-              borderRadius: '8px',
-            }}
-          />
-          <Legend />
-          <Bar dataKey="company" fill="#8b5cf6" name="귀사" />
-          <Bar dataKey="industry" fill="#f6ad55" name="산업 평균" />
-        </BarChart>
-      </ResponsiveContainer>
-    </motion.div>
-  );
+  const renderIndustryComparison = () => {
+    const comparisonData = Object.entries(profile)
+      .map(([key, value]) => ({
+        dimension: content[language][key as keyof typeof content.en],
+        difference:
+          (value as number) -
+          industryAverage[key as keyof typeof industryAverage],
+        company: value as number,
+        industry: industryAverage[key as keyof typeof industryAverage],
+      }))
+      .sort((a, b) => Math.abs(b.difference) - Math.abs(a.difference));
+
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.4 }}
+        className="bg-white rounded-3xl shadow-xl p-8 mb-8 border border-gray-100 hover:shadow-2xl transition-all duration-300"
+      >
+        <h3 className="text-2xl font-semibold mb-6 text-indigo-800 flex items-center">
+          <ChartBarIcon className="h-7 w-7 mr-3 text-indigo-600" />
+          {content[language].industryComparison}
+        </h3>
+        <p className="text-gray-600 mb-8">
+          {content[language].industryComparisonDescription}
+        </p>
+        <div className="mb-12">
+          <ResponsiveContainer width="100%" height={400}>
+            <BarChart
+              layout="vertical"
+              data={comparisonData}
+              margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+            >
+              <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" />
+              <XAxis type="number" domain={[-30, 30]} />
+              <YAxis dataKey="dimension" type="category" width={150} />
+              <Tooltip
+                content={({ active, payload }) => {
+                  if (active && payload && payload.length) {
+                    const data = payload[0].payload;
+                    return (
+                      <div className="bg-white p-4 rounded-lg shadow-lg border border-indigo-100">
+                        <p className="font-bold text-indigo-800">
+                          {data.dimension}
+                        </p>
+                        <p className="text-sm text-gray-600">
+                          {content[language].yourCompany}:{' '}
+                          <span className="font-semibold text-indigo-600">
+                            {data.company}%
+                          </span>
+                        </p>
+                        <p className="text-sm text-gray-600">
+                          {content[language].industryAverage}:{' '}
+                          <span className="font-semibold text-orange-500">
+                            {data.industry}%
+                          </span>
+                        </p>
+                        <p className="text-sm font-semibold mt-2">
+                          {content[language].difference}:{' '}
+                          <span
+                            className={
+                              data.difference >= 0
+                                ? 'text-green-500'
+                                : 'text-red-500'
+                            }
+                          >
+                            {data.difference > 0 ? '+' : ''}
+                            {data.difference.toFixed(1)}%
+                          </span>
+                        </p>
+                      </div>
+                    );
+                  }
+                  return null;
+                }}
+              />
+              <Legend />
+              <ReferenceLine x={0} stroke="#000" />
+              <Bar
+                dataKey="difference"
+                name={content[language].comparisonWithIndustry}
+              >
+                {comparisonData.map((entry, index) => (
+                  <Cell
+                    key={`cell-${index}`}
+                    fill={entry.difference >= 0 ? '#4C51BF' : '#E53E3E'}
+                    className="hover:opacity-80 transition-opacity duration-300"
+                  />
+                ))}
+              </Bar>
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="bg-gradient-to-br from-indigo-50 to-purple-100 rounded-2xl p-6 shadow-lg">
+            <h4 className="text-xl font-semibold mb-4 text-indigo-800">
+              {content[language].keyInsights}
+            </h4>
+            <ul className="space-y-4">
+              {comparisonData.slice(0, 3).map((item, index) => (
+                <li
+                  key={index}
+                  className="flex items-start bg-white bg-opacity-50 rounded-xl p-4 shadow-sm"
+                >
+                  {item.difference > 0 ? (
+                    <ArrowUpIcon className="h-6 w-6 mr-3 text-green-500 flex-shrink-0" />
+                  ) : (
+                    <ArrowDownIcon className="h-6 w-6 mr-3 text-red-500 flex-shrink-0" />
+                  )}
+                  <div>
+                    <span className="text-gray-800 font-medium block mb-1">
+                      {content[language].comparisonInsight(
+                        item.dimension as string,
+                        Math.abs(item.difference),
+                        item.difference > 0
+                      )}
+                    </span>
+                    <span className="text-sm text-gray-600">
+                      {content[language].insightExplanation(
+                        item.dimension as string,
+                        item.difference
+                      )}
+                    </span>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="bg-gradient-to-br from-purple-50 to-pink-100 rounded-2xl p-6 shadow-lg">
+            <h4 className="text-xl font-semibold mb-4 text-purple-800">
+              {content[language].strategicRecommendations}
+            </h4>
+            <ul className="space-y-4">
+              {content[language].industryComparisonRecommendations.map(
+                (recommendation, index) => (
+                  <li
+                    key={index}
+                    className="flex items-start bg-white bg-opacity-50 rounded-xl p-4 shadow-sm"
+                  >
+                    <LightBulbIcon className="h-6 w-6 mr-3 text-yellow-500 flex-shrink-0" />
+                    <span className="text-gray-800">{recommendation}</span>
+                  </li>
+                )
+              )}
+            </ul>
+          </div>
+        </div>
+      </motion.div>
+    );
+  };
 
   const renderTrendAnalysis = () => (
     <motion.div
@@ -779,7 +1017,7 @@ export default function CultureProfile() {
         className="bg-white rounded-3xl shadow-xl p-8 border border-gray-100 transform hover:scale-105 transition-all duration-300"
       >
         <h3 className="text-xl font-semibold mb-4 text-indigo-800">
-          {content[language][key as keyof typeof content.en]}
+          {content[language][key as keyof typeof content.en] as React.ReactNode}
         </h3>
         <div className="flex items-center justify-between mb-4">
           <p className="text-4xl font-bold text-purple-600">
