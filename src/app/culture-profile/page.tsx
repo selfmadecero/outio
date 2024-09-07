@@ -7,6 +7,7 @@ import { auth, db } from '../../firebase';
 import { doc, getDoc } from 'firebase/firestore';
 import { User } from 'firebase/auth';
 import DashboardLayout from '../../components/DashboardLayout';
+import { motion } from 'framer-motion';
 
 type ContentType = {
   [key in 'en' | 'ko']: {
@@ -62,6 +63,7 @@ const content: ContentType = {
 export default function CultureProfile() {
   const [user, setUser] = useState<User | null>(null);
   const [profile, setProfile] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
   const router = useRouter();
   const { language } = useLanguage();
 
@@ -78,22 +80,32 @@ export default function CultureProfile() {
   }, [router]);
 
   const fetchCultureProfile = async (userId: string) => {
-    if (!auth.currentUser) {
-      console.log('사용자가 인증되지 않았습니다');
-      return;
-    }
-    const docRef = doc(db, 'cultureProfiles', userId);
-    const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-      setProfile(docSnap.data());
-    } else {
-      console.log('문화 프로필을 찾을 수 없습니다!');
+    setLoading(true);
+    try {
+      const docRef = doc(db, 'cultureProfiles', userId);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        setProfile(docSnap.data());
+      } else {
+        console.log('No culture profile found!');
+      }
+    } catch (error) {
+      console.error('Error fetching culture profile:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
   const renderProfileItem = (key: keyof ContentType['en'], value: number) => (
-    <div className="bg-white rounded-lg shadow p-4">
-      <h3 className="text-lg font-semibold mb-2">{content[language][key]}</h3>
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className="bg-white rounded-lg shadow-lg p-6 transform hover:scale-105 transition-all duration-300"
+    >
+      <h3 className="text-xl font-semibold mb-4 text-gray-800">
+        {content[language][key]}
+      </h3>
       <div className="relative pt-1">
         <div className="flex mb-2 items-center justify-between">
           <div>
@@ -103,27 +115,49 @@ export default function CultureProfile() {
           </div>
         </div>
         <div className="overflow-hidden h-2 mb-4 text-xs flex rounded bg-teal-200">
-          <div
-            style={{ width: `${value}%` }}
+          <motion.div
+            initial={{ width: 0 }}
+            animate={{ width: `${value}%` }}
+            transition={{ duration: 0.8, ease: 'easeOut' }}
             className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-teal-500"
-          ></div>
+          ></motion.div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
+
+  if (loading) {
+    return (
+      <DashboardLayout>
+        <div className="flex items-center justify-center h-screen">
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900"></div>
+        </div>
+      </DashboardLayout>
+    );
+  }
 
   return (
     <DashboardLayout>
       <div className="container mx-auto px-4 py-8">
-        <h2 className="text-3xl font-bold text-center mb-8 text-gray-800">
+        <motion.h2
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="text-4xl font-bold text-center mb-12 text-gray-800 bg-clip-text text-transparent bg-gradient-to-r from-teal-400 to-blue-500"
+        >
           {content[language].title}
-        </h2>
+        </motion.h2>
         {!profile ? (
-          <p className="text-center text-gray-700">
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+            className="text-center text-xl text-gray-600"
+          >
             {content[language].noProfile}
-          </p>
+          </motion.p>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {renderProfileItem(
               'individualismVsCollectivism',
               profile.individualismVsCollectivism

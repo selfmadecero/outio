@@ -1,123 +1,127 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import { useLanguage } from '../../contexts/LanguageContext';
-import { auth, db } from '../../firebase';
-import { doc, setDoc } from 'firebase/firestore';
-import { User } from 'firebase/auth';
 import DashboardLayout from '../../components/DashboardLayout';
+import { motion } from 'framer-motion';
+import {
+  ChatBubbleLeftRightIcon,
+  PaperAirplaneIcon,
+} from '@heroicons/react/24/outline';
 
 export default function Feedback() {
-  const [user, setUser] = useState<User | null>(null);
-  const [rating, setRating] = useState<number>(0);
-  const [comment, setComment] = useState<string>('');
-  const router = useRouter();
   const { language } = useLanguage();
-
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      if (user) {
-        setUser(user);
-      } else {
-        router.push('/auth');
-      }
-    });
-    return () => unsubscribe();
-  }, [router]);
+  const [feedback, setFeedback] = useState('');
 
   const content = {
     en: {
-      title: 'Provide Feedback',
-      ratingLabel: 'How would you rate your experience?',
-      commentLabel: 'Do you have any additional comments?',
-      commentPlaceholder: 'Your feedback helps us improve our service',
+      title: 'Feedback',
+      description:
+        'We value your feedback. Please share your thoughts with us.',
+      placeholder: 'Type your feedback here...',
       submit: 'Submit Feedback',
-      success: 'Thank you for your feedback!',
+      recentFeedback: 'Recent Feedback',
     },
     ko: {
-      title: '피드백 제공',
-      ratingLabel: '서비스 경험을 어떻게 평가하시겠습니까?',
-      commentLabel: '추가 의견이 있으신가요?',
-      commentPlaceholder: '귀하의 피드백은 서비스 개선에 도움이 됩니다',
+      title: '피드백',
+      description: '귀하의 피드백을 소중히 여깁니다. 의견을 공유해 주세요.',
+      placeholder: '여기에 피드백을 입력하세요...',
       submit: '피드백 제출',
-      success: '피드백을 주셔서 감사합니다!',
+      recentFeedback: '최근 피드백',
     },
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!user) return;
+  const recentFeedbacks = [
+    { id: 1, text: 'Great app! Very intuitive to use.', date: '2023-06-10' },
+    {
+      id: 2,
+      text: 'Could use more customization options.',
+      date: '2023-06-09',
+    },
+    {
+      id: 3,
+      text: 'Love the new features in the latest update!',
+      date: '2023-06-08',
+    },
+  ];
 
-    try {
-      await setDoc(doc(db, 'feedback', `${user.uid}_${Date.now()}`), {
-        userId: user.uid,
-        rating,
-        comment,
-        createdAt: new Date(),
-      });
-      alert(content[language].success);
-      router.push('/dashboard');
-    } catch (error) {
-      console.error('Error submitting feedback:', error);
-      alert('Error submitting feedback. Please try again.');
-    }
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Here you would typically send the feedback to your backend
+    console.log('Feedback submitted:', feedback);
+    setFeedback('');
   };
 
   return (
     <DashboardLayout>
       <div className="container mx-auto px-4 py-8">
-        <h2 className="text-3xl font-bold text-center mb-8 text-gray-800">
-          {content[language].title}
-        </h2>
-        <form
-          onSubmit={handleSubmit}
-          className="max-w-md mx-auto bg-white rounded-lg shadow-md p-6"
+        <motion.h1
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="text-4xl font-bold text-center mb-8 text-gray-800 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-600"
         >
-          <div className="mb-6">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              {content[language].ratingLabel}
-            </label>
-            <div className="flex justify-center space-x-2">
-              {[1, 2, 3, 4, 5].map((star) => (
-                <button
-                  key={star}
-                  type="button"
-                  onClick={() => setRating(star)}
-                  className={`text-3xl ${
-                    star <= rating ? 'text-yellow-400' : 'text-gray-300'
-                  }`}
-                >
-                  ★
-                </button>
-              ))}
-            </div>
-          </div>
-          <div className="mb-6">
-            <label
-              htmlFor="comment"
-              className="block text-sm font-medium text-gray-700 mb-2"
-            >
-              {content[language].commentLabel}
-            </label>
-            <textarea
-              id="comment"
-              rows={4}
-              className="shadow-sm focus:ring-blue-500 focus:border-blue-500 mt-1 block w-full sm:text-sm border-gray-300 rounded-md text-gray-700"
-              placeholder={content[language].commentPlaceholder}
-              value={comment}
-              onChange={(e) => setComment(e.target.value)}
-            />
-          </div>
-          <div className="flex justify-center">
+          {content[language].title}
+        </motion.h1>
+
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="text-center text-gray-600 mb-8"
+        >
+          {content[language].description}
+        </motion.p>
+
+        <motion.form
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+          onSubmit={handleSubmit}
+          className="mb-12"
+        >
+          <textarea
+            value={feedback}
+            onChange={(e) => setFeedback(e.target.value)}
+            placeholder={content[language].placeholder}
+            className="w-full h-32 p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+            required
+          />
+          <div className="mt-4 text-right">
             <button
               type="submit"
-              className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-2 rounded-full font-semibold text-lg shadow-lg hover:from-blue-600 hover:to-purple-700 transition duration-300 inline-flex items-center"
             >
               {content[language].submit}
+              <PaperAirplaneIcon className="h-5 w-5 ml-2" />
             </button>
           </div>
-        </form>
+        </motion.form>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.6 }}
+        >
+          <h2 className="text-2xl font-semibold mb-4">
+            {content[language].recentFeedback}
+          </h2>
+          {recentFeedbacks.map((item, index) => (
+            <motion.div
+              key={item.id}
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, delay: 0.8 + index * 0.1 }}
+              className="bg-white rounded-lg shadow-md p-4 mb-4 flex items-start"
+            >
+              <ChatBubbleLeftRightIcon className="h-6 w-6 text-blue-500 mr-3 flex-shrink-0" />
+              <div>
+                <p className="text-gray-700">{item.text}</p>
+                <p className="text-sm text-gray-500 mt-1">{item.date}</p>
+              </div>
+            </motion.div>
+          ))}
+        </motion.div>
       </div>
     </DashboardLayout>
   );

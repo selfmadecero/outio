@@ -1,147 +1,188 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import { useLanguage } from '../../contexts/LanguageContext';
-import { auth, db } from '../../firebase';
-import { doc, getDoc, updateDoc } from 'firebase/firestore';
-import { User } from 'firebase/auth';
 import DashboardLayout from '../../components/DashboardLayout';
+import { motion } from 'framer-motion';
+import {
+  UserIcon,
+  BellIcon,
+  LockClosedIcon,
+  GlobeAltIcon,
+} from '@heroicons/react/24/outline';
 
 export default function Settings() {
-  const [user, setUser] = useState<User | null>(null);
-  const [companyName, setCompanyName] = useState('');
-  const [industry, setIndustry] = useState('');
-  const [employeeCount, setEmployeeCount] = useState('');
-  const router = useRouter();
-  const { language } = useLanguage();
-
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      if (user) {
-        setUser(user);
-        fetchCompanyProfile(user.uid);
-      } else {
-        router.push('/auth');
-      }
-    });
-    return () => unsubscribe();
-  }, [router]);
-
-  const fetchCompanyProfile = async (userId: string) => {
-    const docRef = doc(db, 'companies', userId);
-    const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-      const data = docSnap.data();
-      setCompanyName(data.name || '');
-      setIndustry(data.industry || '');
-      setEmployeeCount(data.employeeCount?.toString() || '');
-    }
-  };
+  const { language, setLanguage } = useLanguage();
+  const [notifications, setNotifications] = useState(true);
 
   const content = {
     en: {
       title: 'Settings',
-      companyName: 'Company Name',
-      industry: 'Industry',
-      employeeCount: 'Number of Employees',
-      submit: 'Save Changes',
-      success: 'Settings updated successfully!',
+      profile: 'Profile',
+      notifications: 'Notifications',
+      security: 'Security',
+      language: 'Language',
+      save: 'Save Changes',
     },
     ko: {
       title: '설정',
-      companyName: '회사명',
-      industry: '업종',
-      employeeCount: '직원 수',
-      submit: '변경사항 저장',
-      success: '설정이 성공적으로 업데이트되었습니다!',
+      profile: '프로필',
+      notifications: '알림',
+      security: '보안',
+      language: '언어',
+      save: '변경사항 저장',
     },
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!user) return;
-
-    try {
-      await updateDoc(doc(db, 'companies', user.uid), {
-        name: companyName,
-        industry,
-        employeeCount: Number(employeeCount),
-      });
-      alert(content[language].success);
-    } catch (error) {
-      console.error('Error updating settings:', error);
-      alert('Error updating settings. Please try again.');
-    }
+  const handleLanguageChange = (lang: 'en' | 'ko') => {
+    setLanguage(lang);
   };
 
   return (
     <DashboardLayout>
       <div className="container mx-auto px-4 py-8">
-        <h2 className="text-3xl font-bold text-center mb-8 text-gray-800">
-          {content[language].title}
-        </h2>
-        <form
-          onSubmit={handleSubmit}
-          className="max-w-md mx-auto bg-white rounded-lg shadow-md p-6"
+        <motion.h1
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="text-4xl font-bold text-center mb-12 text-gray-800 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-600"
         >
-          <div className="mb-4">
-            <label
-              htmlFor="companyName"
-              className="block text-sm font-medium text-gray-700 mb-2"
-            >
-              {content[language].companyName}
-            </label>
-            <input
-              type="text"
-              id="companyName"
-              className="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md text-gray-800"
-              value={companyName}
-              onChange={(e) => setCompanyName(e.target.value)}
-              required
-            />
-          </div>
-          <div className="mb-4">
-            <label
-              htmlFor="industry"
-              className="block text-sm font-medium text-gray-700 mb-2"
-            >
-              {content[language].industry}
-            </label>
-            <input
-              type="text"
-              id="industry"
-              className="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md text-gray-800"
-              value={industry}
-              onChange={(e) => setIndustry(e.target.value)}
-              required
-            />
-          </div>
-          <div className="mb-4">
-            <label
-              htmlFor="employeeCount"
-              className="block text-sm font-medium text-gray-700 mb-2"
-            >
-              {content[language].employeeCount}
-            </label>
-            <input
-              type="number"
-              id="employeeCount"
-              className="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md text-gray-800"
-              value={employeeCount}
-              onChange={(e) => setEmployeeCount(e.target.value)}
-              required
-            />
-          </div>
-          <div className="flex justify-center mt-6">
-            <button
-              type="submit"
-              className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-            >
-              {content[language].submit}
-            </button>
-          </div>
-        </form>
+          {content[language].title}
+        </motion.h1>
+
+        <div className="max-w-2xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="bg-white rounded-lg shadow-lg p-6 mb-6"
+          >
+            <h2 className="text-xl font-semibold mb-4 flex items-center">
+              <UserIcon className="h-6 w-6 mr-2 text-blue-500" />
+              {content[language].profile}
+            </h2>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Name
+                </label>
+                <input
+                  type="text"
+                  className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Email
+                </label>
+                <input
+                  type="email"
+                  className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                />
+              </div>
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+            className="bg-white rounded-lg shadow-lg p-6 mb-6"
+          >
+            <h2 className="text-xl font-semibold mb-4 flex items-center">
+              <BellIcon className="h-6 w-6 mr-2 text-blue-500" />
+              {content[language].notifications}
+            </h2>
+            <div className="flex items-center">
+              <input
+                type="checkbox"
+                checked={notifications}
+                onChange={() => setNotifications(!notifications)}
+                className="form-checkbox h-5 w-5 text-blue-600"
+              />
+              <label className="ml-2 block text-sm text-gray-900">
+                {notifications ? 'Enabled' : 'Disabled'}
+              </label>
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.6 }}
+            className="bg-white rounded-lg shadow-lg p-6 mb-6"
+          >
+            <h2 className="text-xl font-semibold mb-4 flex items-center">
+              <LockClosedIcon className="h-6 w-6 mr-2 text-blue-500" />
+              {content[language].security}
+            </h2>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Password
+                </label>
+                <input
+                  type="password"
+                  className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Confirm Password
+                </label>
+                <input
+                  type="password"
+                  className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                />
+              </div>
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.8 }}
+            className="bg-white rounded-lg shadow-lg p-6 mb-6"
+          >
+            <h2 className="text-xl font-semibold mb-4 flex items-center">
+              <GlobeAltIcon className="h-6 w-6 mr-2 text-blue-500" />
+              {content[language].language}
+            </h2>
+            <div className="flex items-center">
+              <button
+                onClick={() => handleLanguageChange('en')}
+                className={`px-4 py-2 rounded-full mr-2 ${
+                  language === 'en'
+                    ? 'bg-blue-500 text-white'
+                    : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                }`}
+              >
+                English
+              </button>
+              <button
+                onClick={() => handleLanguageChange('ko')}
+                className={`px-4 py-2 rounded-full ${
+                  language === 'ko'
+                    ? 'bg-blue-500 text-white'
+                    : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                }`}
+              >
+                Korean
+              </button>
+            </div>
+          </motion.div>
+        </div>
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 1 }}
+          className="mt-8 text-center"
+        >
+          <button className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-3 rounded-full font-semibold text-lg shadow-lg hover:from-blue-600 hover:to-purple-700 transition duration-300">
+            {content[language].save}
+          </button>
+        </motion.div>
       </div>
     </DashboardLayout>
   );
