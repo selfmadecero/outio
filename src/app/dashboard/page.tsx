@@ -1,378 +1,204 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import Link from 'next/link';
+import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import { useLanguage } from '../../contexts/LanguageContext';
+import DashboardLayout from '../../components/DashboardLayout';
 import {
-  ChartBarIcon,
+  ChartPieIcon,
   UserGroupIcon,
   ClipboardDocumentListIcon,
   ArrowTrendingUpIcon,
-  CalendarIcon,
+  LightBulbIcon,
   ChatBubbleLeftRightIcon,
-  PlusCircleIcon,
-  DocumentTextIcon,
-  ArrowUpIcon,
-  ArrowDownIcon,
 } from '@heroicons/react/24/outline';
-import { useLanguage } from '../../contexts/LanguageContext';
-import DashboardLayout from '../../components/DashboardLayout';
 
-// 더미 데이터
-const dummyCompanyProfile = {
-  name: { en: 'TechInnovate Inc.', ko: '테크이노베이트' },
-  cultureScore: { value: 78, change: 5 },
-  employeeCount: { value: 250, change: 10 },
-  surveyCompletion: { value: 85, change: -2 },
+const content = {
+  en: {
+    welcomeMessage: 'Welcome back',
+    cultureProfile: 'Culture Profile',
+    cultureProfileDesc: "View and analyze your organization's culture",
+    hiring: 'Hiring',
+    hiringDesc: 'Find candidates that match your culture',
+    surveys: 'Surveys',
+    surveysDesc: 'Create and manage culture surveys',
+    trends: 'Culture Trends',
+    trendsDesc: 'Track changes in your organizational culture',
+    insights: 'AI Insights',
+    insightsDesc: 'Get AI-powered recommendations for your culture',
+    feedback: 'Employee Feedback',
+    feedbackDesc: 'View and respond to employee feedback',
+    quickActions: 'Quick Actions',
+    createSurvey: 'Create New Survey',
+    inviteEmployees: 'Invite Employees',
+    viewLatestResults: 'View Latest Survey Results',
+    cultureScore: 'Culture Score',
+    employeeEngagement: 'Employee Engagement',
+    innovationIndex: 'Innovation Index',
+    collaborationIndex: 'Collaboration Index',
+  },
+  ko: {
+    welcomeMessage: '다시 오신 것을 환영합니다',
+    cultureProfile: '문화 프로필',
+    cultureProfileDesc: '조직의 문화를 확인하고 분석하세요',
+    hiring: '채용',
+    hiringDesc: '귀사의 문화에 맞는 후보자를 찾으세요',
+    surveys: '설문조사',
+    surveysDesc: '문화 설문조사를 생성하고 관리하세요',
+    trends: '문화 트렌드',
+    trendsDesc: '조직 문화의 변화를 추적하세요',
+    insights: 'AI 인사이트',
+    insightsDesc: 'AI 기반 문화 개선 추천을 받으세요',
+    feedback: '직원 피드백',
+    feedbackDesc: '직원 피드백을 확인하고 응답하세요',
+    quickActions: '빠른 작업',
+    createSurvey: '새 설문조사 만들기',
+    inviteEmployees: '직원 초대하기',
+    viewLatestResults: '최신 설문 결과 보기',
+    cultureScore: '문화 점수',
+    employeeEngagement: '직원 참여도',
+    innovationIndex: '혁신 지수',
+    collaborationIndex: '협업 지수',
+  },
 };
 
-const dummyRecentActivities = {
-  en: [
-    { id: 1, action: 'New survey created', date: '2023-06-01' },
-    { id: 2, action: 'Culture report generated', date: '2023-05-28' },
-    { id: 3, action: 'New employee onboarded', date: '2023-05-25' },
-  ],
-  ko: [
-    { id: 1, action: '새 설문조사 생성됨', date: '2023-06-01' },
-    { id: 2, action: '문화 보고서 생성됨', date: '2023-05-28' },
-    { id: 3, action: '신규 직원 온보딩 완료', date: '2023-05-25' },
-  ],
-};
-
-const dummyCultureInsights = {
-  en: [
-    {
-      id: 1,
-      insight: 'Communication patterns show increased collaboration',
-      importance: 'High',
-    },
-    {
-      id: 2,
-      insight: 'Employee satisfaction improved by 12% this quarter',
-      importance: 'Medium',
-    },
-    {
-      id: 3,
-      insight: 'Leadership style aligns well with company values',
-      importance: 'High',
-    },
-  ],
-  ko: [
-    { id: 1, insight: '의사소통 패턴에서 협업 증가 확인', importance: '높음' },
-    { id: 2, insight: '이번 분기 직원 만족도 12% 향상', importance: '중간' },
-    {
-      id: 3,
-      insight: '리더십 스타일이 회사 가치와 잘 부합',
-      importance: '높음',
-    },
-  ],
-};
-
-const dummyUpcomingSurveys = {
-  en: [
-    { id: 1, name: 'Q2 Pulse Survey', date: '2023-06-15' },
-    { id: 2, name: 'Leadership Evaluation', date: '2023-06-30' },
-  ],
-  ko: [
-    { id: 1, name: '2분기 펄스 설문조사', date: '2023-06-15' },
-    { id: 2, name: '리더십 평가', date: '2023-06-30' },
-  ],
-};
-
-const dummyTeamFeedback = {
-  en: [
-    {
-      id: 1,
-      message: 'Great teamwork on the latest project!',
-      from: 'Sarah K.',
-    },
-    {
-      id: 2,
-      message: 'Communication could be improved in our department.',
-      from: 'Mike L.',
-    },
-  ],
-  ko: [
-    {
-      id: 1,
-      message: '최근 프로젝트에서 팀워크가 훌륭했습니다!',
-      from: '사라 K.',
-    },
-    {
-      id: 2,
-      message: '우리 부서의 의사소통이 개선될 필요가 있습니다.',
-      from: '마이크 L.',
-    },
-  ],
-};
-
-export default function Dashboard() {
+const Dashboard = () => {
   const { language } = useLanguage();
-  const [companyProfile] = useState(dummyCompanyProfile);
+  const [userName, setUserName] = useState('');
+  const [cultureScore, setCultureScore] = useState(0);
+  const [employeeEngagement, setEmployeeEngagement] = useState(0);
+  const [innovationIndex, setInnovationIndex] = useState(0);
+  const [collaborationIndex, setCollaborationIndex] = useState(0);
 
-  const content = {
-    en: {
-      welcome: 'Welcome back',
-      cultureScore: 'Culture Score',
-      employees: 'Employees',
-      surveyCompletion: 'Survey Completion',
-      cultureInsights: 'Culture Insights',
-      recentActivity: 'Recent Activity',
-      viewAll: 'View All',
-      createSurvey: 'Create New Survey',
-      viewReports: 'View Reports',
-      upcomingSurveys: 'Upcoming Surveys',
-      teamFeedback: 'Recent Team Feedback',
-      viewSurvey: 'View Survey',
-      respondToFeedback: 'Respond',
-      generateInterviewQuestions: 'Generate Interview Questions',
-      viewCultureProfile: 'View Culture Profile',
-    },
-    ko: {
-      welcome: '환영합니다',
-      cultureScore: '문화 점수',
-      employees: '직원 수',
-      surveyCompletion: '설문 완료율',
-      cultureInsights: '문화 인사이트',
-      recentActivity: '최근 활동',
-      viewAll: '전체 보기',
-      createSurvey: '새 설문 만들기',
-      viewReports: '보고서 보기',
-      upcomingSurveys: '예정된 설문조사',
-      teamFeedback: '최근 팀 피드백',
-      viewSurvey: '설문 보기',
-      respondToFeedback: '응답하기',
-      generateInterviewQuestions: '면접 질문 생성',
-      viewCultureProfile: '문화 프로필 보기',
-    },
-  };
+  useEffect(() => {
+    // 여기서 실제 데이터를 가져오는 API 호출을 수행합니다.
+    setUserName('김지영');
+    setCultureScore(78);
+    setEmployeeEngagement(82);
+    setInnovationIndex(75);
+    setCollaborationIndex(80);
+  }, []);
+
+  const renderCard = (
+    icon: React.ReactNode,
+    title: string,
+    description: string,
+    link: string
+  ) => (
+    <motion.div
+      whileHover={{ scale: 1.05 }}
+      className="bg-white rounded-xl shadow-lg p-6 flex flex-col items-start space-y-4 cursor-pointer"
+      onClick={() => (window.location.href = link)}
+    >
+      <div className="p-3 bg-indigo-100 rounded-full">{icon}</div>
+      <h3 className="text-xl font-semibold text-gray-800">{title}</h3>
+      <p className="text-gray-600">{description}</p>
+    </motion.div>
+  );
+
+  const renderMetric = (title: string, value: number, color: string) => (
+    <div className="bg-white rounded-xl shadow-lg p-6">
+      <h3 className="text-lg font-semibold text-gray-800 mb-2">{title}</h3>
+      <div className={`text-4xl font-bold ${color}`}>{value}%</div>
+    </div>
+  );
 
   return (
     <DashboardLayout>
-      <div className="container mx-auto px-6 py-8 bg-gradient-to-br from-gray-900 to-gray-800 min-h-screen text-white">
-        <h1 className="text-4xl font-bold mb-8 text-white">
-          {content[language].welcome}, {companyProfile.name[language]}
-        </h1>
+      <div className="p-8 bg-gradient-to-br from-indigo-50 to-purple-100 min-h-screen">
+        <motion.h1
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-4xl font-bold text-gray-800 mb-8"
+        >
+          {content[language].welcomeMessage}, {userName}!
+        </motion.h1>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-          {[
-            {
-              title: content[language].cultureScore,
-              value: companyProfile.cultureScore.value,
-              change: companyProfile.cultureScore.change,
-              icon: ChartBarIcon,
-              color: 'blue',
-            },
-            {
-              title: content[language].employees,
-              value: companyProfile.employeeCount.value,
-              change: companyProfile.employeeCount.change,
-              icon: UserGroupIcon,
-              color: 'purple',
-            },
-            {
-              title: content[language].surveyCompletion,
-              value: `${companyProfile.surveyCompletion.value}%`,
-              change: companyProfile.surveyCompletion.change,
-              icon: ClipboardDocumentListIcon,
-              color: 'green',
-            },
-            {
-              title: content[language].cultureInsights,
-              value: `${dummyCultureInsights[language].length} ${
-                language === 'en' ? 'New' : '새로운'
-              }`,
-              change: 0,
-              icon: ArrowTrendingUpIcon,
-              color: 'yellow',
-            },
-          ].map((item, index) => (
-            <div
-              key={index}
-              className="bg-gray-800 rounded-xl p-6 shadow-lg hover:shadow-xl transition duration-300 transform hover:scale-105"
-            >
-              <div className="flex items-center justify-between mb-4">
-                <div>
-                  <p className="text-sm text-gray-400">{item.title}</p>
-                  <p className="text-3xl font-bold text-white mt-2">
-                    {item.value}
-                  </p>
-                </div>
-                <div
-                  className={`p-4 rounded-full bg-${item.color}-100 bg-opacity-20`}
-                >
-                  <item.icon className={`h-8 w-8 text-${item.color}-400`} />
-                </div>
-              </div>
-              {item.change !== 0 && (
-                <div
-                  className={`flex items-center ${
-                    item.change > 0 ? 'text-green-400' : 'text-red-400'
-                  }`}
-                >
-                  {item.change > 0 ? (
-                    <ArrowUpIcon className="h-4 w-4 mr-1" />
-                  ) : (
-                    <ArrowDownIcon className="h-4 w-4 mr-1" />
-                  )}
-                  <span className="text-sm font-medium">
-                    {Math.abs(item.change)}
-                    {item.title === content[language].surveyCompletion
-                      ? '%p'
-                      : ''}
-                    {language === 'en' ? ' from last month' : ' 지난달 대비'}
-                  </span>
-                </div>
-              )}
-            </div>
-          ))}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+          {renderCard(
+            <ChartPieIcon className="h-8 w-8 text-indigo-600" />,
+            content[language].cultureProfile,
+            content[language].cultureProfileDesc,
+            '/culture-profile'
+          )}
+          {renderCard(
+            <UserGroupIcon className="h-8 w-8 text-indigo-600" />,
+            content[language].hiring,
+            content[language].hiringDesc,
+            '/hiring'
+          )}
+          {renderCard(
+            <ClipboardDocumentListIcon className="h-8 w-8 text-indigo-600" />,
+            content[language].surveys,
+            content[language].surveysDesc,
+            '/surveys'
+          )}
+          {renderCard(
+            <ArrowTrendingUpIcon className="h-8 w-8 text-indigo-600" />,
+            content[language].trends,
+            content[language].trendsDesc,
+            '/trends'
+          )}
+          {renderCard(
+            <LightBulbIcon className="h-8 w-8 text-indigo-600" />,
+            content[language].insights,
+            content[language].insightsDesc,
+            '/insights'
+          )}
+          {renderCard(
+            <ChatBubbleLeftRightIcon className="h-8 w-8 text-indigo-600" />,
+            content[language].feedback,
+            content[language].feedbackDesc,
+            '/feedback'
+          )}
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
-          <div className="bg-gray-800 rounded-xl p-6 shadow-lg">
-            <h2 className="text-2xl font-semibold mb-6 text-white flex items-center">
-              <ClipboardDocumentListIcon className="h-7 w-7 mr-3 text-blue-400" />
-              {content[language].recentActivity}
-            </h2>
-            <div className="space-y-4">
-              {dummyRecentActivities[language].map((activity) => (
-                <div
-                  key={activity.id}
-                  className="flex justify-between items-center border-b border-gray-700 pb-4"
-                >
-                  <span className="text-white text-lg">{activity.action}</span>
-                  <span className="text-gray-400 text-sm">{activity.date}</span>
-                </div>
-              ))}
-            </div>
-            <Link
-              href="/activities"
-              className="text-blue-400 hover:underline mt-6 inline-block text-lg"
-            >
-              {content[language].viewAll}
-            </Link>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="bg-white rounded-xl shadow-lg p-6 mb-12"
+        >
+          <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+            {content[language].quickActions}
+          </h2>
+          <div className="flex flex-wrap gap-4">
+            <button className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition duration-300">
+              {content[language].createSurvey}
+            </button>
+            <button className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition duration-300">
+              {content[language].inviteEmployees}
+            </button>
+            <button className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition duration-300">
+              {content[language].viewLatestResults}
+            </button>
           </div>
-          <div className="bg-gray-800 rounded-xl p-6 shadow-lg">
-            <h2 className="text-2xl font-semibold mb-6 text-white flex items-center">
-              <ArrowTrendingUpIcon className="h-7 w-7 mr-3 text-purple-400" />
-              {content[language].cultureInsights}
-            </h2>
-            <div className="space-y-4">
-              {dummyCultureInsights[language].map((insight) => (
-                <div
-                  key={insight.id}
-                  className="flex justify-between items-center border-b border-gray-700 pb-4"
-                >
-                  <span className="text-white text-lg">{insight.insight}</span>
-                  <span
-                    className={`text-sm px-3 py-1 rounded-full ${
-                      insight.importance === 'High' ||
-                      insight.importance === '높음'
-                        ? 'bg-red-500 bg-opacity-20 text-red-400'
-                        : insight.importance === 'Medium' ||
-                          insight.importance === '중간'
-                        ? 'bg-yellow-500 bg-opacity-20 text-yellow-400'
-                        : 'bg-green-500 bg-opacity-20 text-green-400'
-                    }`}
-                  >
-                    {insight.importance}
-                  </span>
-                </div>
-              ))}
-            </div>
-            <Link
-              href="/insights"
-              className="text-purple-400 hover:underline mt-6 inline-block text-lg"
-            >
-              {content[language].viewAll}
-            </Link>
-          </div>
-        </div>
+        </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
-          <div className="bg-gray-800 rounded-xl p-6 shadow-lg">
-            <h2 className="text-2xl font-semibold mb-6 text-white flex items-center">
-              <CalendarIcon className="h-7 w-7 mr-3 text-green-400" />
-              {content[language].upcomingSurveys}
-            </h2>
-            <div className="space-y-4">
-              {dummyUpcomingSurveys[language].map((survey) => (
-                <div
-                  key={survey.id}
-                  className="flex justify-between items-center border-b border-gray-700 pb-4"
-                >
-                  <div>
-                    <span className="text-white text-lg">{survey.name}</span>
-                    <p className="text-gray-400 text-sm">{survey.date}</p>
-                  </div>
-                  <Link
-                    href={`/surveys/${survey.id}`}
-                    className="px-4 py-2 bg-green-500 text-white rounded-full hover:bg-green-600 transition duration-300"
-                  >
-                    {content[language].viewSurvey}
-                  </Link>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="bg-gray-800 rounded-xl p-6 shadow-lg">
-            <h2 className="text-2xl font-semibold mb-6 text-white flex items-center">
-              <ChatBubbleLeftRightIcon className="h-7 w-7 mr-3 text-yellow-400" />
-              {content[language].teamFeedback}
-            </h2>
-            <div className="space-y-4">
-              {dummyTeamFeedback[language].map((feedback) => (
-                <div
-                  key={feedback.id}
-                  className="border-b border-gray-700 pb-4"
-                >
-                  <p className="text-white text-lg mb-2">
-                    "{feedback.message}"
-                  </p>
-                  <div className="flex justify-between items-center">
-                    <span className="text-gray-400 text-sm">
-                      - {feedback.from}
-                    </span>
-                    <button className="px-4 py-2 bg-yellow-500 text-white rounded-full hover:bg-yellow-600 transition duration-300">
-                      {content[language].respondToFeedback}
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        <div className="flex flex-wrap justify-center space-x-4 space-y-4 md:space-y-0">
-          <Link
-            href="/survey/create"
-            className="px-6 py-3 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition duration-300 flex items-center text-lg font-semibold"
-          >
-            <PlusCircleIcon className="h-6 w-6 mr-2" />
-            {content[language].createSurvey}
-          </Link>
-          <Link
-            href="/culture-profile"
-            className="px-6 py-3 bg-purple-500 text-white rounded-full hover:bg-purple-600 transition duration-300 flex items-center text-lg font-semibold"
-          >
-            <ChartBarIcon className="h-6 w-6 mr-2" />
-            {content[language].viewCultureProfile}
-          </Link>
-          <Link
-            href="/interview-questions"
-            className="px-6 py-3 bg-green-500 text-white rounded-full hover:bg-green-600 transition duration-300 flex items-center text-lg font-semibold"
-          >
-            <DocumentTextIcon className="h-6 w-6 mr-2" />
-            {content[language].generateInterviewQuestions}
-          </Link>
-          <Link
-            href="/reports"
-            className="px-6 py-3 bg-yellow-500 text-white rounded-full hover:bg-yellow-600 transition duration-300 flex items-center text-lg font-semibold"
-          >
-            <ChartBarIcon className="h-6 w-6 mr-2" />
-            {content[language].viewReports}
-          </Link>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          {renderMetric(
+            content[language].cultureScore,
+            cultureScore,
+            'text-indigo-600'
+          )}
+          {renderMetric(
+            content[language].employeeEngagement,
+            employeeEngagement,
+            'text-green-600'
+          )}
+          {renderMetric(
+            content[language].innovationIndex,
+            innovationIndex,
+            'text-purple-600'
+          )}
+          {renderMetric(
+            content[language].collaborationIndex,
+            collaborationIndex,
+            'text-blue-600'
+          )}
         </div>
       </div>
     </DashboardLayout>
   );
-}
+};
+
+export default Dashboard;
