@@ -48,8 +48,7 @@ const content = {
     description:
       "Your organization's unique cultural fingerprint based on employee feedback",
     lastUpdated: 'Last updated',
-    radarChart: 'Culture Profile Overview',
-    barChart: 'Detailed Culture Metrics',
+    cultureProfileOverview: 'Culture Profile Overview',
     whatIsCultureProfile: 'What is a Culture Profile?',
     cultureProfileExplanation:
       "A Culture Profile is a data-driven representation of your organization's values, behaviors, and practices. It's created from regular pulse surveys completed by your employees, providing real-time insights into your company's cultural dynamics. This profile helps in understanding your organization's strengths, identifying areas for improvement, and ensuring that new hires align well with your unique culture.",
@@ -103,13 +102,19 @@ const content = {
       'Your score indicates a strong, well-developed culture with some areas for improvement.',
     strengthsWeaknessesDescription:
       "These are the key strengths and areas for improvement based on your organization's culture profile. Strengths are areas where your organization excels, while areas for improvement are areas that could be enhanced to further strengthen your culture.",
+    overviewExplanation: 'Culture Profile Overview Explanation',
+    overviewDescription:
+      'This is an explanation of the Culture Profile Overview section.',
+    cultureDimensionsDescription:
+      "This chart represents the balance between different dimensions of your organization's culture. Each bar indicates the strength of a particular dimension, with the left side representing one aspect and the right side representing the opposite aspect. The center of the bar indicates the overall balance between the two aspects.",
+    cultureDimensionsInterpretation:
+      "This chart provides insights into the balance and distribution of various dimensions of your organization's culture. It helps you understand the strengths and areas for improvement in each dimension.",
   },
   ko: {
     title: '문화 프로필',
     description: '직원들의 피드백을 바탕으로 한 귀사의 고유한 문화적 특성',
     lastUpdated: '마지막 업데이트',
-    radarChart: '문화 프로필 개요',
-    barChart: '상세 문화 지표',
+    cultureProfileOverview: '문화 프로필 개요',
     whatIsCultureProfile: '문화 프로필이란?',
     cultureProfileExplanation:
       '문화 프로필은 조직의 가치, 행동, 관행을 데이터 기반으로 표현한 것입니다. 직원들이 정기적으로 참여하는 펄스 설문조사를 통해 생성되며, 회사의 문화적 역동성에 대한 실시간 인사이트를 제공합니다. 이 프로필은 조직의 강점을 이해하고, 개선이 필요한 영역을 식별하며, 새로운 인재가 귀사의 고유한 문화와 잘 맞는지 확인하는 데 도움을 줍니다.',
@@ -124,28 +129,28 @@ const content = {
     findCandidates: '우리 문화에 알맞은 인재 찾기',
     cultureSummary: '문화 프로필 요약',
     cultureSummaryText:
-      '귀사의 문화는 혁신과 협력을 중시하는 특성을 보입니다. 특히 고객 중심적인 접근과 학습 문화가 강점으로 나타났습니다. 의사결정 과정에서는 참여적 방식을 선호하며, 개방적 소통 문화를 가지고 있습니다. 다만, 일-삶의 균형과 구조화된 프로세스 측면에서는 개선의 여지가 있습니다.',
+      '귀사의 문화는 혁신과 협력을 중시하는 특성을 보입니다. 특히 고객 중심적인 접근과 학습 문화가 강으로 나타났습니다. 의사결정 과정에서는 참여적 방식을 선호하며, 개방적 소통 문화를 가지고 있습니다. 다만, 일-삶의 균형과 구조화된 프로세스 측면에서는 개선의 여지가 있습니다.',
     strengthsAndWeaknesses: '주요 강점 및 개선 영역',
     strengths: '강점',
     weaknesses: '개선 영역',
     industryComparison: '산업 평균과의 비교',
     trendAnalysis: '문화 지수 트렌드 분석',
     trendAnalysisText:
-      '최근 5개월간 귀사의 전반적인 문화 지수가 꾸준히 상승하고 있습니다. 특히 직원 참여도와 학습 문화 측면에서 큰 개선이 있었습니다.',
+      '최근 5개월간 귀사의 전반적인 문화 지수가 꾸준히 상승��고 있습니다. 특히 직원 참여도와 학습 문화 측면에서 큰 개선이 있었습니다.',
     improvementSuggestions: '맞춤형 개선 제안',
     improvementSuggestionsText: `맞춤형 개선 제안:
       - 의사결정 프로세스 개선: 빠른 의사결정을 위한 프레임워크 도입 고려
       - 혁신 문화 강화: 정기적인 아이디어 공유 세션 또는 해커톤 이벤트 개최
       - 적응성 향상: 크로스 펑셔널 팀 활동 장려 및 직무 로테이션 프로그램 도입
       - 일-삶 형 개선: 유연근무제 확대 및 웰빙 프로그램 강화`,
-    cultureType: '문화 유형 분류',
+    cultureType: '문화 유형 분',
     cultureTypeText:
-      '귀사의 문화는 "혁신 주도형"과 "협력 중심형"의 특성을 강하게 보이고 있습니다. 이는 창의적인 아이디어를 중시하면서도 팀워크를 통한 실행을 중요하게 여기는 문화입니다.',
+      '귀사의 문화 "혁신 주도형"과 "협력 중심형"의 성을 강하게 보이고 있습니다. 이는 창의적인 아이디어를 중시하면서도 팀워크를 통한 실행을 중요하게 여기는 문화입니다.',
     innovationDriven: '혁신 주도형: 새로운 아이디어와 변화를 적극적으로 수용',
     collaborationCentric:
       '협력 중심형: 팀워크와 개방적 소통을 통한 문제 해결 강조',
     customerCentric: '고객 중심형: 고객 니즈에 빠르게 대응하는 문화',
-    learningOriented: '학습 지향형: 지속적인 성장과 개발을 중시하는 문화',
+    learningOriented: '학습 지향형: 지속적인 성장과 발전을 중시하는 문화',
     symmetricBarChart: '대칭 막대 차트',
     cultureDimensions: '문화 차원',
     cultureTags: ['혁신', '협업', '고객 중심', '학습'],
@@ -155,7 +160,13 @@ const content = {
     overallCultureScoreInterpretation:
       '귀사의 점수는 잘 발달된 강한 문화를 나타내며, 일부 개선 영역이 있습니다.',
     strengthsWeaknessesDescription:
-      '이는 귀사의 문화 프로필을 기반으로 한 주요 강점과 개선 영역입니다. 강점은 귀사가 뛰어난 분야이며, 개선 영역은 문화를 더욱 강화하기 위해 개선할 수 있는 분야입니다.',
+      '이는 귀사의 문화 프로필을 기반으로 한 주요 강점과 개선 영역입니다. 강점은 귀사 뛰난 분야이며, 개선 영역은 문화를 욱 강화하기 위해 개선 수 있는 분야입니다.',
+    overviewExplanation: '문화 프로필 개요 설명',
+    overviewDescription: '이는 문화 프로필 개요 섹션에 대한 설명입니다.',
+    cultureDimensionsDescription:
+      '이 차트는 조직의 문화 차원 간의 균형을 나타냅니다. 각 막대는 특정 차원의 강점을 나타내며, 왼쪽은 한 측면을 나타내고 오른쪽은 반대 측면을 나타냅니다. 막대의 중앙은 두 측면 간의 전반적인 균형을 나타냅니다.',
+    cultureDimensionsInterpretation:
+      '이 차트는 조직의 문화 차원 간의 균형과 분포에 대한 통찰력을 제공합니다. 각 차원의 강점과 개선 영역을 이해하는 데 도움이 됩니다.',
   },
 };
 
@@ -191,7 +202,7 @@ const profileDescriptions = {
   },
   ko: {
     collaborationIndex: '조직 내 팀워크와 집단적 노력의 수준을 측정합니다.',
-    innovationIndex: '회사의 창의성과 새로운 아이디어 창출 능력을 측정합니다.',
+    innovationIndex: '회사의 창성과 새로운 아이디어 창출 능력을 측정합니다.',
     customerFocusIndex:
       '조직이 고객 니즈와 만족도를 얼마나 잘 우선시하는지 반영합니다.',
     adaptabilityIndex:
@@ -207,37 +218,39 @@ const profileDescriptions = {
 
 const cultureDimensions = {
   en: [
+    { left: 'Innovation', right: 'Stability', value: 30 },
     {
       left: 'Participative Decision Making',
       right: 'Top-down Decision Making',
-      value: 30,
+      value: -20,
     },
-    { left: 'Flexibility', right: 'Structure', value: -20 },
-    { left: 'Individualism', right: 'Collectivism', value: 10 },
+    { left: 'Flexibility', right: 'Structure', value: 10 },
+    { left: 'Individualism', right: 'Collectivism', value: -15 },
     {
       left: 'Collaborative Environment',
       right: 'Individual-focused Environment',
-      value: -40,
+      value: 25,
     },
-    { left: 'Open Communication', right: 'Formal Communication', value: 50 },
+    { left: 'Open Communication', right: 'Formal Communication', value: 40 },
     {
       left: 'Performance-based Rewards',
       right: 'Equal Distribution Rewards',
-      value: 0,
+      value: 5,
     },
-    { left: 'Learning Oriented', right: 'Status Quo', value: -30 },
-    { left: 'Customer Centric', right: 'Internal Process Centric', value: 60 },
+    { left: 'Learning Oriented', right: 'Status Quo', value: 35 },
+    { left: 'Customer Centric', right: 'Internal Process Centric', value: 45 },
     { left: 'Work Centric', right: 'Life Centric', value: -10 },
   ],
   ko: [
-    { left: '참여적 의사결정', right: '하향식 의사결정', value: 30 },
-    { left: '유연성', right: '구조화', value: -20 },
-    { left: '개인주의', right: '집단주의', value: 10 },
-    { left: '협력적 환경', right: '개인 중심 환경', value: -40 },
-    { left: '개방적 소통', right: '공식적 소통', value: 50 },
-    { left: '성과 중심 보상', right: '평등 분배 보상', value: 0 },
-    { left: '학습 지향', right: '현상 유지', value: -30 },
-    { left: '고객 중심', right: '내부 프로세스 중심', value: 60 },
+    { left: '혁신', right: '안정성', value: 30 },
+    { left: '참여적 의사결정', right: '하향식 의사결정', value: -20 },
+    { left: '유연성', right: '구조화', value: 10 },
+    { left: '개인주의', right: '집단주의', value: -15 },
+    { left: '협력적 환경', right: '개인 중심 환경', value: 25 },
+    { left: '개방적 소통', right: '공식적 소통', value: 40 },
+    { left: '성과 중심 보상', right: '평등 분배 보상', value: 5 },
+    { left: '학습 지향', right: '현상 유지', value: 35 },
+    { left: '고객 중심', right: '내부 프로세스 중심', value: 45 },
     { left: '일 중심', right: '삶 중심', value: -10 },
   ],
 };
@@ -322,6 +335,37 @@ export default function CultureProfile() {
     name: content[language][key as keyof typeof content.en],
     value: value as number,
   }));
+
+  const renderTopCard = () => (
+    <motion.div
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className="bg-gradient-to-br from-indigo-600 to-purple-600 rounded-3xl shadow-xl p-8 mb-8 border border-gray-100 hover:shadow-2xl transition-shadow duration-300 relative overflow-hidden"
+    >
+      <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-indigo-600 to-purple-600 opacity-20"></div>
+      <div className="absolute top-0 left-0 w-full h-full bg-grid-pattern opacity-10"></div>
+      <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
+        <div className="absolute top-0 left-0 w-16 h-16 rounded-full bg-white opacity-20 animate-pulse"></div>
+        <div className="absolute bottom-0 right-0 w-16 h-16 rounded-full bg-white opacity-20 animate-pulse"></div>
+      </div>
+      <h1 className="text-5xl font-bold mb-6 text-white drop-shadow-lg">
+        {content[language].title}
+      </h1>
+      <p className="text-white text-lg leading-relaxed mb-4">
+        {content[language].description}
+      </p>
+      <div className="bg-white/20 rounded-full px-4 py-2 inline-flex items-center">
+        <InformationCircleIcon className="h-5 w-5 mr-2 text-white" />
+        <span className="text-white text-sm">
+          {content[language].lastUpdated}:{' '}
+          {lastUpdated?.toLocaleDateString(
+            language === 'en' ? 'en-US' : 'ko-KR'
+          )}
+        </span>
+      </div>
+    </motion.div>
+  );
 
   const renderCultureSummary = () => (
     <motion.div
@@ -483,76 +527,72 @@ export default function CultureProfile() {
     </motion.div>
   );
 
-  const renderRadarChart = () => (
+  const renderCultureProfileOverview = () => (
     <motion.div
       initial={{ opacity: 0, x: -20 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.5 }}
-      className="bg-white rounded-3xl shadow-xl p-8 border border-gray-100 hover:shadow-2xl transition-shadow duration-300"
+      className="bg-white rounded-3xl shadow-xl p-8 border border-gray-100 hover:shadow-2xl transition-shadow duration-300 mb-8"
     >
       <h2 className="text-2xl font-semibold mb-6 text-indigo-800 flex items-center">
         <ChartPieIcon className="h-7 w-7 mr-3 text-indigo-600" />
-        {content[language].radarChart}
+        {content[language].cultureProfileOverview}
       </h2>
-      <ResponsiveContainer width="100%" height={400}>
-        <RadarChart cx="50%" cy="50%" outerRadius="80%" data={radarData}>
-          <PolarGrid stroke="#e0e0e0" />
-          <PolarAngleAxis
-            dataKey="subject"
-            tick={{ fill: '#4a5568', fontSize: 12 }}
-          />
-          <PolarRadiusAxis angle={30} domain={[0, 100]} tick={false} />
-          <Radar
-            name="Culture Profile"
-            dataKey="A"
-            stroke="#8b5cf6"
-            fill="#8b5cf6"
-            fillOpacity={0.6}
-          />
-        </RadarChart>
-      </ResponsiveContainer>
-    </motion.div>
-  );
-
-  const renderBarChart = () => (
-    <motion.div
-      initial={{ opacity: 0, x: 20 }}
-      animate={{ opacity: 1, x: 0 }}
-      transition={{ duration: 0.5 }}
-      className="bg-white rounded-3xl shadow-xl p-8 border border-gray-100 hover:shadow-2xl transition-shadow duration-300"
-    >
-      <h2 className="text-2xl font-semibold mb-6 text-indigo-800 flex items-center">
-        <ChartBarIcon className="h-7 w-7 mr-3 text-indigo-600" />
-        {content[language].barChart}
-      </h2>
-      <ResponsiveContainer width="100%" height={400}>
-        <BarChart data={barData} layout="vertical">
-          <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" />
-          <XAxis type="number" domain={[0, 100]} />
-          <YAxis
-            dataKey="name"
-            type="category"
-            width={150}
-            tick={{ fill: '#4a5568', fontSize: 12 }}
-          />
-          <Tooltip
-            contentStyle={{
-              backgroundColor: '#f7fafc',
-              border: '1px solid #e2e8f0',
-              borderRadius: '8px',
-            }}
-          />
-          <Legend />
-          <Bar dataKey="value" fill="#8b5cf6">
-            {barData.map((entry, index) => (
-              <Cell
-                key={`cell-${index}`}
-                fill={`hsl(${index * 30}, 70%, 60%)`}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div>
+          <ResponsiveContainer width="100%" height={400}>
+            <RadarChart cx="50%" cy="50%" outerRadius="80%" data={radarData}>
+              <PolarGrid stroke="#e0e0e0" />
+              <PolarAngleAxis
+                dataKey="subject"
+                tick={{ fill: '#4a5568', fontSize: 12 }}
               />
-            ))}
-          </Bar>
-        </BarChart>
-      </ResponsiveContainer>
+              <PolarRadiusAxis angle={30} domain={[0, 100]} tick={false} />
+              <Radar
+                name="Culture Profile"
+                dataKey="A"
+                stroke="#8b5cf6"
+                fill="#8b5cf6"
+                fillOpacity={0.6}
+              />
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: '#f7fafc',
+                  border: '1px solid #e2e8f0',
+                  borderRadius: '8px',
+                }}
+              />
+            </RadarChart>
+          </ResponsiveContainer>
+        </div>
+        <div className="flex flex-col justify-between">
+          <div>
+            <h3 className="text-xl font-semibold mb-4 text-indigo-800">
+              {content[language].overviewExplanation}
+            </h3>
+            <p className="text-gray-600 mb-6">
+              {content[language].overviewDescription}
+            </p>
+            <ul className="space-y-2">
+              {radarData.map((item, index) => (
+                <li key={index} className="flex items-center justify-between">
+                  <span className="text-gray-700">{item.subject}</span>
+                  <span className="font-semibold text-indigo-600">
+                    {item.A}%
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <button
+            onClick={handleNavigateToHiring}
+            className="mt-8 bg-indigo-600 text-white px-6 py-2 rounded-full hover:bg-indigo-700 transition duration-300 flex items-center justify-center"
+          >
+            <UserGroupIcon className="h-5 w-5 mr-2" />
+            {content[language].findCandidates}
+          </button>
+        </div>
+      </div>
     </motion.div>
   );
 
@@ -565,29 +605,39 @@ export default function CultureProfile() {
     >
       <h3 className="text-2xl font-semibold mb-6 text-indigo-800 flex items-center">
         <ChartBarIcon className="h-7 w-7 mr-3 text-indigo-600" />
-        {content[language].symmetricBarChart}
+        {content[language].cultureDimensions}
       </h3>
-      <div className="space-y-4">
+      <p className="text-gray-600 mb-8">
+        {content[language].cultureDimensionsDescription}
+      </p>
+      <div className="space-y-8">
         {cultureDimensions[language].map((dimension, index) => (
-          <div key={index} className="flex items-center">
-            <span className="w-1/4 text-right pr-2 text-sm text-gray-600">
-              {dimension.left}
-            </span>
-            <div className="w-1/2 h-4 bg-gray-200 rounded-full overflow-hidden">
-              <div
-                className="h-full bg-purple-500"
-                style={{
-                  width: `${50 + dimension.value / 2}%`,
-                  marginLeft: dimension.value < 0 ? '0' : 'auto',
-                  marginRight: dimension.value > 0 ? '0' : 'auto',
-                }}
-              ></div>
+          <div key={index} className="relative">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-sm font-medium text-indigo-700 w-1/3 text-left">
+                {dimension.left}
+              </span>
+              <span className="text-sm font-medium text-indigo-700 w-1/3 text-right">
+                {dimension.right}
+              </span>
             </div>
-            <span className="w-1/4 text-left pl-2 text-sm text-gray-600">
-              {dimension.right}
-            </span>
+            <div className="flex items-center">
+              <div className="w-full h-3 bg-gradient-to-r from-indigo-200 via-purple-200 to-pink-200 rounded-full relative">
+                {/* 중앙 값 표시 */}
+                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-0.5 h-5 bg-gray-400"></div>
+                <div
+                  className="absolute h-5 w-5 bg-white border-4 border-indigo-600 rounded-full top-1/2 transform -translate-y-1/2 shadow-lg transition-all duration-300 hover:scale-110"
+                  style={{ left: `${50 + dimension.value}%` }}
+                ></div>
+              </div>
+            </div>
           </div>
         ))}
+      </div>
+      <div className="mt-10 p-6 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-2xl">
+        <p className="text-indigo-800 text-sm leading-relaxed">
+          {content[language].cultureDimensionsInterpretation}
+        </p>
       </div>
     </motion.div>
   );
@@ -749,64 +799,6 @@ export default function CultureProfile() {
       </motion.div>
     ));
 
-  const renderTopCard = () => (
-    <motion.div
-      initial={{ opacity: 0, y: -20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-      className="bg-gradient-to-br from-indigo-600 to-purple-600 rounded-3xl shadow-xl p-8 mb-8 text-white relative overflow-hidden"
-    >
-      <div className="absolute top-0 left-0 w-full h-full bg-white opacity-10 z-0">
-        <svg
-          className="w-full h-full"
-          viewBox="0 0 100 100"
-          preserveAspectRatio="none"
-        >
-          <path d="M0,0 L100,0 L100,100 L0,100 Z" fill="url(#grid)" />
-        </svg>
-        <defs>
-          <pattern
-            id="grid"
-            width="10"
-            height="10"
-            patternUnits="userSpaceOnUse"
-          >
-            <path
-              d="M 10 0 L 0 0 0 10"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="0.5"
-            />
-          </pattern>
-        </defs>
-      </div>
-      <div className="relative z-10">
-        <h1 className="text-5xl font-bold text-center mb-6 text-white drop-shadow-lg">
-          {content[language].title}
-        </h1>
-        <p className="text-center text-white text-lg mb-6 max-w-2xl mx-auto leading-relaxed">
-          {content[language].description}
-        </p>
-        <div className="flex justify-center items-center text-sm text-white bg-white bg-opacity-20 rounded-full py-2 px-4 w-max mx-auto">
-          <ArrowTrendingUpIcon className="h-5 w-5 mr-2" />
-          {content[language].lastUpdated}: {lastUpdated?.toLocaleDateString()}
-        </div>
-      </div>
-      <motion.div
-        className="absolute bottom-0 right-0 w-32 h-32 bg-white bg-opacity-20 rounded-full"
-        initial={{ scale: 0 }}
-        animate={{ scale: 1 }}
-        transition={{ duration: 0.5, delay: 0.2 }}
-      />
-      <motion.div
-        className="absolute top-0 left-0 w-24 h-24 bg-white bg-opacity-20 rounded-full"
-        initial={{ scale: 0 }}
-        animate={{ scale: 1 }}
-        transition={{ duration: 0.5, delay: 0.3 }}
-      />
-    </motion.div>
-  );
-
   if (loading) {
     return (
       <DashboardLayout>
@@ -821,12 +813,7 @@ export default function CultureProfile() {
         {renderTopCard()}
         {renderCultureSummary()}
         {renderStrengthsAndWeaknesses()}
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-          {renderRadarChart()}
-          {renderBarChart()}
-        </div>
-
+        {renderCultureProfileOverview()}
         {renderSymmetricBarChart()}
         {renderIndustryComparison()}
         {renderTrendAnalysis()}
