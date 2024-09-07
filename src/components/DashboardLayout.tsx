@@ -15,7 +15,7 @@ import {
   ChatBubbleLeftRightIcon,
   Bars3Icon,
   XMarkIcon,
-  ClipboardDocumentCheckIcon, // 새로 추가된 아이콘
+  ClipboardDocumentCheckIcon,
 } from '@heroicons/react/24/outline';
 import { useLanguage } from '../contexts/LanguageContext';
 
@@ -80,12 +80,12 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
     },
     {
       name: content[language].survey,
-      icon: ClipboardDocumentCheckIcon, // 변경된 부분
+      icon: ClipboardDocumentCheckIcon,
       href: '/survey/create',
     },
     {
       name: content[language].hiring,
-      icon: UserGroupIcon, // 변경된 부분
+      icon: UserGroupIcon,
       href: '/hiring',
     },
     {
@@ -155,9 +155,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
               >
                 <Bars3Icon className="h-6 w-6" />
               </button>
-              <span className="text-2xl font-semibold text-gray-800 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-600">
-                {content[language].dashboard}
-              </span>
+              {/* 여기서 '대시보드' 텍스트를 제거했습니다 */}
             </div>
             <div className="flex items-center space-x-4">
               <button
