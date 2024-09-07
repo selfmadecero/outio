@@ -189,13 +189,21 @@ const content: Record<'en' | 'ko', ContentType> = {
       'Regularly benchmark your culture metrics against industry standards to track progress and identify emerging trends.',
       'Share insights from this comparison with your team to foster a culture of continuous improvement.',
     ],
-    industryComparisonDescription: '산업 평균과의 비교 설명',
+    industryComparisonDescription:
+      "This chart compares your organization's cultural dimensions with industry averages, highlighting areas of strength and potential improvement.",
     difference: 'Difference',
     comparisonWithIndustry: 'Comparison with Industry',
-    insightExplanation: (dimension, difference) =>
-      `The ${dimension} is ${Math.abs(difference)}% ${
-        difference > 0 ? 'higher' : 'lower'
-      } than industry average.`,
+    insightExplanation: (dimension: string, difference: number) => {
+      if (difference > 10) {
+        return `Your ${dimension.toLowerCase()} significantly outperforms the industry average. This could be a key differentiator and competitive advantage.`;
+      } else if (difference > 0) {
+        return `Your ${dimension.toLowerCase()} is slightly above average. There's potential to further leverage this strength.`;
+      } else if (difference > -10) {
+        return `Your ${dimension.toLowerCase()} is slightly below average. Consider targeted initiatives to boost this area.`;
+      } else {
+        return `Your ${dimension.toLowerCase()} is significantly below average. This area requires immediate attention and strategic improvement.`;
+      }
+    },
     strategicRecommendations: 'Strategic Recommendations',
   },
   ko: {
@@ -257,7 +265,7 @@ const content: Record<'en' | 'ko', ContentType> = {
       '이 차트는 조직의 문화 차원 간의 균형과 분포에 대한 통찰력을 제공합니다. 각 차원의 강점과 개선 영역을 이해하는 데 도움이 됩니다.',
     yourCompany: '귀사',
     industryAverage: '산업 평균',
-    keyInsights: '주요 인사이트',
+    keyInsights: '핵심 인사이트',
     comparisonInsight: (
       dimension: string,
       difference: number,
@@ -273,14 +281,22 @@ const content: Record<'en' | 'ko', ContentType> = {
       '진행 상황을 추적하고 새로운 트렌드를 파악하기 위해 문화 지표를 정기적으로 산업 표준과 비교하요.',
       '이 비교에서 얻은 인사이트를 팀과 공유하여 지속적인 개선 문화를 조성하세요.',
     ],
-    industryComparisonDescription: '산업 평균과의 비교 설명',
+    industryComparisonDescription:
+      '이 차트는 귀사의 문화적 차원을 산업 평균과 비교하여 강점 영역과 잠재적 개선 영역을 강조합니다.',
     difference: '차이',
     comparisonWithIndustry: '산업 평균과의 비교',
-    insightExplanation: (dimension, difference) =>
-      `${dimension}은(는) 업계 평균보다 ${Math.abs(difference)}% ${
-        difference > 0 ? '높습니다' : '낮습니다'
-      }.`,
-    strategicRecommendations: '전략적 권장사항',
+    insightExplanation: (dimension: string, difference: number) => {
+      if (difference > 10) {
+        return `귀사의 ${dimension}은(는) 산업 평균을 크게 상회합니다. 이는 주요 차별화 요소이자 경쟁 우위가 될 수 있습니다.`;
+      } else if (difference > 0) {
+        return `귀사의 ${dimension}은(는) 평균보다 약간 높습니다. 이 강점을 더욱 활용할 잠재력이 있습니다.`;
+      } else if (difference > -10) {
+        return `귀사의 ${dimension}은(는) 평균보다 약간 낮습니다. 이 영역을 개선하기 위한 집중적인 이니셔티브를 고려해 보세요.`;
+      } else {
+        return `귀사의 ${dimension}은(는) 평균보다 크게 낮습니다. 이 영역은 즉각적인 주의와 전략적 개선이 필요합니다.`;
+      }
+    },
+    strategicRecommendations: '전략적 제안',
   },
 };
 
@@ -316,7 +332,7 @@ const profileDescriptions = {
   },
   ko: {
     collaborationIndex: '조직 내 팀워크와 집단적 노력의 수준을 측정합니다.',
-    innovationIndex: '회사의 창의성과 새로운 아이디어 창출 능력을 나타냅��다.',
+    innovationIndex: '회사의 창의성과 새로운 아이디어 창출 능력을 나타냅니다.',
     customerFocusIndex:
       '조직이 고객 니즈와 만족도를 얼마나 잘 우선시하는지 반영합니다.',
     adaptabilityIndex:
@@ -362,7 +378,7 @@ const cultureDimensions = {
     { left: '개인주의', right: '집단주의', value: -15 },
     { left: '협력적 환경', right: '개인 중심 환경', value: 25 },
     { left: '개방적 소통', right: '공식적 소통', value: 40 },
-    { left: '성과 중심 보상', right: '평등 분배 ���상', value: 5 },
+    { left: '성과 중심 보상', right: '평등 분배 보상', value: 5 },
     { left: '학습 지향', right: '현상 유지', value: 35 },
     { left: '고객 중심', right: '내부 프로세스 중심', value: 45 },
     { left: '일 중심', right: '삶 중심', value: -10 },
