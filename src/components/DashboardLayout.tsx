@@ -15,6 +15,7 @@ import {
   ChatBubbleLeftRightIcon,
   Bars3Icon,
   XMarkIcon,
+  ClipboardDocumentCheckIcon, // 새로 추가된 아이콘
 } from '@heroicons/react/24/outline';
 import { useLanguage } from '../contexts/LanguageContext';
 
@@ -79,10 +80,14 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
     },
     {
       name: content[language].survey,
-      icon: UserGroupIcon,
+      icon: ClipboardDocumentCheckIcon, // 변경된 부분
       href: '/survey/create',
     },
-    { name: content[language].hiring, icon: UserGroupIcon, href: '/hiring' },
+    {
+      name: content[language].hiring,
+      icon: UserGroupIcon, // 변경된 부분
+      href: '/hiring',
+    },
     {
       name: content[language].feedback,
       icon: ChatBubbleLeftRightIcon,

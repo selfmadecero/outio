@@ -78,12 +78,16 @@ export default function CultureProfile() {
   }, [router]);
 
   const fetchCultureProfile = async (userId: string) => {
+    if (!auth.currentUser) {
+      console.log('사용자가 인증되지 않았습니다');
+      return;
+    }
     const docRef = doc(db, 'cultureProfiles', userId);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
       setProfile(docSnap.data());
     } else {
-      console.log('No culture profile found!');
+      console.log('문화 프로필을 찾을 수 없습니다!');
     }
   };
 
