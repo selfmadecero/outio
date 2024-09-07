@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Dialog } from '@headlessui/react';
 import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
 import { db, auth } from '../firebase';
@@ -63,17 +63,21 @@ export default function WaitlistPopup({
         '여러분의 의견은 우리 플랫폼을 만드는 데 매우 중요합니다.',
       ],
       errorMessage: '오류가 발생했습니다. 다시 시도해 주세요.',
-      loginRequired: '웨이트리스트 참여를 위해 로그인이 필요합니다.',
+      loginRequired: '웨이트���스트 참여를 위해 로그인이 필요합니다.',
     },
   };
 
+  const triggerConfetti = useCallback(() => {
+    setShowConfetti(true);
+    const timer = setTimeout(() => setShowConfetti(false), 5000); // 5초 후 폭죽 효과 종료
+    return () => clearTimeout(timer);
+  }, []);
+
   useEffect(() => {
     if (submitted) {
-      setShowConfetti(true);
-      const timer = setTimeout(() => setShowConfetti(false), 5000); // 5초 후 폭죽 효과 종료
-      return () => clearTimeout(timer);
+      triggerConfetti();
     }
-  }, [submitted]);
+  }, [submitted, triggerConfetti]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -106,7 +110,7 @@ export default function WaitlistPopup({
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-      {showConfetti && <Confetti />}
+      {showConfetti && <Confetti recycle={false} />}
       <div className="bg-white rounded-lg shadow-xl max-w-md w-full p-6 relative">
         <button
           onClick={onClose}
