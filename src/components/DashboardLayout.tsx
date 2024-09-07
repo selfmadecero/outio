@@ -24,6 +24,7 @@ import {
 import { useLanguage } from '../contexts/LanguageContext';
 import LanguageSelector from './LanguageSelector';
 import AuthButton from './AuthButton';
+import WaitlistPopup from './WaitlistPopup';
 
 interface DashboardLayoutProps {
   children: ReactNode;
@@ -31,21 +32,33 @@ interface DashboardLayoutProps {
 
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
   const { language, setLanguage } = useLanguage();
+  const [isWaitlistPopupOpen, setIsWaitlistPopupOpen] = useState(false);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
-      if (user) {
-        setUser(user);
-      } else {
+      setUser(user);
+      setLoading(false);
+      if (!user && !loading) {
         router.push('/');
       }
     });
     return () => unsubscribe();
   }, [router]);
+
+  // 로딩 중일 때 표시할 컴포넌트
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  // 사용자가 인증되지 않았을 때 처리
+  if (!user) {
+    return null; // 또는 로그인 페이지로 리다이렉트
+  }
 
   const handleSignOut = async () => {
     try {
@@ -118,18 +131,28 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
 
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
+  const openWaitlistPopup = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setIsWaitlistPopupOpen(true);
+  };
+
+  const closeWaitlistPopup = () => {
+    setIsWaitlistPopupOpen(false);
+  };
+
   return (
     <div className="flex flex-col h-screen bg-gradient-to-br from-gray-50 to-gray-100">
       {/* Demo Alert Banner */}
       <div className="bg-yellow-500 text-white py-2 px-4 text-center">
         <p className="text-sm font-medium">
           {content[language].demoAlert}{' '}
-          <Link
-            href="/waitlist"
+          <a
+            href="#"
+            onClick={openWaitlistPopup}
             className="underline font-bold hover:text-yellow-200 transition-colors duration-300"
           >
             {content[language].joinWaitlistCTA}
-          </Link>
+          </a>
         </p>
       </div>
 
@@ -147,7 +170,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         <div className="flex-1 flex flex-col overflow-hidden">
           {/* Top bar */}
           <header className="h-16 bg-white border-b border-gray-200">
-            <div className="h-full flex justify-between items-center px-6">
+            <div className="h-full flex justify-between items-center px-4 md:px-6">
               <div className="flex items-center">
                 <button
                   className="md:hidden mr-4 text-gray-500 hover:text-gray-700"
@@ -155,25 +178,29 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                 >
                   <Bars3Icon className="h-6 w-6" />
                 </button>
-                <span className="text-sm font-medium text-gray-500">
+                <span className="text-sm font-medium text-gray-500 hidden sm:inline">
                   {content[language].demo}
                 </span>
               </div>
-              <div className="flex items-center space-x-4">
-                <Link
-                  href="/waitlist"
-                  className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-full text-white bg-gradient-to-r from-green-400 to-blue-500 hover:from-green-500 hover:to-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition duration-300 animate-pulse"
+              <div className="flex items-center space-x-2 md:space-x-4">
+                <button
+                  onClick={openWaitlistPopup}
+                  className="inline-flex items-center px-2 py-1 md:px-4 md:py-2 border border-transparent text-xs md:text-sm font-medium rounded-full text-white bg-gradient-to-r from-green-400 to-blue-500 hover:from-green-500 hover:to-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition duration-300 animate-pulse"
                 >
-                  <BellIcon className="h-5 w-5 mr-2" />
-                  {content[language].joinWaitlist}
-                </Link>
+                  <BellIcon className="h-4 w-4 md:h-5 md:w-5 mr-1 md:mr-2" />
+                  <span className="hidden sm:inline">
+                    {content[language].joinWaitlist}
+                  </span>
+                </button>
                 <LanguageSelector onChange={() => {}} />
                 <button
                   onClick={handleSignOut}
-                  className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-full text-white bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-300"
+                  className="inline-flex items-center px-2 py-1 md:px-3 md:py-2 border border-transparent text-xs md:text-sm leading-4 font-medium rounded-full text-white bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-300"
                 >
-                  <ArrowRightOnRectangleIcon className="h-5 w-5 mr-2" />
-                  {content[language].signOut}
+                  <ArrowRightOnRectangleIcon className="h-4 w-4 md:h-5 md:w-5 mr-1 md:mr-2" />
+                  <span className="hidden sm:inline">
+                    {content[language].signOut}
+                  </span>
                 </button>
               </div>
             </div>
@@ -186,15 +213,15 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         </div>
       </div>
 
-      {/* Floating Waitlist Button */}
-      <div className="fixed bottom-4 right-4 md:bottom-8 md:right-8">
-        <Link
-          href="/waitlist"
+      {/* Floating Waitlist Button (모바일에서만 표시) */}
+      <div className="md:hidden fixed bottom-4 right-4">
+        <button
+          onClick={openWaitlistPopup}
           className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-full text-white bg-gradient-to-r from-green-400 to-blue-500 hover:from-green-500 hover:to-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition duration-300 shadow-lg hover:shadow-xl"
         >
           <BellIcon className="h-5 w-5 mr-2" />
           {content[language].joinWaitlist}
-        </Link>
+        </button>
       </div>
 
       {/* Sidebar for mobile */}
@@ -224,6 +251,13 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
           />
         </div>
       </div>
+
+      {/* Waitlist Popup */}
+      <WaitlistPopup
+        isOpen={isWaitlistPopupOpen}
+        onClose={closeWaitlistPopup}
+        language={language}
+      />
     </div>
   );
 }

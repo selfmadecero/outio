@@ -17,6 +17,7 @@ import {
   FlagIcon,
   BuildingLibraryIcon,
   InformationCircleIcon,
+  CogIcon,
 } from '@heroicons/react/24/outline';
 
 const content = {
@@ -28,8 +29,6 @@ const content = {
     hiringDesc: 'Find candidates that match your culture',
     surveys: 'Surveys',
     surveysDesc: 'Create and manage culture surveys',
-    trends: 'Culture Trends',
-    trendsDesc: 'Track changes in your organizational culture',
     insights: 'AI Insights',
     insightsDesc: 'Get AI-powered recommendations for your culture',
     feedback: 'Employee Feedback',
@@ -55,6 +54,8 @@ const content = {
       'This represents the overall progress towards the cultural goals set by your organization. It is calculated based on various metrics including employee engagement, innovation index, and collaboration index.',
     recommendations: 'Recommendations',
     industryComparison: 'Industry Comparison',
+    settings: 'Settings',
+    settingsDesc: 'Manage your account and app settings',
   },
   ko: {
     welcomeMessage: '다시 오신 것을 환영합니다',
@@ -64,8 +65,6 @@ const content = {
     hiringDesc: '귀사의 문화에 맞는 후보자를 찾으세요',
     surveys: '설문조사',
     surveysDesc: '문화 설문조사를 생성하고 관리하세요',
-    trends: '문화 트렌드',
-    trendsDesc: '조직 문화의 변화를 추적하세요',
     insights: 'AI 인사이트',
     insightsDesc: 'AI 기반 문화 개선 추천을 받으세요',
     feedback: '직원 피드백',
@@ -90,6 +89,8 @@ const content = {
       '이는 조직이 설정한 문화 목표에 대한 전반적인 진행 상황을 나타냅니다. 직원 참여도, 혁신 지수, 협업 지수 등 다양한 지표를 기반으로 계산됩니다.',
     recommendations: '추천 사항',
     industryComparison: '산업 평균 비교',
+    settings: '설정',
+    settingsDesc: '계정 및 앱 설정을 관리하세요',
   },
 };
 
@@ -395,10 +396,10 @@ const Dashboard = () => {
                 '/surveys'
               )}
               {renderCard(
-                <ArrowTrendingUpIcon className="h-8 w-8 text-indigo-600" />,
-                content[language].trends,
-                content[language].trendsDesc,
-                '/trends'
+                <CogIcon className="h-8 w-8 text-indigo-600" />,
+                content[language].settings,
+                content[language].settingsDesc,
+                '/settings'
               )}
             </div>
             {renderGoalProgress()}
