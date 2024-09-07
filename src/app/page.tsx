@@ -12,6 +12,7 @@ import {
   UserGroupIcon,
   PuzzlePieceIcon,
   LightBulbIcon,
+  StarIcon,
 } from '@heroicons/react/24/outline';
 
 export default function Home() {
@@ -57,6 +58,15 @@ export default function Home() {
         'Generate custom interview questions based on your culture',
       step4Description:
         'Make informed hiring decisions with data-driven insights',
+      testimonials: 'What Our Clients Say',
+      testimonial1: {
+        text: "Outio has transformed our hiring process. We've seen a significant improvement in cultural fit and employee retention.",
+        author: 'Jane Doe, HR Director at TechCorp',
+      },
+      testimonial2: {
+        text: 'The AI-powered insights have given us a deeper understanding of our organizational culture. Highly recommended!',
+        author: 'John Smith, CEO of InnovateCo',
+      },
     },
     ko: {
       title: 'Outio',
@@ -86,24 +96,33 @@ export default function Home() {
       step2Description: 'AI 기반 분석으로 동적 문화 프로필 생성',
       step3Description: '귀사의 문화에 기반한 맞춤형 면접 질문 생성',
       step4Description: '데이터 기반 인사이트로 정보에 기반한 채용 결정',
+      testimonials: '고객 후기',
+      testimonial1: {
+        text: 'Outio는 우리의 채용 과정을 혁신했습니다. 문화적 적합성과 직원 유지율이 크게 향상되었습니다.',
+        author: '제인 도, TechCorp HR 디렉터',
+      },
+      testimonial2: {
+        text: 'AI 기반 인사이트를 통해 우리 조직 문화에 대한 더 깊은 이해를 얻을 수 있었습니다. 강력 추천합니다!',
+        author: '존 스미스, InnovateCo CEO',
+      },
     },
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-gradient-to-br from-blue-50 to-purple-50">
-      <header className="bg-white bg-opacity-80 backdrop-blur-md shadow-sm fixed w-full z-10">
-        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+    <div className="flex flex-col min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 text-white">
+      <header className="bg-gray-900 bg-opacity-80 backdrop-blur-md shadow-lg fixed w-full z-10">
+        <div className="container mx-auto px-6 py-4 flex justify-between items-center">
           <Link
             href="/"
-            className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-600"
+            className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500"
           >
             {content[language].title}
           </Link>
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-6">
             <LanguageSelector onChange={() => {}} />
             <Link
               href="/auth"
-              className="px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700"
+              className="px-6 py-2 rounded-full text-base font-medium text-white bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 transition-all duration-300 ease-in-out transform hover:scale-105"
             >
               {content[language].signup}
             </Link>
@@ -111,40 +130,43 @@ export default function Home() {
         </div>
       </header>
 
-      <main className="flex-1 flex flex-col items-center justify-center text-center py-20">
+      <main className="flex-1 flex flex-col items-center justify-center text-center py-20 px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="max-w-3xl px-4"
+          className="max-w-4xl"
         >
-          <h1 className="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
-            <span className="block bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-600">
+          <h1 className="text-5xl sm:text-6xl md:text-7xl tracking-tight font-extrabold mb-6">
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
               {content[language].subtitle}
             </span>
           </h1>
-          <p className="mt-3 max-w-md mx-auto text-base text-gray-500 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
+          <p className="mt-3 text-xl sm:text-2xl text-gray-300 max-w-3xl mx-auto">
             {content[language].description}
           </p>
-          <div className="mt-5 max-w-md mx-auto sm:flex sm:justify-center md:mt-8">
-            <div className="rounded-md shadow">
-              <Link
-                href="/auth"
-                className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 md:py-4 md:text-lg md:px-10"
-              >
-                {content[language].cta}
-              </Link>
-            </div>
-          </div>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="mt-10"
+          >
+            <Link
+              href="/auth"
+              className="inline-block px-8 py-4 text-lg font-semibold rounded-full text-white bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg"
+            >
+              {content[language].cta}
+            </Link>
+          </motion.div>
         </motion.div>
       </main>
 
-      <section className="bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-          <h2 className="text-3xl font-extrabold text-gray-900 text-center mb-12">
+      <section className="bg-gray-800 py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-4xl font-extrabold text-center mb-16 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
             {content[language].howItWorks}
           </h2>
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
+          <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-4">
             {[
               {
                 title: content[language].step1,
@@ -174,25 +196,25 @@ export default function Home() {
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 className="flex flex-col items-center text-center"
               >
-                <div className="flex items-center justify-center h-16 w-16 rounded-full bg-gradient-to-r from-blue-400 to-purple-500 text-white mb-4">
-                  <step.icon className="h-8 w-8" />
+                <div className="flex items-center justify-center h-20 w-20 rounded-full bg-gradient-to-r from-blue-400 to-purple-500 text-white mb-6">
+                  <step.icon className="h-10 w-10" />
                 </div>
-                <h3 className="text-lg font-medium text-gray-900 mb-2">
+                <h3 className="text-xl font-semibold text-white mb-3">
                   {step.title}
                 </h3>
-                <p className="text-sm text-gray-500">{step.description}</p>
+                <p className="text-gray-300">{step.description}</p>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-          <h2 className="text-3xl font-extrabold text-gray-900 text-center mb-12">
+      <section className="bg-gray-900 py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-4xl font-extrabold text-center mb-16 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
             Features
           </h2>
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+          <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-4">
             {[
               {
                 title: content[language].feature1,
@@ -217,23 +239,21 @@ export default function Home() {
             ].map((feature, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, x: index % 2 === 0 ? -20 : 20 }}
-                animate={{ opacity: 1, x: 0 }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition duration-300"
+                className="bg-gray-800 rounded-2xl shadow-xl p-8 hover:shadow-2xl transition duration-300 transform hover:scale-105"
               >
-                <div className="flex items-center">
-                  <div className="flex-shrink-0">
-                    <feature.icon className="h-6 w-6 text-blue-500" />
+                <div className="flex flex-col items-center">
+                  <div className="flex-shrink-0 mb-6">
+                    <feature.icon className="h-14 w-14 text-blue-400" />
                   </div>
-                  <div className="ml-4">
-                    <h3 className="text-lg font-medium text-gray-900">
-                      {feature.title}
-                    </h3>
-                    <p className="mt-2 text-base text-gray-500">
-                      {feature.description}
-                    </p>
-                  </div>
+                  <h3 className="text-xl font-semibold text-white mb-3">
+                    {feature.title}
+                  </h3>
+                  <p className="text-gray-300 text-center">
+                    {feature.description}
+                  </p>
                 </div>
               </motion.div>
             ))}
@@ -241,13 +261,41 @@ export default function Home() {
         </div>
       </section>
 
-      <footer className="bg-white">
-        <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 md:flex md:items-center md:justify-between lg:px-8">
-          <div className="mt-8 md:mt-0 md:order-1">
-            <p className="text-center text-base text-gray-400">
-              &copy; 2024 Outio. All rights reserved.
-            </p>
+      <section className="bg-gray-800 py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-4xl font-extrabold text-center mb-16 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
+            {content[language].testimonials}
+          </h2>
+          <div className="grid grid-cols-1 gap-12 md:grid-cols-2">
+            {[
+              content[language].testimonial1,
+              content[language].testimonial2,
+            ].map((testimonial, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, x: index % 2 === 0 ? -20 : 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="bg-gray-900 rounded-2xl shadow-xl p-8 hover:shadow-2xl transition duration-300"
+              >
+                <div className="flex flex-col items-center">
+                  <StarIcon className="h-10 w-10 text-yellow-400 mb-6" />
+                  <p className="text-gray-300 italic mb-6 text-lg">
+                    "{testimonial.text}"
+                  </p>
+                  <p className="font-medium text-white">{testimonial.author}</p>
+                </div>
+              </motion.div>
+            ))}
           </div>
+        </div>
+      </section>
+
+      <footer className="bg-gray-900 py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-center">
+          <p className="text-center text-gray-400">
+            &copy; 2024 Outio. All rights reserved.
+          </p>
         </div>
       </footer>
     </div>
