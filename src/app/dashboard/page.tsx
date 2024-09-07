@@ -1,217 +1,371 @@
 'use client';
 
-import { SurveyManagement } from '../../components/SurveyManagement';
-import { useState, useEffect } from 'react';
-import { User } from 'firebase/auth';
-import { auth, db } from '../../firebase';
+import { useState } from 'react';
 import Link from 'next/link';
-import { useRouter, usePathname } from 'next/navigation';
 import {
-  HomeIcon,
   ChartBarIcon,
   UserGroupIcon,
-  Cog6ToothIcon,
-  ArrowRightOnRectangleIcon,
-  LanguageIcon,
+  ClipboardDocumentListIcon,
+  ArrowTrendingUpIcon,
+  CalendarIcon,
   ChatBubbleLeftRightIcon,
+  ArrowUpIcon,
+  ArrowDownIcon,
 } from '@heroicons/react/24/outline';
 import { useLanguage } from '../../contexts/LanguageContext';
-import { doc, getDoc, DocumentData } from 'firebase/firestore';
 import DashboardLayout from '../../components/DashboardLayout';
 
-interface CompanyProfile {
-  name?: string;
-  industry?: string;
-  employeeCount?: number;
-  // 필요한 다른 필드들을 여기에 추가하세요
-}
+// 더미 데이터
+const dummyCompanyProfile = {
+  name: { en: 'TechInnovate Inc.', ko: '테크이노베이트' },
+  cultureScore: { value: 78, change: 5 },
+  employeeCount: { value: 250, change: 10 },
+  surveyCompletion: { value: 85, change: -2 },
+};
+
+const dummyRecentActivities = {
+  en: [
+    { id: 1, action: 'New survey created', date: '2023-06-01' },
+    { id: 2, action: 'Culture report generated', date: '2023-05-28' },
+    { id: 3, action: 'New employee onboarded', date: '2023-05-25' },
+  ],
+  ko: [
+    { id: 1, action: '새 설문조사 생성됨', date: '2023-06-01' },
+    { id: 2, action: '문화 보고서 생성됨', date: '2023-05-28' },
+    { id: 3, action: '신규 직원 온보딩 완료', date: '2023-05-25' },
+  ],
+};
+
+const dummyCultureInsights = {
+  en: [
+    {
+      id: 1,
+      insight: 'Communication patterns show increased collaboration',
+      importance: 'High',
+    },
+    {
+      id: 2,
+      insight: 'Employee satisfaction improved by 12% this quarter',
+      importance: 'Medium',
+    },
+    {
+      id: 3,
+      insight: 'Leadership style aligns well with company values',
+      importance: 'High',
+    },
+  ],
+  ko: [
+    { id: 1, insight: '의사소통 패턴에서 협업 증가 확인', importance: '높음' },
+    { id: 2, insight: '이번 분기 직원 만족도 12% 향상', importance: '중간' },
+    {
+      id: 3,
+      insight: '리더십 스타일이 회사 가치와 잘 부합',
+      importance: '높음',
+    },
+  ],
+};
+
+const dummyUpcomingSurveys = {
+  en: [
+    { id: 1, name: 'Q2 Pulse Survey', date: '2023-06-15' },
+    { id: 2, name: 'Leadership Evaluation', date: '2023-06-30' },
+  ],
+  ko: [
+    { id: 1, name: '2분기 펄스 설문조사', date: '2023-06-15' },
+    { id: 2, name: '리더십 평가', date: '2023-06-30' },
+  ],
+};
+
+const dummyTeamFeedback = {
+  en: [
+    {
+      id: 1,
+      message: 'Great teamwork on the latest project!',
+      from: 'Sarah K.',
+    },
+    {
+      id: 2,
+      message: 'Communication could be improved in our department.',
+      from: 'Mike L.',
+    },
+  ],
+  ko: [
+    {
+      id: 1,
+      message: '최근 프로젝트에서 팀워크가 훌륭했습니다!',
+      from: '사라 K.',
+    },
+    {
+      id: 2,
+      message: '우리 부서의 의사소통이 개선될 필요가 있습니다.',
+      from: '마이크 L.',
+    },
+  ],
+};
 
 export default function Dashboard() {
-  const [user, setUser] = useState<User | null>(null);
-  const router = useRouter();
-  const pathname = usePathname();
-  const { language, setLanguage } = useLanguage();
-  const [companyProfile, setCompanyProfile] = useState<CompanyProfile | null>(
-    null
-  );
-
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      if (user) {
-        setUser(user);
-        fetchCompanyProfile(user.uid);
-      } else {
-        router.push('/');
-      }
-    });
-    return () => unsubscribe();
-  }, [router]);
-
-  const fetchCompanyProfile = async (userId: string) => {
-    const docRef = doc(db, 'companies', userId);
-    const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-      setCompanyProfile(docSnap.data() as CompanyProfile);
-    }
-  };
-
-  const handleSignOut = async () => {
-    try {
-      await auth.signOut();
-      router.push('/');
-    } catch (error) {
-      console.error('Error signing out', error);
-    }
-  };
+  const { language } = useLanguage();
+  const [companyProfile] = useState(dummyCompanyProfile);
 
   const content = {
     en: {
-      dashboard: 'Dashboard',
-      cultureProfile: 'Culture Profile',
-      survey: 'Survey',
-      hiring: 'Hiring',
-      feedback: 'Feedback',
-      settings: 'Settings',
-      signOut: 'Sign Out',
-      welcome: 'Welcome',
-      viewProfile: 'View Profile',
-      startSurvey: 'Start Survey',
-      viewRecommendations: 'View Recommendations',
+      welcome: 'Welcome back',
+      cultureScore: 'Culture Score',
+      employees: 'Employees',
+      surveyCompletion: 'Survey Completion',
+      cultureInsights: 'Culture Insights',
       recentActivity: 'Recent Activity',
-      noActivity: 'No recent activity to display.',
+      viewAll: 'View All',
+      createSurvey: 'Create New Survey',
+      viewReports: 'View Reports',
+      action: 'Action',
+      date: 'Date',
+      insight: 'Insight',
+      importance: 'Importance',
+      upcomingSurveys: 'Upcoming Surveys',
+      teamFeedback: 'Recent Team Feedback',
+      viewSurvey: 'View Survey',
+      respondToFeedback: 'Respond',
     },
     ko: {
-      dashboard: '대시보드',
-      cultureProfile: '문화 프로필',
-      survey: '설문조사',
-      hiring: '채용',
-      feedback: '피드백',
-      settings: '설정',
-      signOut: '로그아웃',
       welcome: '환영합니다',
-      viewProfile: '프로필 보기',
-      startSurvey: '설문 시작',
-      viewRecommendations: '추천 보기',
+      cultureScore: '문화 점수',
+      employees: '직원 수',
+      surveyCompletion: '설문 완료율',
+      cultureInsights: '문화 인사이트',
       recentActivity: '최근 활동',
-      noActivity: '표시할 최근 활동이 없습니다.',
+      viewAll: '전체 보기',
+      createSurvey: '새 설문 만들기',
+      viewReports: '보고서 보기',
+      action: '활동',
+      date: '날짜',
+      insight: '인사이트',
+      importance: '중요도',
+      upcomingSurveys: '예정된 설문조사',
+      teamFeedback: '최근 팀 피드백',
+      viewSurvey: '설문 보기',
+      respondToFeedback: '응답하기',
     },
   };
 
-  const menuItems = [
-    { name: content[language].dashboard, icon: HomeIcon, href: '/dashboard' },
-    {
-      name: content[language].cultureProfile,
-      icon: ChartBarIcon,
-      href: '/culture-profile',
-    },
-    {
-      name: content[language].survey,
-      icon: UserGroupIcon,
-      href: '/survey/create',
-    },
-    {
-      name: content[language].hiring,
-      icon: UserGroupIcon,
-      href: '/hiring',
-    },
-    {
-      name: content[language].feedback,
-      icon: ChatBubbleLeftRightIcon,
-      href: '/feedback',
-    },
-    {
-      name: content[language].settings,
-      icon: Cog6ToothIcon,
-      href: '/settings',
-    },
-  ];
-
   return (
     <DashboardLayout>
-      <div className="container mx-auto px-6 py-8">
-        <h3 className="text-gray-700 text-2xl font-medium mb-6">
-          {content[language].welcome}, {user?.displayName}
-        </h3>
+      <div className="container mx-auto px-6 py-8 bg-gradient-to-br from-gray-900 to-gray-800 min-h-screen text-white">
+        <h1 className="text-4xl font-bold mb-8 text-white">
+          {content[language].welcome}, {companyProfile.name[language]}
+        </h1>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {/* Culture Profile Card */}
-          <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition duration-300">
-            <div className="flex items-center mb-4">
-              <div className="p-3 rounded-full bg-gradient-to-r from-blue-400 to-blue-600">
-                <ChartBarIcon className="h-6 w-6 text-white" />
-              </div>
-              <h4 className="ml-4 text-lg font-semibold text-gray-700">
-                {content[language].cultureProfile}
-              </h4>
-            </div>
-            <p className="text-gray-600 mb-4">
-              {language === 'en'
-                ? "View your organization's culture profile"
-                : '조직의 문화 프로필 보기'}
-            </p>
-            <Link
-              href="/culture-profile"
-              className="w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition duration-300 inline-block text-center"
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+          {[
+            {
+              title: content[language].cultureScore,
+              value: companyProfile.cultureScore.value,
+              change: companyProfile.cultureScore.change,
+              icon: ChartBarIcon,
+              color: 'blue',
+            },
+            {
+              title: content[language].employees,
+              value: companyProfile.employeeCount.value,
+              change: companyProfile.employeeCount.change,
+              icon: UserGroupIcon,
+              color: 'purple',
+            },
+            {
+              title: content[language].surveyCompletion,
+              value: `${companyProfile.surveyCompletion.value}%`,
+              change: companyProfile.surveyCompletion.change,
+              icon: ClipboardDocumentListIcon,
+              color: 'green',
+            },
+            {
+              title: content[language].cultureInsights,
+              value: `${dummyCultureInsights[language].length} ${
+                language === 'en' ? 'New' : '새로운'
+              }`,
+              change: 0,
+              icon: ArrowTrendingUpIcon,
+              color: 'yellow',
+            },
+          ].map((item, index) => (
+            <div
+              key={index}
+              className="bg-gray-800 rounded-xl p-6 shadow-lg hover:shadow-xl transition duration-300 transform hover:scale-105"
             >
-              {content[language].viewProfile}
+              <div className="flex items-center justify-between mb-4">
+                <div>
+                  <p className="text-sm text-gray-400">{item.title}</p>
+                  <p className="text-3xl font-bold text-white mt-2">
+                    {item.value}
+                  </p>
+                </div>
+                <div
+                  className={`p-4 rounded-full bg-${item.color}-500 bg-opacity-20`}
+                >
+                  <item.icon className={`h-8 w-8 text-${item.color}-400`} />
+                </div>
+              </div>
+              {item.change !== 0 && (
+                <div
+                  className={`flex items-center ${
+                    item.change > 0 ? 'text-green-400' : 'text-red-400'
+                  }`}
+                >
+                  {item.change > 0 ? (
+                    <ArrowUpIcon className="h-4 w-4 mr-1" />
+                  ) : (
+                    <ArrowDownIcon className="h-4 w-4 mr-1" />
+                  )}
+                  <span className="text-sm font-medium">
+                    {Math.abs(item.change)}
+                    {item.title === content[language].surveyCompletion
+                      ? '%p'
+                      : ''}
+                    {language === 'en' ? ' from last month' : ' 지난달 대비'}
+                  </span>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+
+        {/* Recent Activity and Culture Insights sections */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+          <div className="bg-gray-800 rounded-xl p-6 shadow-lg">
+            <h2 className="text-2xl font-semibold mb-6 text-white flex items-center">
+              <ClipboardDocumentListIcon className="h-7 w-7 mr-3 text-blue-400" />
+              {content[language].recentActivity}
+            </h2>
+            <div className="space-y-4">
+              {dummyRecentActivities[language].map((activity) => (
+                <div
+                  key={activity.id}
+                  className="flex justify-between items-center border-b border-gray-700 pb-4"
+                >
+                  <span className="text-gray-300 text-lg">
+                    {activity.action}
+                  </span>
+                  <span className="text-gray-400 text-sm">{activity.date}</span>
+                </div>
+              ))}
+            </div>
+            <Link
+              href="/activities"
+              className="text-blue-400 hover:underline mt-6 inline-block text-lg"
+            >
+              {content[language].viewAll}
             </Link>
           </div>
-
-          {/* New Survey Card */}
-          <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition duration-300">
-            <div className="flex items-center mb-4">
-              <div className="p-3 rounded-full bg-gradient-to-r from-green-400 to-green-600">
-                <UserGroupIcon className="h-6 w-6 text-white" />
-              </div>
-              <h4 className="ml-4 text-lg font-semibold text-gray-700">
-                {language === 'en' ? 'New Survey' : '새 설문'}
-              </h4>
+          <div className="bg-gray-800 rounded-xl p-6 shadow-lg">
+            <h2 className="text-2xl font-semibold mb-6 text-white flex items-center">
+              <ArrowTrendingUpIcon className="h-7 w-7 mr-3 text-purple-400" />
+              {content[language].cultureInsights}
+            </h2>
+            <div className="space-y-4">
+              {dummyCultureInsights[language].map((insight) => (
+                <div
+                  key={insight.id}
+                  className="flex justify-between items-center border-b border-gray-700 pb-4"
+                >
+                  <span className="text-gray-300 text-lg">
+                    {insight.insight}
+                  </span>
+                  <span
+                    className={`text-sm px-3 py-1 rounded-full ${
+                      insight.importance === 'High' ||
+                      insight.importance === '높음'
+                        ? 'bg-red-500 bg-opacity-20 text-red-400'
+                        : insight.importance === 'Medium' ||
+                          insight.importance === '중간'
+                        ? 'bg-yellow-500 bg-opacity-20 text-yellow-400'
+                        : 'bg-green-500 bg-opacity-20 text-green-400'
+                    }`}
+                  >
+                    {insight.importance}
+                  </span>
+                </div>
+              ))}
             </div>
-            <p className="text-gray-600 mb-4">
-              {language === 'en'
-                ? 'Create a new culture diagnosis survey'
-                : '새로운 문화 진단 설문 만들기'}
-            </p>
             <Link
-              href="/survey/create"
-              className="w-full bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600 transition duration-300 inline-block text-center"
+              href="/insights"
+              className="text-purple-400 hover:underline mt-6 inline-block text-lg"
             >
-              {content[language].startSurvey}
-            </Link>
-          </div>
-
-          {/* Hiring Recommendations Card */}
-          <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition duration-300">
-            <div className="flex items-center mb-4">
-              <div className="p-3 rounded-full bg-gradient-to-r from-purple-400 to-purple-600">
-                <UserGroupIcon className="h-6 w-6 text-white" />
-              </div>
-              <h4 className="ml-4 text-lg font-semibold text-gray-700">
-                {language === 'en' ? 'Interview Questions' : '면접 질문'}
-              </h4>
-            </div>
-            <p className="text-gray-600 mb-4">
-              {language === 'en'
-                ? 'Generate culture-fit interview questions'
-                : '문화 적합성 면접 질문 생성'}
-            </p>
-            <Link
-              href="/hiring" // '/interview-questions'에서 변경
-              className="w-full bg-purple-500 text-white py-2 px-4 rounded-lg hover:bg-purple-600 transition duration-300 inline-block text-center"
-            >
-              {content[language].viewRecommendations}
+              {content[language].viewAll}
             </Link>
           </div>
         </div>
 
-        {/* Recent Activity Section */}
-        <div className="mt-12">
-          <h4 className="text-2xl font-semibold text-gray-700 mb-4">
-            {content[language].recentActivity}
-          </h4>
-          <div className="bg-white rounded-lg shadow-lg p-6">
-            <p className="text-gray-500">{content[language].noActivity}</p>
+        {/* Upcoming Surveys and Team Feedback sections */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+          <div className="bg-gray-800 rounded-xl p-6 shadow-lg">
+            <h2 className="text-2xl font-semibold mb-6 text-white flex items-center">
+              <CalendarIcon className="h-7 w-7 mr-3 text-green-400" />
+              {content[language].upcomingSurveys}
+            </h2>
+            <div className="space-y-4">
+              {dummyUpcomingSurveys[language].map((survey) => (
+                <div
+                  key={survey.id}
+                  className="flex justify-between items-center border-b border-gray-700 pb-4"
+                >
+                  <div>
+                    <span className="text-gray-300 text-lg">{survey.name}</span>
+                    <p className="text-gray-400 text-sm">{survey.date}</p>
+                  </div>
+                  <Link
+                    href={`/surveys/${survey.id}`}
+                    className="px-4 py-2 bg-green-500 text-white rounded-full hover:bg-green-600 transition duration-300"
+                  >
+                    {content[language].viewSurvey}
+                  </Link>
+                </div>
+              ))}
+            </div>
           </div>
+          <div className="bg-gray-800 rounded-xl p-6 shadow-lg">
+            <h2 className="text-2xl font-semibold mb-6 text-white flex items-center">
+              <ChatBubbleLeftRightIcon className="h-7 w-7 mr-3 text-yellow-400" />
+              {content[language].teamFeedback}
+            </h2>
+            <div className="space-y-4">
+              {dummyTeamFeedback[language].map((feedback) => (
+                <div
+                  key={feedback.id}
+                  className="border-b border-gray-700 pb-4"
+                >
+                  <p className="text-gray-300 text-lg mb-2">
+                    "{feedback.message}"
+                  </p>
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-400 text-sm">
+                      - {feedback.from}
+                    </span>
+                    <button className="px-4 py-2 bg-yellow-500 text-white rounded-full hover:bg-yellow-600 transition duration-300">
+                      {content[language].respondToFeedback}
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Action buttons */}
+        <div className="flex justify-center space-x-6">
+          <Link
+            href="/survey/create"
+            className="px-8 py-4 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition duration-300 flex items-center text-lg font-semibold"
+          >
+            <ClipboardDocumentListIcon className="h-6 w-6 mr-3" />
+            {content[language].createSurvey}
+          </Link>
+          <Link
+            href="/reports"
+            className="px-8 py-4 bg-purple-500 text-white rounded-full hover:bg-purple-600 transition duration-300 flex items-center text-lg font-semibold"
+          >
+            <ChartBarIcon className="h-6 w-6 mr-3" />
+            {content[language].viewReports}
+          </Link>
         </div>
       </div>
     </DashboardLayout>

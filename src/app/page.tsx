@@ -1,5 +1,6 @@
 'use client';
 
+import React from 'react';
 import { useState, useEffect } from 'react';
 import LanguageSelector from '../components/LanguageSelector';
 import Link from 'next/link';
@@ -29,23 +30,27 @@ export default function Home() {
   const content = {
     en: {
       title: 'Outio',
-      subtitle: 'Decode Your Culture. Hire Your Perfect Match.',
-      description:
-        'Harness the power of AI-driven pulse surveys to understand your unique organizational DNA and find talent that truly fits.',
+      subtitle: ['AI-Powered Culture-Fit', 'Hiring Solution'],
+      description: [
+        'Understand your organizational culture,',
+        'find the best-fitting talent,',
+        'and build high-performing teams.',
+      ],
       feature1: 'Continuous Culture Diagnosis',
       feature1Description:
-        'Regular pulse surveys to keep your culture profile up-to-date.',
+        'Keep your culture profile up-to-date with regular pulse surveys.',
       feature1Benefit:
         'Stay ahead of cultural shifts and address issues proactively.',
       feature2: 'Dynamic Culture Profile',
       feature2Description:
-        'Real-time analysis to create a dynamic cultural profile of your organization.',
+        'Create a real-time cultural profile with AI-driven analysis.',
       feature2Benefit:
         'Make data-driven decisions about your organizational culture.',
-      feature3: 'Tailored Hiring Solution',
+      feature3: 'Culture-Fit Interview Guide',
       feature3Description:
-        'Automatically generated interview questions and evaluation criteria based on your culture.',
-      feature3Benefit: 'Improve hiring success rates and reduce turnover.',
+        'Get AI-generated interview questions based on your culture profile.',
+      feature3Benefit:
+        'Improve hiring success rates with culture-aligned candidates.',
       feature4: 'AI-Powered Insights',
       feature4Description:
         'Leverage advanced AI to gain deep insights into your organizational culture.',
@@ -67,16 +72,13 @@ export default function Home() {
       howItWorks: 'How It Works',
       step1: 'Conduct Pulse Surveys',
       step2: 'Generate Culture Profile',
-      step3: 'Create Tailored Interview Questions',
-      step4: 'Optimize Hiring Process',
-      step1Description:
-        'Regular surveys to understand your organizational culture',
-      step2Description:
-        'AI-powered analysis creates a dynamic cultural profile',
-      step3Description:
-        'Generate custom interview questions based on your culture',
+      step3: 'Get Tailored Interview Questions',
+      step4: 'Make Informed Hiring Decisions',
+      step1Description: 'Understand your evolving organizational culture',
+      step2Description: 'Create a dynamic cultural profile with AI analysis',
+      step3Description: 'Receive custom interview questions for your culture',
       step4Description:
-        'Make informed hiring decisions with data-driven insights',
+        'Select the best-fitting candidates with data-driven insights',
       testimonials: 'What Our Clients Say',
       testimonial1: {
         text: "Outio has transformed our hiring process. We've seen a significant improvement in cultural fit and employee retention.",
@@ -88,24 +90,29 @@ export default function Home() {
       },
       featuresTitle: 'Powerful Features for Cultural Excellence',
       keyBenefit: 'Key Benefit:',
+      tryDemo: 'Try Demo',
+      joinWaitlist: 'Join Waitlist',
+      waitlistBanner:
+        'Excited about Outio? Join our waitlist for early access!',
     },
     ko: {
       title: 'Outio',
-      subtitle: '문화를 해독하다. 최적의 인재를 만나다.',
-      description:
-        'AI 기반 펄스 서베이로 귀사만의 독특한 조직 DNA를 이해하고, 진정으로 어울리는 인재를 찾으세요.',
+      subtitle: ['AI 기반 문화 적합성', '채용 솔루션'],
+      description: [
+        '조직 문화를 이해하고,',
+        '가장 잘 맞는 인재를 찾아',
+        '고성과 팀을 구축하세요.',
+      ],
       feature1: '지속적인 문화 진단',
       feature1Description:
-        '정기적인 펄스 설문조사로 문화 프로필을 최신 상태로 유지합니다.',
+        '정기적인 펄스 설문으로 문화 프로필을 최신 상태로 유지합니다.',
       feature1Benefit: '문화적 변화를 선제적으로 파악하고 대응하세요.',
       feature2: '동적 문화 프로필',
-      feature2Description:
-        '실시간 분석을 통해 조직의 동적 문화 프로필을 생성합니다.',
+      feature2Description: 'AI 기반 분석으로 실시간 문화 프로필을 생성합니다.',
       feature2Benefit: '조직 문화에 대한 데이터 기반 의사결정을 내리세요.',
-      feature3: '맞춤형 채용 솔루션',
-      feature3Description:
-        '귀사의 문화를 바탕으로 자동 생성된 면접 질문과 평가 기준을 제공합니다.',
-      feature3Benefit: '채용 성공률을 높이고 이직률을 낮추세요.',
+      feature3: '문화 적합성 면접 가이드',
+      feature3Description: '문화 프로필 기반의 AI 생성 면접 질문을 받아보세요.',
+      feature3Benefit: '문화에 적합한 후보자 선별로 채용 성공률을 높이세요.',
       feature4: 'AI 기반 인사이트',
       feature4Description:
         '고급 AI를 활용하여 조직 문화에 대한 깊이 있는 통찰력을 얻으세요.',
@@ -125,12 +132,12 @@ export default function Home() {
       howItWorks: '서비스 이용 방법',
       step1: '펄스 설문 실시',
       step2: '문화 프로필 생성',
-      step3: '맞춤형 면접 질문 작성',
-      step4: '채용 프로세스 최적화',
-      step1Description: '정기적인 설문으로 조직 문화 이해',
-      step2Description: 'AI 기반 분석으로 동적 문화 프로필 생성',
-      step3Description: '귀사의 문화에 기반한 맞춤형 면접 질문 생성',
-      step4Description: '데이터 기반 인사이트로 정보에 기반한 채용 결정',
+      step3: '맞춤형 면접 질문 받기',
+      step4: '정보 기반 채용 결정',
+      step1Description: '변화하는 조직 문화를 이해합니다',
+      step2Description: 'AI 분석으로 동적 문화 프로필을 생성합니다',
+      step3Description: '문화에 맞는 맞춤형 면접 질문을 제공받습니다',
+      step4Description: '데이터 기반 인사이트로 최적의 후보자를 선별합니다',
       testimonials: '고객 후기',
       testimonial1: {
         text: 'Outio는 우리의 채용 과정을 혁신했습니다. 문화적 적합성과 직원 유지율이 크게 향상되었습니다.',
@@ -142,11 +149,28 @@ export default function Home() {
       },
       featuresTitle: '문화적 우수성을 위한 강력한 기능',
       keyBenefit: '주요 이점:',
+      tryDemo: '데모 체험하기',
+      joinWaitlist: '웨이트리스트 등록',
+      waitlistBanner:
+        'Outio에 관심이 있으신가요? 얼리 액세스를 위해 웨이트리스트에 등록하세요!',
     },
   };
 
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 text-white">
+      {/* Waitlist Banner */}
+      <div className="bg-blue-600 text-white py-2 px-4 text-center">
+        <p className="text-sm md:text-base">
+          {content[language].waitlistBanner}{' '}
+          <Link
+            href="/waitlist"
+            className="font-bold underline hover:text-blue-200 transition-colors duration-300"
+          >
+            {content[language].joinWaitlist}
+          </Link>
+        </p>
+      </div>
+
       <header className="bg-gray-900 bg-opacity-80 backdrop-blur-md shadow-lg fixed w-full z-10">
         <div className="container mx-auto px-6 py-4 flex justify-between items-center">
           <Link
@@ -177,33 +201,30 @@ export default function Home() {
           <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl tracking-tight font-extrabold mb-8 leading-tight">
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
               {language === 'en' ? (
-                <>
-                  Decode Your Culture.
-                  <br className="hidden sm:inline" /> Hire Your Perfect Match.
-                </>
+                <>{content[language].subtitle.join(' ')}</>
               ) : (
-                <>
-                  문화를 해독하다.
-                  <br className="hidden sm:inline" /> 최적의 인재를 만나다.
-                </>
+                <>{content[language].subtitle.join(' ')}</>
               )}
             </span>
           </h1>
           <p className="mt-6 text-lg sm:text-xl md:text-2xl lg:text-3xl text-gray-300 max-w-4xl mx-auto">
             {language === 'en' ? (
               <>
-                Harness the power of AI-driven pulse surveys
-                <br className="hidden md:inline" /> to understand your unique
-                organizational DNA
-                <br className="hidden md:inline" /> and find talent that truly
-                fits.
+                {content[language].description.map((line, index) => (
+                  <React.Fragment key={index}>
+                    {line}
+                    <br />
+                  </React.Fragment>
+                ))}
               </>
             ) : (
               <>
-                AI 기반 펄스 서베이로 귀사만의 독특한
-                <br className="hidden md:inline" /> 조직 DNA를 이해하고,
-                진정으로
-                <br className="hidden md:inline" /> 어울리는 인재를 찾으세요.
+                {content[language].description.map((line, index) => (
+                  <React.Fragment key={index}>
+                    {line}
+                    <br />
+                  </React.Fragment>
+                ))}
               </>
             )}
           </p>
@@ -217,7 +238,7 @@ export default function Home() {
               href="/auth"
               className="inline-block px-8 sm:px-10 py-4 sm:py-5 text-lg sm:text-xl font-semibold rounded-full text-white bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg"
             >
-              {content[language].cta}
+              {content[language].tryDemo}
             </Link>
           </motion.div>
         </motion.div>
