@@ -16,6 +16,8 @@ import {
   StarIcon,
   ChartPieIcon,
   ShieldCheckIcon,
+  ArrowUpIcon,
+  ArrowDownIcon,
 } from '@heroicons/react/24/outline';
 
 export default function Home() {

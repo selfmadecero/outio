@@ -18,6 +18,8 @@ import {
   XMarkIcon,
   ClipboardDocumentCheckIcon,
   BellIcon,
+  ArrowUpIcon,
+  ArrowDownIcon,
 } from '@heroicons/react/24/outline';
 import { useLanguage } from '../contexts/LanguageContext';
 import LanguageSelector from './LanguageSelector';
@@ -117,9 +119,9 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
   return (
-    <div className="flex h-screen bg-gradient-to-br from-blue-50 to-purple-50">
+    <div className="flex flex-col h-screen bg-gradient-to-br from-gray-50 to-gray-100">
       {/* Demo Alert Banner */}
-      <div className="fixed top-0 left-0 right-0 bg-yellow-500 text-white py-2 px-4 text-center z-50">
+      <div className="bg-yellow-500 text-white py-2 px-4 text-center">
         <p className="text-sm font-medium">
           {content[language].demoAlert}{' '}
           <Link
@@ -131,15 +133,68 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         </p>
       </div>
 
-      {/* Sidebar for desktop */}
-      <div
-        className={`hidden md:block w-64 bg-white bg-opacity-80 backdrop-filter backdrop-blur-lg shadow-lg mt-10`}
-      >
-        <SidebarContent
-          menuItems={menuItems}
-          pathname={pathname || ''}
-          language={language}
-        />
+      <div className="flex flex-1 overflow-hidden">
+        {/* Sidebar for desktop */}
+        <div className="hidden md:block w-64 bg-white shadow-lg">
+          <SidebarContent
+            menuItems={menuItems}
+            pathname={pathname || ''}
+            language={language}
+          />
+        </div>
+
+        {/* Main Content */}
+        <div className="flex-1 flex flex-col overflow-hidden">
+          {/* Top bar */}
+          <header className="h-16 bg-white border-b border-gray-200">
+            <div className="h-full flex justify-between items-center px-6">
+              <div className="flex items-center">
+                <button
+                  className="md:hidden mr-4 text-gray-500 hover:text-gray-700"
+                  onClick={toggleSidebar}
+                >
+                  <Bars3Icon className="h-6 w-6" />
+                </button>
+                <span className="text-sm font-medium text-gray-500">
+                  {content[language].demo}
+                </span>
+              </div>
+              <div className="flex items-center space-x-4">
+                <Link
+                  href="/waitlist"
+                  className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-full text-white bg-gradient-to-r from-green-400 to-blue-500 hover:from-green-500 hover:to-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition duration-300 animate-pulse"
+                >
+                  <BellIcon className="h-5 w-5 mr-2" />
+                  {content[language].joinWaitlist}
+                </Link>
+                <LanguageSelector onChange={() => {}} />
+                <button
+                  onClick={handleSignOut}
+                  className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-full text-white bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-300"
+                >
+                  <ArrowRightOnRectangleIcon className="h-5 w-5 mr-2" />
+                  {content[language].signOut}
+                </button>
+              </div>
+            </div>
+          </header>
+
+          {/* Main content */}
+          <main className="flex-1 overflow-x-hidden overflow-y-auto bg-white">
+            {children}
+          </main>
+        </div>
+      </div>
+
+      {/* Floating Waitlist Button */}
+      <div className="fixed bottom-4 right-4 md:bottom-8 md:right-8">
+        <Link
+          href="/waitlist"
+          className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-full text-white bg-gradient-to-r from-green-400 to-blue-500 hover:from-green-500 hover:to-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition duration-300 shadow-lg hover:shadow-xl"
+        >
+          <BellIcon className="h-5 w-5 mr-2" />
+          {content[language].joinWaitlist}
+        </Link>
       </div>
 
       {/* Sidebar for mobile */}
@@ -168,59 +223,6 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
             language={language}
           />
         </div>
-      </div>
-
-      {/* Main Content */}
-      <div className="flex-1 flex flex-col overflow-hidden">
-        {/* Top bar */}
-        <header className="h-16 bg-white bg-opacity-70 backdrop-filter backdrop-blur-lg border-b border-gray-200 mt-10">
-          <div className="h-full flex justify-between items-center px-6">
-            <div className="flex items-center">
-              <button
-                className="md:hidden mr-4 text-gray-500 hover:text-gray-700"
-                onClick={toggleSidebar}
-              >
-                <Bars3Icon className="h-6 w-6" />
-              </button>
-              <span className="text-sm font-medium text-gray-500">
-                {content[language].demo}
-              </span>
-            </div>
-            <div className="flex items-center space-x-4">
-              <Link
-                href="/waitlist"
-                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-full text-white bg-gradient-to-r from-green-400 to-blue-500 hover:from-green-500 hover:to-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition duration-300 animate-pulse"
-              >
-                <BellIcon className="h-5 w-5 mr-2" />
-                {content[language].joinWaitlist}
-              </Link>
-              <LanguageSelector onChange={() => {}} />
-              <button
-                onClick={handleSignOut}
-                className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-full text-white bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-300"
-              >
-                <ArrowRightOnRectangleIcon className="h-5 w-5 mr-2" />
-                {content[language].signOut}
-              </button>
-            </div>
-          </div>
-        </header>
-
-        {/* Main content */}
-        <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50 mt-10">
-          {children}
-        </main>
-      </div>
-
-      {/* Floating Waitlist Button */}
-      <div className="fixed bottom-4 right-4 md:bottom-8 md:right-8">
-        <Link
-          href="/waitlist"
-          className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-full text-white bg-gradient-to-r from-green-400 to-blue-500 hover:from-green-500 hover:to-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition duration-300 shadow-lg hover:shadow-xl"
-        >
-          <BellIcon className="h-5 w-5 mr-2" />
-          {content[language].joinWaitlist}
-        </Link>
       </div>
     </div>
   );

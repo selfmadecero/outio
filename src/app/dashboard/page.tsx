@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import {
   ChartBarIcon,
@@ -9,6 +9,8 @@ import {
   ArrowTrendingUpIcon,
   CalendarIcon,
   ChatBubbleLeftRightIcon,
+  PlusCircleIcon,
+  DocumentTextIcon,
   ArrowUpIcon,
   ArrowDownIcon,
 } from '@heroicons/react/24/outline';
@@ -118,14 +120,12 @@ export default function Dashboard() {
       viewAll: 'View All',
       createSurvey: 'Create New Survey',
       viewReports: 'View Reports',
-      action: 'Action',
-      date: 'Date',
-      insight: 'Insight',
-      importance: 'Importance',
       upcomingSurveys: 'Upcoming Surveys',
       teamFeedback: 'Recent Team Feedback',
       viewSurvey: 'View Survey',
       respondToFeedback: 'Respond',
+      generateInterviewQuestions: 'Generate Interview Questions',
+      viewCultureProfile: 'View Culture Profile',
     },
     ko: {
       welcome: '환영합니다',
@@ -137,21 +137,19 @@ export default function Dashboard() {
       viewAll: '전체 보기',
       createSurvey: '새 설문 만들기',
       viewReports: '보고서 보기',
-      action: '활동',
-      date: '날짜',
-      insight: '인사이트',
-      importance: '중요도',
       upcomingSurveys: '예정된 설문조사',
       teamFeedback: '최근 팀 피드백',
       viewSurvey: '설문 보기',
       respondToFeedback: '응답하기',
+      generateInterviewQuestions: '면접 질문 생성',
+      viewCultureProfile: '문화 프로필 보기',
     },
   };
 
   return (
     <DashboardLayout>
-      <div className="container mx-auto px-6 py-8 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 min-h-screen text-gray-900 dark:text-white">
-        <h1 className="text-4xl font-bold mb-8 text-gray-900 dark:text-white">
+      <div className="container mx-auto px-6 py-8 bg-gradient-to-br from-gray-900 to-gray-800 min-h-screen text-white">
+        <h1 className="text-4xl font-bold mb-8 text-white">
           {content[language].welcome}, {companyProfile.name[language]}
         </h1>
 
@@ -190,31 +188,25 @@ export default function Dashboard() {
           ].map((item, index) => (
             <div
               key={index}
-              className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg hover:shadow-xl transition duration-300 transform hover:scale-105"
+              className="bg-gray-800 rounded-xl p-6 shadow-lg hover:shadow-xl transition duration-300 transform hover:scale-105"
             >
               <div className="flex items-center justify-between mb-4">
                 <div>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">
-                    {item.title}
-                  </p>
-                  <p className="text-3xl font-bold text-gray-900 dark:text-white mt-2">
+                  <p className="text-sm text-gray-400">{item.title}</p>
+                  <p className="text-3xl font-bold text-white mt-2">
                     {item.value}
                   </p>
                 </div>
                 <div
-                  className={`p-4 rounded-full bg-${item.color}-100 dark:bg-${item.color}-900 bg-opacity-20`}
+                  className={`p-4 rounded-full bg-${item.color}-100 bg-opacity-20`}
                 >
-                  <item.icon
-                    className={`h-8 w-8 text-${item.color}-500 dark:text-${item.color}-400`}
-                  />
+                  <item.icon className={`h-8 w-8 text-${item.color}-400`} />
                 </div>
               </div>
               {item.change !== 0 && (
                 <div
                   className={`flex items-center ${
-                    item.change > 0
-                      ? 'text-green-500 dark:text-green-400'
-                      : 'text-red-500 dark:text-red-400'
+                    item.change > 0 ? 'text-green-400' : 'text-red-400'
                   }`}
                 >
                   {item.change > 0 ? (
@@ -235,58 +227,51 @@ export default function Dashboard() {
           ))}
         </div>
 
-        {/* Recent Activity and Culture Insights sections */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
-          <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg">
-            <h2 className="text-2xl font-semibold mb-6 text-gray-900 dark:text-white flex items-center">
-              <ClipboardDocumentListIcon className="h-7 w-7 mr-3 text-blue-500 dark:text-blue-400" />
+          <div className="bg-gray-800 rounded-xl p-6 shadow-lg">
+            <h2 className="text-2xl font-semibold mb-6 text-white flex items-center">
+              <ClipboardDocumentListIcon className="h-7 w-7 mr-3 text-blue-400" />
               {content[language].recentActivity}
             </h2>
             <div className="space-y-4">
               {dummyRecentActivities[language].map((activity) => (
                 <div
                   key={activity.id}
-                  className="flex justify-between items-center border-b border-gray-200 dark:border-gray-700 pb-4"
+                  className="flex justify-between items-center border-b border-gray-700 pb-4"
                 >
-                  <span className="text-gray-900 dark:text-gray-300 text-lg">
-                    {activity.action}
-                  </span>
-                  <span className="text-gray-500 dark:text-gray-400 text-sm">
-                    {activity.date}
-                  </span>
+                  <span className="text-white text-lg">{activity.action}</span>
+                  <span className="text-gray-400 text-sm">{activity.date}</span>
                 </div>
               ))}
             </div>
             <Link
               href="/activities"
-              className="text-blue-500 dark:text-blue-400 hover:underline mt-6 inline-block text-lg"
+              className="text-blue-400 hover:underline mt-6 inline-block text-lg"
             >
               {content[language].viewAll}
             </Link>
           </div>
-          <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg">
-            <h2 className="text-2xl font-semibold mb-6 text-gray-900 dark:text-white flex items-center">
-              <ArrowTrendingUpIcon className="h-7 w-7 mr-3 text-purple-500 dark:text-purple-400" />
+          <div className="bg-gray-800 rounded-xl p-6 shadow-lg">
+            <h2 className="text-2xl font-semibold mb-6 text-white flex items-center">
+              <ArrowTrendingUpIcon className="h-7 w-7 mr-3 text-purple-400" />
               {content[language].cultureInsights}
             </h2>
             <div className="space-y-4">
               {dummyCultureInsights[language].map((insight) => (
                 <div
                   key={insight.id}
-                  className="flex justify-between items-center border-b border-gray-200 dark:border-gray-700 pb-4"
+                  className="flex justify-between items-center border-b border-gray-700 pb-4"
                 >
-                  <span className="text-gray-900 dark:text-gray-300 text-lg">
-                    {insight.insight}
-                  </span>
+                  <span className="text-white text-lg">{insight.insight}</span>
                   <span
                     className={`text-sm px-3 py-1 rounded-full ${
                       insight.importance === 'High' ||
                       insight.importance === '높음'
-                        ? 'bg-red-500 bg-opacity-20 text-red-500 dark:text-red-400'
+                        ? 'bg-red-500 bg-opacity-20 text-red-400'
                         : insight.importance === 'Medium' ||
                           insight.importance === '중간'
-                        ? 'bg-yellow-500 bg-opacity-20 text-yellow-500 dark:text-yellow-400'
-                        : 'bg-green-500 bg-opacity-20 text-green-500 dark:text-green-400'
+                        ? 'bg-yellow-500 bg-opacity-20 text-yellow-400'
+                        : 'bg-green-500 bg-opacity-20 text-green-400'
                     }`}
                   >
                     {insight.importance}
@@ -296,33 +281,28 @@ export default function Dashboard() {
             </div>
             <Link
               href="/insights"
-              className="text-purple-500 dark:text-purple-400 hover:underline mt-6 inline-block text-lg"
+              className="text-purple-400 hover:underline mt-6 inline-block text-lg"
             >
               {content[language].viewAll}
             </Link>
           </div>
         </div>
 
-        {/* Upcoming Surveys and Team Feedback sections */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
-          <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg">
-            <h2 className="text-2xl font-semibold mb-6 text-gray-900 dark:text-white flex items-center">
-              <CalendarIcon className="h-7 w-7 mr-3 text-green-500 dark:text-green-400" />
+          <div className="bg-gray-800 rounded-xl p-6 shadow-lg">
+            <h2 className="text-2xl font-semibold mb-6 text-white flex items-center">
+              <CalendarIcon className="h-7 w-7 mr-3 text-green-400" />
               {content[language].upcomingSurveys}
             </h2>
             <div className="space-y-4">
               {dummyUpcomingSurveys[language].map((survey) => (
                 <div
                   key={survey.id}
-                  className="flex justify-between items-center border-b border-gray-200 dark:border-gray-700 pb-4"
+                  className="flex justify-between items-center border-b border-gray-700 pb-4"
                 >
                   <div>
-                    <span className="text-gray-900 dark:text-gray-300 text-lg">
-                      {survey.name}
-                    </span>
-                    <p className="text-gray-500 dark:text-gray-400 text-sm">
-                      {survey.date}
-                    </p>
+                    <span className="text-white text-lg">{survey.name}</span>
+                    <p className="text-gray-400 text-sm">{survey.date}</p>
                   </div>
                   <Link
                     href={`/surveys/${survey.id}`}
@@ -334,22 +314,22 @@ export default function Dashboard() {
               ))}
             </div>
           </div>
-          <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg">
-            <h2 className="text-2xl font-semibold mb-6 text-gray-900 dark:text-white flex items-center">
-              <ChatBubbleLeftRightIcon className="h-7 w-7 mr-3 text-yellow-500 dark:text-yellow-400" />
+          <div className="bg-gray-800 rounded-xl p-6 shadow-lg">
+            <h2 className="text-2xl font-semibold mb-6 text-white flex items-center">
+              <ChatBubbleLeftRightIcon className="h-7 w-7 mr-3 text-yellow-400" />
               {content[language].teamFeedback}
             </h2>
             <div className="space-y-4">
               {dummyTeamFeedback[language].map((feedback) => (
                 <div
                   key={feedback.id}
-                  className="border-b border-gray-200 dark:border-gray-700 pb-4"
+                  className="border-b border-gray-700 pb-4"
                 >
-                  <p className="text-gray-900 dark:text-gray-300 text-lg mb-2">
+                  <p className="text-white text-lg mb-2">
                     "{feedback.message}"
                   </p>
                   <div className="flex justify-between items-center">
-                    <span className="text-gray-500 dark:text-gray-400 text-sm">
+                    <span className="text-gray-400 text-sm">
                       - {feedback.from}
                     </span>
                     <button className="px-4 py-2 bg-yellow-500 text-white rounded-full hover:bg-yellow-600 transition duration-300">
@@ -362,20 +342,33 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Action buttons */}
-        <div className="flex justify-center space-x-6">
+        <div className="flex flex-wrap justify-center space-x-4 space-y-4 md:space-y-0">
           <Link
             href="/survey/create"
-            className="px-8 py-4 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition duration-300 flex items-center text-lg font-semibold"
+            className="px-6 py-3 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition duration-300 flex items-center text-lg font-semibold"
           >
-            <ClipboardDocumentListIcon className="h-6 w-6 mr-3" />
+            <PlusCircleIcon className="h-6 w-6 mr-2" />
             {content[language].createSurvey}
           </Link>
           <Link
-            href="/reports"
-            className="px-8 py-4 bg-purple-500 text-white rounded-full hover:bg-purple-600 transition duration-300 flex items-center text-lg font-semibold"
+            href="/culture-profile"
+            className="px-6 py-3 bg-purple-500 text-white rounded-full hover:bg-purple-600 transition duration-300 flex items-center text-lg font-semibold"
           >
-            <ChartBarIcon className="h-6 w-6 mr-3" />
+            <ChartBarIcon className="h-6 w-6 mr-2" />
+            {content[language].viewCultureProfile}
+          </Link>
+          <Link
+            href="/interview-questions"
+            className="px-6 py-3 bg-green-500 text-white rounded-full hover:bg-green-600 transition duration-300 flex items-center text-lg font-semibold"
+          >
+            <DocumentTextIcon className="h-6 w-6 mr-2" />
+            {content[language].generateInterviewQuestions}
+          </Link>
+          <Link
+            href="/reports"
+            className="px-6 py-3 bg-yellow-500 text-white rounded-full hover:bg-yellow-600 transition duration-300 flex items-center text-lg font-semibold"
+          >
+            <ChartBarIcon className="h-6 w-6 mr-2" />
             {content[language].viewReports}
           </Link>
         </div>
