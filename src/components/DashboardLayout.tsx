@@ -13,6 +13,8 @@ import {
   ArrowRightOnRectangleIcon,
   LanguageIcon,
   ChatBubbleLeftRightIcon,
+  Bars3Icon,
+  XMarkIcon,
 } from '@heroicons/react/24/outline';
 import { useLanguage } from '../contexts/LanguageContext';
 
@@ -22,6 +24,7 @@ interface DashboardLayoutProps {
 
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const [user, setUser] = useState<User | null>(null);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
   const { language, setLanguage } = useLanguage();
@@ -79,11 +82,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       icon: UserGroupIcon,
       href: '/survey/create',
     },
-    {
-      name: content[language].hiring,
-      icon: UserGroupIcon,
-      href: '/hiring', // 여기를 '/hiring'으로 수정
-    },
+    { name: content[language].hiring, icon: UserGroupIcon, href: '/hiring' },
     {
       name: content[language].feedback,
       icon: ChatBubbleLeftRightIcon,
@@ -96,38 +95,47 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
     },
   ];
 
+  const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
+
   return (
     <div className="flex h-screen bg-gradient-to-br from-blue-50 to-purple-50">
-      {/* Sidebar */}
-      <div className="w-64 bg-white bg-opacity-80 backdrop-filter backdrop-blur-lg shadow-lg">
-        <div className="flex items-center justify-center h-16 border-b border-gray-200">
-          <Link
-            href="/dashboard"
-            className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-600 hover:opacity-80 transition duration-300"
-          >
-            Outio
-          </Link>
-        </div>
-        <nav className="mt-8">
-          {menuItems.map((item) => (
-            <Link
-              key={item.name}
-              href={item.href}
-              className={`flex items-center py-3 px-6 transition duration-300 ${
-                pathname === item.href
-                  ? 'bg-gradient-to-r from-blue-100 to-purple-100 border-r-4 border-blue-500 text-blue-600'
-                  : 'text-gray-500 hover:bg-gray-100 hover:text-gray-700'
-              }`}
+      {/* Sidebar for desktop */}
+      <div
+        className={`hidden md:block w-64 bg-white bg-opacity-80 backdrop-filter backdrop-blur-lg shadow-lg`}
+      >
+        <SidebarContent
+          menuItems={menuItems}
+          pathname={pathname}
+          language={language}
+        />
+      </div>
+
+      {/* Sidebar for mobile */}
+      <div
+        className={`md:hidden fixed inset-0 z-40 ${
+          isSidebarOpen ? 'block' : 'hidden'
+        }`}
+      >
+        <div
+          className="fixed inset-0 bg-gray-600 bg-opacity-75"
+          onClick={toggleSidebar}
+        ></div>
+        <div className="fixed inset-y-0 left-0 w-64 bg-white shadow-lg">
+          <div className="absolute top-0 right-0 -mr-12 pt-2">
+            <button
+              type="button"
+              className="ml-1 flex items-center justify-center h-10 w-10 rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+              onClick={toggleSidebar}
             >
-              <item.icon
-                className={`h-6 w-6 ${
-                  pathname === item.href ? 'text-blue-500' : ''
-                }`}
-              />
-              <span className="mx-3 font-medium">{item.name}</span>
-            </Link>
-          ))}
-        </nav>
+              <XMarkIcon className="h-6 w-6 text-white" />
+            </button>
+          </div>
+          <SidebarContent
+            menuItems={menuItems}
+            pathname={pathname}
+            language={language}
+          />
+        </div>
       </div>
 
       {/* Main Content */}
@@ -135,7 +143,13 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         {/* Top bar */}
         <header className="h-16 bg-white bg-opacity-70 backdrop-filter backdrop-blur-lg border-b border-gray-200">
           <div className="h-full flex justify-between items-center px-6">
-            <div className="flex justify-start lg:w-0 lg:flex-1">
+            <div className="flex items-center">
+              <button
+                className="md:hidden mr-4 text-gray-500 hover:text-gray-700"
+                onClick={toggleSidebar}
+              >
+                <Bars3Icon className="h-6 w-6" />
+              </button>
               <span className="text-2xl font-semibold text-gray-800 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-600">
                 {content[language].dashboard}
               </span>
@@ -165,5 +179,40 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         </main>
       </div>
     </div>
+  );
+}
+
+function SidebarContent({ menuItems, pathname, language }) {
+  return (
+    <>
+      <div className="flex items-center justify-center h-16 border-b border-gray-200">
+        <Link
+          href="/dashboard"
+          className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-600 hover:opacity-80 transition duration-300"
+        >
+          Outio
+        </Link>
+      </div>
+      <nav className="mt-8">
+        {menuItems.map((item) => (
+          <Link
+            key={item.name}
+            href={item.href}
+            className={`flex items-center py-3 px-6 transition duration-300 ${
+              pathname === item.href
+                ? 'bg-gradient-to-r from-blue-100 to-purple-100 border-r-4 border-blue-500 text-blue-600'
+                : 'text-gray-500 hover:bg-gray-100 hover:text-gray-700'
+            }`}
+          >
+            <item.icon
+              className={`h-6 w-6 ${
+                pathname === item.href ? 'text-blue-500' : ''
+              }`}
+            />
+            <span className="mx-3 font-medium">{item.name}</span>
+          </Link>
+        ))}
+      </nav>
+    </>
   );
 }
