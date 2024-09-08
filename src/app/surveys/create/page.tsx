@@ -4,13 +4,19 @@ import { useState, useEffect } from 'react';
 import { useLanguage } from '../../../contexts/LanguageContext';
 import DashboardLayout from '../../../components/DashboardLayout';
 import { motion } from 'framer-motion';
+import ReactConfetti from 'react-confetti';
 import {
   ClipboardDocumentListIcon,
   DocumentDuplicateIcon,
   PlusIcon,
   MinusIcon,
+  ChevronDownIcon,
+  ChevronUpIcon,
+  XCircleIcon,
 } from '@heroicons/react/24/outline';
 import SurveyDeploymentPopup from '../../../components/SurveyDeploymentPopup';
+import RecipientSelector from '../../../components/RecipientSelector';
+import { useRouter } from 'next/navigation';
 
 interface SurveyTemplate {
   id: string;
@@ -78,7 +84,7 @@ const surveyTemplates: SurveyTemplate[] = [
     },
     questions: [
       {
-        ko: '직원들은 회사의 가치와 목표에 동의하십니까?',
+        ko: '직원들은 회사의 가치와 목표에 동의하니까?',
         en: "Do employees agree with the company's values and goals?",
       },
       {
@@ -168,6 +174,28 @@ const surveyTemplates: SurveyTemplate[] = [
   },
 ];
 
+interface Department {
+  id: string;
+  name: {
+    en: string;
+    ko: string;
+  };
+  employees: number;
+}
+
+const departments: Department[] = [
+  {
+    id: 'all',
+    name: { en: 'All Employees', ko: '전체 임직원' },
+    employees: 225, // 모든 부서의 직원 수 합계
+  },
+  { id: 'hr', name: { en: 'Human Resources', ko: '인사팀' }, employees: 20 },
+  { id: 'it', name: { en: 'IT', ko: 'IT팀' }, employees: 50 },
+  { id: 'marketing', name: { en: 'Marketing', ko: '마케팅팀' }, employees: 30 },
+  { id: 'sales', name: { en: 'Sales', ko: '영업팀' }, employees: 100 },
+  { id: 'finance', name: { en: 'Finance', ko: '재무팀' }, employees: 25 },
+];
+
 export default function CreateSurvey() {
   const { language } = useLanguage();
   const [selectedTemplate, setSelectedTemplate] = useState<string>('custom');
@@ -181,7 +209,14 @@ export default function CreateSurvey() {
   const [frequency, setFrequency] = useState('weekly');
   const [duration, setDuration] = useState(4);
   const [isDeploymentPopupOpen, setIsDeploymentPopupOpen] = useState(false);
-  const [recipients, setRecipients] = useState<string[]>([]);
+  const [isRecipientSelectorOpen, setIsRecipientSelectorOpen] = useState(false);
+  const [selectedRecipients, setSelectedRecipients] = useState<string[]>([
+    'all',
+  ]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [showConfetti, setShowConfetti] = useState(false);
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+  const router = useRouter();
 
   const content = {
     en: {
@@ -209,7 +244,8 @@ export default function CreateSurvey() {
       previous: 'Previous',
       recipients: 'Recipients',
       allEmployees: 'All Employees',
-      selectDepartments: 'Select Departments',
+      selectRecipients: 'Select Recipients',
+      departmentsSelected: 'departments selected',
       departments: {
         hr: 'Human Resources',
         it: 'IT',
@@ -217,6 +253,18 @@ export default function CreateSurvey() {
         sales: 'Sales',
         finance: 'Finance',
       },
+      surveySettings: 'Survey Settings',
+      weeks: 'weeks',
+      employees: 'employees',
+      selectedRecipients: 'Selected Recipients',
+      search: 'Search',
+      selectAll: 'Select All',
+      deselectAll: 'Deselect All',
+      confirm: 'Confirm',
+      congratulations: 'Congratulations!',
+      surveyCreatedMessage: 'Your survey has been created successfully.',
+      goToSurveys: 'Go to Surveys',
+      goToParticipate: 'Go to Participate',
     },
     ko: {
       title: '새 설문조사 만들기',
@@ -228,7 +276,7 @@ export default function CreateSurvey() {
       chooseTemplate: '템플릿 선택',
       questions: '설문 문항',
       addQuestion: '문항 추가',
-      removeQuestion: '문항 제거',
+      removeQuestion: '문항 제',
       questionPlaceholder: '질문을 입력하세요',
       next: '다음',
       surveyType: '설문조사 유형',
@@ -243,7 +291,8 @@ export default function CreateSurvey() {
       previous: '이전',
       recipients: '수신자',
       allEmployees: '전체 임직원',
-      selectDepartments: '부서 선택',
+      selectRecipients: '수신자 선택',
+      departmentsSelected: '개 부서 선택됨',
       departments: {
         hr: '인사팀',
         it: 'IT팀',
@@ -251,6 +300,18 @@ export default function CreateSurvey() {
         sales: '영업팀',
         finance: '재무팀',
       },
+      surveySettings: '설문조사 설정',
+      weeks: '주',
+      employees: '명',
+      selectedRecipients: '선택된 수신자',
+      search: '검색',
+      selectAll: '전체 선택',
+      deselectAll: '전체 해제',
+      confirm: '확인',
+      congratulations: '축하합니다!',
+      surveyCreatedMessage: '설문조사가 성공적으로 생성되었습니다.',
+      goToSurveys: '설문조사 페이지로 돌아가기',
+      goToParticipate: '설문조사 하러가기',
     },
   };
 
@@ -305,18 +366,62 @@ export default function CreateSurvey() {
       surveyType,
       frequency,
       duration,
-      recipients,
+      recipients: selectedRecipients,
+      isAnonymous: true,
     });
     // 여기에 설문조사 발송 로직 추가
     setIsDeploymentPopupOpen(false);
+    setShowSuccessPopup(true);
+    setShowConfetti(true);
+    setTimeout(() => setShowConfetti(false), 5000); // 5초 후 confetti 효과 종료
   };
 
-  const handleRecipientsChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedOptions = Array.from(
-      e.target.selectedOptions,
-      (option) => option.value
-    );
-    setRecipients(selectedOptions);
+  const handleGoToSurveys = () => {
+    setShowSuccessPopup(false);
+    router.push('/surveys');
+  };
+
+  const handleGoToParticipate = () => {
+    setShowSuccessPopup(false);
+    router.push('/surveys/participate');
+  };
+
+  const handleToggleDepartment = (departmentId: string) => {
+    if (departmentId === 'all') {
+      setSelectedRecipients(selectedRecipients.includes('all') ? [] : ['all']);
+    } else {
+      setSelectedRecipients((prev) => {
+        if (prev.includes('all')) {
+          return [departmentId];
+        }
+        if (prev.includes(departmentId)) {
+          return prev.filter((id) => id !== departmentId);
+        }
+        return [...prev, departmentId];
+      });
+    }
+  };
+
+  const getSelectedDepartments = () => {
+    if (selectedRecipients.includes('all')) {
+      return departments;
+    }
+    return departments.filter((dept) => selectedRecipients.includes(dept.id));
+  };
+
+  const handleRemoveRecipient = (deptId: string) => {
+    setSelectedRecipients((prev) => prev.filter((id) => id !== deptId));
+  };
+
+  const getTotalSelectedEmployees = () => {
+    if (selectedRecipients.includes('all')) {
+      return departments.find((dept) => dept.id === 'all')?.employees || 0;
+    }
+    return departments
+      .filter(
+        (dept) => selectedRecipients.includes(dept.id) && dept.id !== 'all'
+      )
+      .reduce((sum, dept) => sum + dept.employees, 0);
   };
 
   useEffect(() => {
@@ -451,102 +556,177 @@ export default function CreateSurvey() {
           )}
 
           {step === 2 && (
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  {content[language].surveyType}
-                </label>
-                <div className="flex space-x-4">
-                  <button
-                    type="button"
-                    onClick={() => setSurveyType('one-time')}
-                    className={`px-4 py-2 rounded-md ${
-                      surveyType === 'one-time'
-                        ? 'bg-indigo-600 text-white'
-                        : 'bg-gray-200 text-gray-700'
-                    }`}
-                  >
-                    {content[language].oneTime}
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setSurveyType('pulse')}
-                    className={`px-4 py-2 rounded-md ${
-                      surveyType === 'pulse'
-                        ? 'bg-indigo-600 text-white'
-                        : 'bg-gray-200 text-gray-700'
-                    }`}
-                  >
-                    {content[language].pulse}
-                  </button>
-                </div>
-              </div>
+            <motion.form
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              onSubmit={handleSubmit}
+              className="space-y-8"
+            >
+              <div className="bg-white rounded-xl shadow-sm p-6 space-y-6">
+                <h2 className="text-2xl font-semibold text-gray-800">
+                  {content[language].surveySettings}
+                </h2>
 
-              {surveyType === 'pulse' && (
-                <>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      {content[language].frequency}
-                    </label>
-                    <select
-                      value={frequency}
-                      onChange={(e) => setFrequency(e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-800"
+                <div className="space-y-4">
+                  <label className="block text-sm font-medium text-gray-700">
+                    {content[language].surveyType}
+                  </label>
+                  <div className="flex space-x-4">
+                    <button
+                      type="button"
+                      onClick={() => setSurveyType('one-time')}
+                      className={`flex-1 px-4 py-2 rounded-md transition-all duration-200 ${
+                        surveyType === 'one-time'
+                          ? 'bg-indigo-600 text-white shadow-md'
+                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      }`}
                     >
-                      <option value="daily">{content[language].daily}</option>
-                      <option value="weekly">{content[language].weekly}</option>
-                      <option value="biweekly">
-                        {content[language].biweekly}
-                      </option>
-                      <option value="monthly">
-                        {content[language].monthly}
-                      </option>
-                    </select>
+                      {content[language].oneTime}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setSurveyType('pulse')}
+                      className={`flex-1 px-4 py-2 rounded-md transition-all duration-200 ${
+                        surveyType === 'pulse'
+                          ? 'bg-indigo-600 text-white shadow-md'
+                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      }`}
+                    >
+                      {content[language].pulse}
+                    </button>
                   </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      {content[language].duration}
-                    </label>
-                    <input
-                      type="number"
-                      value={duration}
-                      onChange={(e) => setDuration(parseInt(e.target.value))}
-                      min="1"
-                      max="52"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-800"
-                    />
-                  </div>
-                </>
-              )}
+                </div>
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  {content[language].recipients}
-                </label>
-                <select
-                  multiple
-                  value={recipients}
-                  onChange={handleRecipientsChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-800"
-                >
-                  <option value="all">{content[language].allEmployees}</option>
-                  <optgroup label={content[language].selectDepartments}>
-                    {Object.entries(content[language].departments).map(
-                      ([key, value]) => (
-                        <option key={key} value={key}>
-                          {value}
+                {surveyType === 'pulse' && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    transition={{ duration: 0.3 }}
+                    className="space-y-4"
+                  >
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        {content[language].frequency}
+                      </label>
+                      <select
+                        value={frequency}
+                        onChange={(e) => setFrequency(e.target.value)}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-800"
+                      >
+                        <option value="daily">{content[language].daily}</option>
+                        <option value="weekly">
+                          {content[language].weekly}
                         </option>
-                      )
-                    )}
-                  </optgroup>
-                </select>
+                        <option value="biweekly">
+                          {content[language].biweekly}
+                        </option>
+                        <option value="monthly">
+                          {content[language].monthly}
+                        </option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        {content[language].duration}
+                      </label>
+                      <div className="flex items-center space-x-2">
+                        <input
+                          type="range"
+                          min="1"
+                          max="52"
+                          value={duration}
+                          onChange={(e) =>
+                            setDuration(parseInt(e.target.value))
+                          }
+                          className="w-full"
+                        />
+                        <span className="text-gray-700 font-medium">
+                          {duration} {content[language].weeks}
+                        </span>
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    {content[language].recipients}
+                  </label>
+                  <div className="space-y-2">
+                    {departments.map((dept) => (
+                      <div
+                        key={dept.id}
+                        className="flex items-center p-2 rounded-md hover:bg-gray-100 cursor-pointer"
+                        onClick={() => handleToggleDepartment(dept.id)}
+                      >
+                        <input
+                          type="checkbox"
+                          checked={
+                            selectedRecipients.includes(dept.id) ||
+                            selectedRecipients.includes('all')
+                          }
+                          onChange={() => {}}
+                          className="mr-2"
+                        />
+                        <span className="flex-grow">
+                          {dept.name[language as 'en' | 'ko']}
+                        </span>
+                        <span className="text-sm text-gray-500">
+                          {dept.employees}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {selectedRecipients.length > 0 && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="mt-4 p-4 bg-indigo-50 rounded-md"
+                  >
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-sm font-medium text-indigo-700">
+                        {content[language].selectedRecipients}
+                      </span>
+                      <span className="text-sm font-bold text-indigo-700">
+                        {getTotalSelectedEmployees()}{' '}
+                        {content[language].employees}
+                      </span>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      {getSelectedDepartments().map((dept) => (
+                        <span
+                          key={dept.id}
+                          className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800"
+                        >
+                          {dept.name[language as 'en' | 'ko']}
+                          {dept.id !== 'all' && (
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation(); // 이벤트 버블링 방지
+                                handleRemoveRecipient(dept.id);
+                              }}
+                              className="ml-1 focus:outline-none"
+                            >
+                              <XCircleIcon className="h-4 w-4 text-indigo-600 hover:text-indigo-800" />
+                            </button>
+                          )}
+                        </span>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
               </div>
 
               <div className="flex justify-between">
                 <button
                   type="button"
                   onClick={handlePrevious}
-                  className="bg-gray-300 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-400 transition duration-300 shadow-md"
+                  className="bg-gray-100 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-200 transition duration-300 shadow-sm"
                 >
                   {content[language].previous}
                 </button>
@@ -557,7 +737,7 @@ export default function CreateSurvey() {
                   {content[language].create}
                 </button>
               </div>
-            </form>
+            </motion.form>
           )}
         </motion.div>
 
@@ -567,6 +747,52 @@ export default function CreateSurvey() {
           onDeploy={handleDeploymentConfirm}
           language={language as 'en' | 'ko'}
         />
+
+        {showSuccessPopup && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.3 }}
+              className="bg-white p-8 rounded-lg shadow-xl text-center max-w-md w-full"
+            >
+              <h2 className="text-2xl font-bold mb-4 text-indigo-600">
+                {content[language].congratulations}
+              </h2>
+              <p className="text-gray-700 mb-6">
+                {content[language].surveyCreatedMessage}
+              </p>
+              <div className="flex flex-col space-y-4">
+                <button
+                  onClick={handleGoToSurveys}
+                  className="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700 transition duration-300"
+                >
+                  {content[language].goToSurveys}
+                </button>
+                <button
+                  onClick={handleGoToParticipate}
+                  className="bg-green-500 text-white px-6 py-2 rounded-lg hover:bg-green-600 transition duration-300"
+                >
+                  {content[language].goToParticipate}
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+
+        {showConfetti && (
+          <ReactConfetti
+            width={window.innerWidth}
+            height={window.innerHeight}
+            recycle={false}
+            numberOfPieces={500}
+          />
+        )}
       </div>
     </DashboardLayout>
   );
