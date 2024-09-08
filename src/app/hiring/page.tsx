@@ -3,46 +3,168 @@
 import React, { useState } from 'react';
 import { useLanguage } from '../../contexts/LanguageContext';
 import DashboardLayout from '../../components/DashboardLayout';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import HiringInsights from '../../components/HiringInsights';
 import CandidateList from '../../components/CandidateList';
 import CandidateDetail from '../../components/CandidateDetail';
+import WaitlistPopup from '../../components/WaitlistPopup';
+
+// AddCandidatePopup 컴포넌트
+const AddCandidatePopup = ({
+  isOpen,
+  onClose,
+  language,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+  language: 'en' | 'ko';
+}) => {
+  const content = {
+    en: {
+      title: '새 후보자 추가',
+      name: '이름',
+      email: '이메일',
+      position: '직무',
+      submit: '제출',
+      cancel: '취소',
+    },
+    ko: {
+      title: '새 후보자 추가',
+      name: '이름',
+      email: '이메일',
+      position: '직무',
+      submit: '제출',
+      cancel: '취소',
+    },
+  };
+
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+          onClick={onClose}
+        >
+          <motion.div
+            initial={{ y: 50, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: 50, opacity: 0 }}
+            className="bg-white rounded-lg p-8 max-w-md w-full shadow-xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h2 className="text-2xl font-bold mb-6 text-gray-800">
+              {content[language].title}
+            </h2>
+            <form className="space-y-4">
+              <div>
+                <label
+                  htmlFor="name"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  {content[language].name}
+                </label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                />
+              </div>
+              <div>
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  {content[language].email}
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                />
+              </div>
+              <div>
+                <label
+                  htmlFor="position"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  {content[language].position}
+                </label>
+                <input
+                  type="text"
+                  id="position"
+                  name="position"
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                />
+              </div>
+              <div className="flex justify-end space-x-3 mt-6">
+                <button
+                  type="button"
+                  onClick={onClose}
+                  className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                >
+                  {content[language].cancel}
+                </button>
+                <button
+                  type="submit"
+                  className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                >
+                  {content[language].submit}
+                </button>
+              </div>
+            </form>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+};
 
 export default function Hiring() {
   const [selectedCandidate, setSelectedCandidate] = useState<string | null>(
     null
   );
   const { language } = useLanguage() as { language: 'en' | 'ko' };
+  const [isWaitlistPopupOpen, setIsWaitlistPopupOpen] = useState(false);
+  const [isAddCandidatePopupOpen, setIsAddCandidatePopupOpen] = useState(false);
 
   const content = {
     en: {
-      title:
-        'Innovative Solution for Understanding\nOrganizational Culture and Hiring the Best-Fit Talent',
+      title: 'Unlock Your Culture,\nUnleash Top Talent',
       subtitle:
-        "In today's competitive business environment, an organization's success\ndepends not just on technical skills or innovative products, \n\nbut on how well its people work together in harmony with the organization's unique culture.\n\nOutio is an innovative SaaS platform designed to help companies\nsucceed in this crucial aspect.",
+        "Outio helps companies objectively understand their unique organizational culture\nand identify talent that best fits that culture.\n\nWe don't judge specific cultures as 'good' or 'bad'.\nInstead, we focus on accurately capturing each company's unique cultural characteristics\nand finding talent that aligns best with that culture.",
       addCandidate: 'Add New Candidate',
       backToList: 'Back to Candidate List',
       candidates: 'Candidates',
       loading: 'Loading...',
+      recommendButton: 'Get Talent Recommendations Aligned with Your Culture',
     },
     ko: {
-      title:
-        '조직 문화를 이해하고,\n가장 잘 맞는 인재를 채용하는 혁신적 솔루션',
+      title: '조직 문화의 힘을 깨우고,\n최고의 인재를 발견하세요',
       subtitle:
-        '오늘날의 경쟁이 치열한 비즈니스 환경에서 조직의 성공은\n단순히 뛰어난 기술력이나 혁신적인 제품에만 달려있지 않습니다.\n\n그보다는 조직의 고유한 문화와 그 문화를 공유하는 인재들이\n얼마나 잘 조화롭게 일하는가에 더 많이 좌우됩니다.\n\nOutio는 바로 이 부분에서 기업들이 성공을 거둘 수 있도록\n돕는 혁신적인 SaaS 플랫폼입니다.',
+        'Outio는 기업들이 그들의 고유한 조직 문화를 객관적으로 이해하고,\n그 문화에 가장 잘 맞는 인재를 식별할 수 있도록 돕습니다.\n\n우리는 특정한 문화를 "좋다"거나 "나쁘다"고 판단하지 않습니다.\n대신, 각 기업의 독특한 문화적 특성을 정확하게 파악하고,\n그 문화에 가장 잘 맞는 인재를 찾는 데 초점을 맞춥니다.',
       addCandidate: '새 후보자 추가',
       backToList: '후보자 목록으로 돌아가기',
       candidates: '후보자',
       loading: '로딩 중...',
+      recommendButton: '우리 조직문화와 가장 잘 맞는 인재 추천받기',
     },
   };
 
   const handleAddCandidate = () => {
-    console.log('Adding new candidate');
+    setIsAddCandidatePopupOpen(true);
   };
 
   const handleSelectCandidate = (candidateId: string) => {
     setSelectedCandidate(candidateId);
+  };
+
+  const handleRecommendation = () => {
+    setIsWaitlistPopupOpen(true);
   };
 
   return (
@@ -65,6 +187,15 @@ export default function Hiring() {
           >
             {content[language].subtitle}
           </motion.p>
+          <motion.button
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+            onClick={handleRecommendation}
+            className="px-8 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white text-lg font-semibold rounded-full shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+          >
+            {content[language].recommendButton}
+          </motion.button>
         </div>
 
         <HiringInsights />
@@ -100,6 +231,16 @@ export default function Hiring() {
           )}
         </div>
       </div>
+      <WaitlistPopup
+        isOpen={isWaitlistPopupOpen}
+        onClose={() => setIsWaitlistPopupOpen(false)}
+        language={language}
+      />
+      <AddCandidatePopup
+        isOpen={isAddCandidatePopupOpen}
+        onClose={() => setIsAddCandidatePopupOpen(false)}
+        language={language}
+      />
     </DashboardLayout>
   );
 }
