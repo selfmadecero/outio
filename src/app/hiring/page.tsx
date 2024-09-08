@@ -21,12 +21,12 @@ const AddCandidatePopup = ({
 }) => {
   const content = {
     en: {
-      title: '새 후보자 추가',
-      name: '이름',
-      email: '이메일',
-      position: '직무',
-      submit: '제출',
-      cancel: '취소',
+      title: 'Add New Candidate',
+      name: 'Name',
+      email: 'Email',
+      position: 'Position',
+      submit: 'Submit',
+      cancel: 'Cancel',
     },
     ko: {
       title: '새 후보자 추가',
@@ -169,13 +169,13 @@ export default function Hiring() {
 
   return (
     <DashboardLayout>
-      <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 p-8">
-        <div className="max-w-4xl mx-auto text-center mb-16">
+      <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 p-4 sm:p-6 md:p-8">
+        <div className="max-w-4xl mx-auto text-center mb-8 sm:mb-12 md:mb-16">
           <motion.h1
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="text-4xl md:text-5xl font-bold mb-6 leading-tight bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600 whitespace-pre-line"
+            className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6 leading-tight bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600 whitespace-pre-line"
           >
             {content[language].title}
           </motion.h1>
@@ -183,7 +183,7 @@ export default function Hiring() {
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-lg md:text-xl text-gray-600 mb-8 leading-relaxed whitespace-pre-line"
+            className="text-base sm:text-lg md:text-xl text-gray-600 mb-6 sm:mb-8 leading-relaxed whitespace-pre-line"
           >
             {content[language].subtitle}
           </motion.p>
@@ -192,7 +192,7 @@ export default function Hiring() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.4 }}
             onClick={handleRecommendation}
-            className="px-8 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white text-lg font-semibold rounded-full shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            className="px-6 sm:px-8 py-2 sm:py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white text-sm sm:text-base md:text-lg font-semibold rounded-full shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
           >
             {content[language].recommendButton}
           </motion.button>
@@ -200,16 +200,16 @@ export default function Hiring() {
 
         <HiringInsights />
 
-        <div className="mt-16 bg-white rounded-xl shadow-lg p-6">
+        <div className="mt-8 sm:mt-12 md:mt-16 bg-white rounded-xl shadow-lg p-4 sm:p-6">
           {!selectedCandidate ? (
             <>
-              <div className="mb-6 flex justify-between items-center">
-                <h2 className="text-2xl font-semibold text-gray-800">
+              <div className="mb-4 sm:mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center">
+                <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-4 sm:mb-0">
                   {content[language].candidates}
                 </h2>
                 <button
                   onClick={handleAddCandidate}
-                  className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-2 rounded-full hover:from-blue-600 hover:to-purple-700 transition duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1"
+                  className="w-full sm:w-auto bg-gradient-to-r from-blue-500 to-purple-600 text-white px-4 sm:px-6 py-2 rounded-full hover:from-blue-600 hover:to-purple-700 transition duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1"
                 >
                   {content[language].addCandidate}
                 </button>
@@ -218,10 +218,10 @@ export default function Hiring() {
             </>
           ) : (
             <>
-              <div className="mb-6">
+              <div className="mb-4 sm:mb-6">
                 <button
                   onClick={() => setSelectedCandidate(null)}
-                  className="bg-gray-500 text-white px-6 py-2 rounded-full hover:bg-gray-600 transition duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1"
+                  className="w-full sm:w-auto bg-gray-500 text-white px-4 sm:px-6 py-2 rounded-full hover:bg-gray-600 transition duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1"
                 >
                   {content[language].backToList}
                 </button>
