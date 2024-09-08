@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useLanguage } from '../../contexts/LanguageContext';
 import DashboardLayout from '../../components/DashboardLayout';
 import { motion } from 'framer-motion';
@@ -17,6 +17,11 @@ import {
 } from '@heroicons/react/24/outline';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import { useRouter, useSearchParams } from 'next/navigation';
+
+function SearchParamsWrapper({ children }: { children: React.ReactNode }) {
+  const searchParams = useSearchParams();
+  return children;
+}
 
 // 더미 데이터
 const dummyEmployees = [
@@ -410,6 +415,7 @@ const InviteEmployeePopup: React.FC<InviteEmployeePopupProps> = ({
     </div>
   );
 };
+
 export default function Settings() {
   const { language, setLanguage } = useLanguage();
   const [notifications, setNotifications] = useState(true);
@@ -421,7 +427,6 @@ export default function Settings() {
   const [searchTerm, setSearchTerm] = useState('');
   const [isInvitePopupOpen, setIsInvitePopupOpen] = useState(false);
   const router = useRouter();
-  const searchParams = useSearchParams();
 
   const content = {
     en: {
@@ -483,13 +488,21 @@ export default function Settings() {
     setTimeout(() => {
       setIsLoading(false);
     }, 1000);
+  }, []);
 
-    // URL 파라미터에서 섹션 확인
-    const section = (searchParams as URLSearchParams).get('section');
-    if (section === 'employee-management') {
-      setActiveTab('employeeManagement');
-    }
-  }, [searchParams]);
+  function HandleSearchParams() {
+    const searchParams = useSearchParams();
+
+    useEffect(() => {
+      // URL 파라미터에서 섹션 확인
+      const section = searchParams?.get('section');
+      if (section === 'employee-management') {
+        setActiveTab('employeeManagement');
+      }
+    }, [searchParams]);
+
+    return null;
+  }
 
   const handleLanguageChange = (lang: 'en' | 'ko') => {
     setLanguage(lang);
@@ -800,13 +813,12 @@ export default function Settings() {
 
   return (
     <DashboardLayout>
-      {isLoading ? <LoadingSpinner /> : renderContent()}
-      <InviteEmployeePopup
-        isOpen={isInvitePopupOpen}
-        onClose={() => setIsInvitePopupOpen(false)}
-        onInvite={handleInviteEmployee}
-        content={content[language]}
-      />
+      <Suspense fallback={<LoadingSpinner />}>
+        <SearchParamsWrapper>
+          <HandleSearchParams />
+          {renderContent()}
+        </SearchParamsWrapper>
+      </Suspense>
     </DashboardLayout>
   );
 }

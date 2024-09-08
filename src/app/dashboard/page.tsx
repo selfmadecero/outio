@@ -64,7 +64,7 @@ const content = {
     cultureProfileDesc: '조직의 문화를 확인하고 분석하세요',
     hiring: '채용',
     hiringDesc: '귀사의 문화에 맞는 후보자를 찾으세요',
-    surveys: '설문조��',
+    surveys: '설문조',
     surveysDesc: '문화 설문조사를 생성하고 관리하세요',
     insights: 'AI 인사이트',
     insightsDesc: 'AI 기반 문화 개선 추천을 받으세요',
@@ -167,7 +167,7 @@ const Dashboard = () => {
         'Anonymous: Request for remote work expansion',
         'Anonymous: Suggestion for mentoring program',
       ],
-      ko: ['익명: 재택근무 확대 요청', '익명: 멘토링 프로그램 제안'],
+      ko: ['익명: 재택근무 확대 요청', '명: 멘토링 프로그램 제안'],
     });
     setGoalProgress(65);
     setRecommendations({
@@ -176,6 +176,11 @@ const Dashboard = () => {
     });
     setIndustryComparison({ cultureScore: 5, employeeEngagement: -2 });
   }, []);
+
+  useEffect(() => {
+    // 설정 페이지 프리페치
+    router.prefetch('/settings');
+  }, [router]);
 
   const renderCard = (
     icon: React.ReactNode,
