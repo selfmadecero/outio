@@ -101,29 +101,33 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   };
 
   const menuItems = [
-    { name: content[language].dashboard, icon: HomeIcon, href: '/dashboard' },
     {
-      name: content[language].cultureProfile,
+      name: content[language as keyof typeof content].dashboard,
+      icon: HomeIcon,
+      href: '/dashboard',
+    },
+    {
+      name: content[language as keyof typeof content].cultureProfile,
       icon: ChartBarIcon,
       href: '/culture-profile',
     },
     {
-      name: content[language].surveys, // 'survey'를 'surveys'로 변경
+      name: content[language as keyof typeof content].surveys, // 'survey'를 'surveys'로 변경
       icon: ClipboardDocumentCheckIcon,
       href: '/surveys', // '/survey'를 '/surveys'로 변경
     },
     {
-      name: content[language].hiring,
+      name: content[language as keyof typeof content].hiring,
       icon: UserGroupIcon,
       href: '/hiring',
     },
     {
-      name: content[language].feedback,
+      name: content[language as keyof typeof content].feedback,
       icon: ChatBubbleLeftRightIcon,
       href: '/feedback',
     },
     {
-      name: content[language].settings,
+      name: content[language as keyof typeof content].settings,
       icon: Cog6ToothIcon,
       href: '/settings',
     },
@@ -145,13 +149,13 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       {/* Demo Alert Banner */}
       <div className="bg-yellow-500 text-white py-2 px-4 text-center">
         <p className="text-sm font-medium">
-          {content[language].demoAlert}{' '}
+          {content[language as keyof typeof content].demoAlert}{' '}
           <a
             href="#"
             onClick={openWaitlistPopup}
             className="underline font-bold hover:text-yellow-200 transition-colors duration-300"
           >
-            {content[language].joinWaitlistCTA}
+            {content[language as keyof typeof content].joinWaitlistCTA}
           </a>
         </p>
       </div>
@@ -162,7 +166,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
           <SidebarContent
             menuItems={menuItems}
             pathname={pathname || ''}
-            language={language}
+            language={language as 'en' | 'ko'}
           />
         </div>
 
@@ -179,7 +183,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                   <Bars3Icon className="h-6 w-6" />
                 </button>
                 <span className="text-sm font-medium text-gray-500 hidden sm:inline">
-                  {content[language].demo}
+                  {content[language as keyof typeof content].demo}
                 </span>
               </div>
               <div className="flex items-center space-x-2 md:space-x-4">
@@ -189,7 +193,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                 >
                   <BellIcon className="h-4 w-4 md:h-5 md:w-5 mr-1 md:mr-2" />
                   <span className="hidden sm:inline">
-                    {content[language].joinWaitlist}
+                    {content[language as keyof typeof content].joinWaitlist}
                   </span>
                 </button>
                 <LanguageSelector onChange={() => {}} />
@@ -199,7 +203,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                 >
                   <ArrowRightOnRectangleIcon className="h-4 w-4 md:h-5 md:w-5 mr-1 md:mr-2" />
                   <span className="hidden sm:inline">
-                    {content[language].signOut}
+                    {content[language as keyof typeof content].signOut}
                   </span>
                 </button>
               </div>
@@ -220,7 +224,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
           className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-full text-white bg-gradient-to-r from-green-400 to-blue-500 hover:from-green-500 hover:to-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition duration-300 shadow-lg hover:shadow-xl"
         >
           <BellIcon className="h-5 w-5 mr-2" />
-          {content[language].joinWaitlist}
+          {content[language as keyof typeof content].joinWaitlist}
         </button>
       </div>
 
@@ -247,7 +251,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
           <SidebarContent
             menuItems={menuItems}
             pathname={pathname || ''}
-            language={language}
+            language={language as 'en' | 'ko'}
           />
         </div>
       </div>
@@ -256,7 +260,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       <WaitlistPopup
         isOpen={isWaitlistPopupOpen}
         onClose={closeWaitlistPopup}
-        language={language}
+        language={language as 'en' | 'ko'}
       />
     </div>
   );

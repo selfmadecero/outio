@@ -196,8 +196,155 @@ const departments: Department[] = [
   { id: 'finance', name: { en: 'Finance', ko: '재무팀' }, employees: 25 },
 ];
 
+// content 객체의 타입 정의를 수정
+type ContentType = {
+  [key in 'en' | 'ko']: {
+    title: string;
+    description: string;
+    surveyTitle: string;
+    surveyDescription: string;
+    create: string;
+    chooseTemplate: string;
+    questions: string;
+    addQuestion: string;
+    removeQuestion: string;
+    questionPlaceholder: string;
+    next: string;
+    surveyType: string;
+    oneTime: string;
+    pulse: string;
+    frequency: string;
+    daily: string;
+    weekly: string;
+    biweekly: string;
+    monthly: string;
+    duration: string;
+    previous: string;
+    recipients: string;
+    allEmployees: string;
+    selectRecipients: string;
+    departmentsSelected: string;
+    departments: {
+      hr: string;
+      it: string;
+      marketing: string;
+      sales: string;
+      finance: string;
+    };
+    surveySettings: string;
+    weeks: string;
+    employees: string;
+    selectedRecipients: string;
+    search: string;
+    selectAll: string;
+    deselectAll: string;
+    confirm: string;
+    congratulations: string;
+    surveyCreatedMessage: string;
+    goToSurveys: string;
+    goToParticipate: string;
+  };
+};
+
+const content: ContentType = {
+  en: {
+    title: 'Create New Survey',
+    description:
+      'Choose a template or create a custom survey to gather insights from your team.',
+    surveyTitle: 'Survey Title',
+    surveyDescription: 'Survey Description',
+    create: 'Create Survey',
+    chooseTemplate: 'Choose a Template',
+    questions: 'Survey Questions',
+    addQuestion: 'Add Question',
+    removeQuestion: 'Remove Question',
+    questionPlaceholder: 'Enter your question here',
+    next: 'Next',
+    surveyType: 'Survey Type',
+    oneTime: 'One-time Survey',
+    pulse: 'Pulse Survey',
+    frequency: 'Frequency',
+    daily: 'Daily',
+    weekly: 'Weekly',
+    biweekly: 'Bi-weekly',
+    monthly: 'Monthly',
+    duration: 'Duration (weeks)',
+    previous: 'Previous',
+    recipients: 'Recipients',
+    allEmployees: 'All Employees',
+    selectRecipients: 'Select Recipients',
+    departmentsSelected: 'departments selected',
+    departments: {
+      hr: 'Human Resources',
+      it: 'IT',
+      marketing: 'Marketing',
+      sales: 'Sales',
+      finance: 'Finance',
+    },
+    surveySettings: 'Survey Settings',
+    weeks: 'weeks',
+    employees: 'employees',
+    selectedRecipients: 'Selected Recipients',
+    search: 'Search',
+    selectAll: 'Select All',
+    deselectAll: 'Deselect All',
+    confirm: 'Confirm',
+    congratulations: 'Congratulations!',
+    surveyCreatedMessage: 'Your survey has been created successfully.',
+    goToSurveys: 'Go to Surveys',
+    goToParticipate: 'Go to Participate',
+  },
+  ko: {
+    title: '새 설문조사 만들기',
+    description:
+      '템플릿을 선택하거나 맞춤형 설문조사를 만들어 팀의 인사이트를 수집하세요.',
+    surveyTitle: '설문조사 제목',
+    surveyDescription: '설문조사 설명',
+    create: '설문조사 생성',
+    chooseTemplate: '템플릿 선택',
+    questions: '설문 문항',
+    addQuestion: '문항 추가',
+    removeQuestion: '문항 제',
+    questionPlaceholder: '질문을 입력하세요',
+    next: '다음',
+    surveyType: '설문조사 유형',
+    oneTime: '1회성 설문조사',
+    pulse: '펄스 서베이',
+    frequency: '빈도',
+    daily: '매일',
+    weekly: '매주',
+    biweekly: '2주마다',
+    monthly: '매월',
+    duration: '기간 (주)',
+    previous: '이전',
+    recipients: '수신자',
+    allEmployees: '전체 임직원',
+    selectRecipients: '수신자 선택',
+    departmentsSelected: '개 부서 선택됨',
+    departments: {
+      hr: '인사팀',
+      it: 'IT팀',
+      marketing: '마케팅팀',
+      sales: '영업팀',
+      finance: '재무팀',
+    },
+    surveySettings: '설문조사 설정',
+    weeks: '주',
+    employees: '명',
+    selectedRecipients: '선택된 수신자',
+    search: '검색',
+    selectAll: '전체 선택',
+    deselectAll: '전체 해제',
+    confirm: '확인',
+    congratulations: '축하합니다!',
+    surveyCreatedMessage: '설문조사가 성공적으로 생성되었습니다.',
+    goToSurveys: '설문조사 페이지로 돌아가기',
+    goToParticipate: '설문조사 하러가기',
+  },
+};
+
 export default function CreateSurvey() {
-  const { language } = useLanguage();
+  const { language } = useLanguage() as { language: 'en' | 'ko' };
   const [selectedTemplate, setSelectedTemplate] = useState<string>('custom');
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -217,103 +364,6 @@ export default function CreateSurvey() {
   const [showConfetti, setShowConfetti] = useState(false);
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
   const router = useRouter();
-
-  const content = {
-    en: {
-      title: 'Create New Survey',
-      description:
-        'Choose a template or create a custom survey to gather insights from your team.',
-      surveyTitle: 'Survey Title',
-      surveyDescription: 'Survey Description',
-      create: 'Create Survey',
-      chooseTemplate: 'Choose a Template',
-      questions: 'Survey Questions',
-      addQuestion: 'Add Question',
-      removeQuestion: 'Remove Question',
-      questionPlaceholder: 'Enter your question here',
-      next: 'Next',
-      surveyType: 'Survey Type',
-      oneTime: 'One-time Survey',
-      pulse: 'Pulse Survey',
-      frequency: 'Frequency',
-      daily: 'Daily',
-      weekly: 'Weekly',
-      biweekly: 'Bi-weekly',
-      monthly: 'Monthly',
-      duration: 'Duration (weeks)',
-      previous: 'Previous',
-      recipients: 'Recipients',
-      allEmployees: 'All Employees',
-      selectRecipients: 'Select Recipients',
-      departmentsSelected: 'departments selected',
-      departments: {
-        hr: 'Human Resources',
-        it: 'IT',
-        marketing: 'Marketing',
-        sales: 'Sales',
-        finance: 'Finance',
-      },
-      surveySettings: 'Survey Settings',
-      weeks: 'weeks',
-      employees: 'employees',
-      selectedRecipients: 'Selected Recipients',
-      search: 'Search',
-      selectAll: 'Select All',
-      deselectAll: 'Deselect All',
-      confirm: 'Confirm',
-      congratulations: 'Congratulations!',
-      surveyCreatedMessage: 'Your survey has been created successfully.',
-      goToSurveys: 'Go to Surveys',
-      goToParticipate: 'Go to Participate',
-    },
-    ko: {
-      title: '새 설문조사 만들기',
-      description:
-        '템플릿을 선택하거나 맞춤형 설문조사를 만들어 팀의 인사이트를 수집하세요.',
-      surveyTitle: '설문조사 제목',
-      surveyDescription: '설문조사 설명',
-      create: '설문조사 생성',
-      chooseTemplate: '템플릿 선택',
-      questions: '설문 문항',
-      addQuestion: '문항 추가',
-      removeQuestion: '문항 제',
-      questionPlaceholder: '질문을 입력하세요',
-      next: '다음',
-      surveyType: '설문조사 유형',
-      oneTime: '1회성 설문조사',
-      pulse: '펄스 서베이',
-      frequency: '빈도',
-      daily: '매일',
-      weekly: '매주',
-      biweekly: '2주마다',
-      monthly: '매월',
-      duration: '기간 (주)',
-      previous: '이전',
-      recipients: '수신자',
-      allEmployees: '전체 임직원',
-      selectRecipients: '수신자 선택',
-      departmentsSelected: '개 부서 선택됨',
-      departments: {
-        hr: '인사팀',
-        it: 'IT팀',
-        marketing: '마케팅팀',
-        sales: '영업팀',
-        finance: '재무팀',
-      },
-      surveySettings: '설문조사 설정',
-      weeks: '주',
-      employees: '명',
-      selectedRecipients: '선택된 수신자',
-      search: '검색',
-      selectAll: '전체 선택',
-      deselectAll: '전체 해제',
-      confirm: '확인',
-      congratulations: '축하합니다!',
-      surveyCreatedMessage: '설문조사가 성공적으로 생성되었습니다.',
-      goToSurveys: '설문조사 페이지로 돌아가기',
-      goToParticipate: '설문조사 하러가기',
-    },
-  };
 
   const handleTemplateSelect = (templateId: string) => {
     setSelectedTemplate(templateId);

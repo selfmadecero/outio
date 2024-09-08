@@ -1,0 +1,41 @@
+[debug] [2024-09-08T03:34:38.603Z] ----------------------------------------------------------------------
+[debug] [2024-09-08T03:34:38.605Z] Command:       /usr/local/bin/node /usr/local/bin/firebase deploy
+[debug] [2024-09-08T03:34:38.605Z] CLI Version:   13.15.0
+[debug] [2024-09-08T03:34:38.605Z] Platform:      darwin
+[debug] [2024-09-08T03:34:38.605Z] Node Version:  v20.16.0
+[debug] [2024-09-08T03:34:38.605Z] Time:          Sun Sep 08 2024 12:34:38 GMT+0900 (Korean Standard Time)
+[debug] [2024-09-08T03:34:38.606Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2024-09-08T03:34:38.649Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2024-09-08T03:34:38.649Z] > authorizing via signed-in user (noah.taehwan@gmail.com)
+[debug] [2024-09-08T03:34:38.649Z] [iam] checking project outio-9027f for permissions ["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","datastore.indexes.create","datastore.indexes.delete","datastore.indexes.list","datastore.indexes.update","firebase.projects.get","firebasehosting.sites.update","firebaserules.releases.create","firebaserules.releases.update","firebaserules.rulesets.create"]
+[debug] [2024-09-08T03:34:38.650Z] > refreshing access token with scopes: []
+[debug] [2024-09-08T03:34:38.651Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2024-09-08T03:34:38.651Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2024-09-08T03:34:38.923Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
+[debug] [2024-09-08T03:34:38.923Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2024-09-08T03:34:38.937Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/outio-9027f:testIamPermissions [none]
+[debug] [2024-09-08T03:34:38.937Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/outio-9027f:testIamPermissions x-goog-quota-user=projects/outio-9027f
+[debug] [2024-09-08T03:34:38.937Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/outio-9027f:testIamPermissions {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","datastore.indexes.create","datastore.indexes.delete","datastore.indexes.list","datastore.indexes.update","firebase.projects.get","firebasehosting.sites.update","firebaserules.releases.create","firebaserules.releases.update","firebaserules.rulesets.create"]}
+[debug] [2024-09-08T03:34:39.793Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/outio-9027f:testIamPermissions 200
+[debug] [2024-09-08T03:34:39.793Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/outio-9027f:testIamPermissions {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","datastore.indexes.create","datastore.indexes.delete","datastore.indexes.list","datastore.indexes.update","firebase.projects.get","firebasehosting.sites.update","firebaserules.releases.create","firebaserules.releases.update","firebaserules.rulesets.create"]}
+[debug] [2024-09-08T03:34:39.793Z] >>> [apiv2][query] POST https://iam.googleapis.com/v1/projects/outio-9027f/serviceAccounts/outio-9027f@appspot.gserviceaccount.com:testIamPermissions [none]
+[debug] [2024-09-08T03:34:39.793Z] >>> [apiv2][body] POST https://iam.googleapis.com/v1/projects/outio-9027f/serviceAccounts/outio-9027f@appspot.gserviceaccount.com:testIamPermissions {"permissions":["iam.serviceAccounts.actAs"]}
+[debug] [2024-09-08T03:34:40.919Z] <<< [apiv2][status] POST https://iam.googleapis.com/v1/projects/outio-9027f/serviceAccounts/outio-9027f@appspot.gserviceaccount.com:testIamPermissions 200
+[debug] [2024-09-08T03:34:40.919Z] <<< [apiv2][body] POST https://iam.googleapis.com/v1/projects/outio-9027f/serviceAccounts/outio-9027f@appspot.gserviceaccount.com:testIamPermissions {"permissions":["iam.serviceAccounts.actAs"]}
+[debug] [2024-09-08T03:34:40.920Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/outio-9027f [none]
+[debug] [2024-09-08T03:34:41.418Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/outio-9027f 200
+[debug] [2024-09-08T03:34:41.418Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/outio-9027f {"projectId":"outio-9027f","projectNumber":"531241029307","displayName":"Outio","name":"projects/outio-9027f","resources":{"hostingSite":"outio-9027f","storageBucket":"outio-9027f.appspot.com","locationId":"us-central"},"state":"ACTIVE","etag":"1_3e48251d-77f1-4d29-a2f0-bc074dcb26b2"}
+[info] 
+[info] === Deploying to 'outio-9027f'...
+[info] 
+[info] i  deploying storage, firestore, functions, hosting 
+[info] Running command: npm --prefix "$RESOURCE_DIR" run build
+[info] ✔  functions: Finished running predeploy script. 
+[info] i  storage: ensuring required API firebasestorage.googleapis.com is enabled... 
+[debug] [2024-09-08T03:34:44.989Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/outio-9027f/services/firebasestorage.googleapis.com [none]
+[debug] [2024-09-08T03:34:44.990Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/outio-9027f/services/firebasestorage.googleapis.com x-goog-quota-user=projects/outio-9027f
+[debug] [2024-09-08T03:34:46.194Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/outio-9027f/services/firebasestorage.googleapis.com 200
+[debug] [2024-09-08T03:34:46.194Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/outio-9027f/services/firebasestorage.googleapis.com [omitted]
+[info] ✔  storage: required API firebasestorage.googleapis.com is enabled 
+[debug] [2024-09-08T03:34:46.195Z] >>> [apiv2][query] GET https://firebasestorage.googleapis.com/v1alpha/projects/outio-9027f/defaultBucket [none]

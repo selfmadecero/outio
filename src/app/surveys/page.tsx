@@ -119,7 +119,22 @@ export default function SurveyList() {
     null
   );
 
-  const content = {
+  const content: {
+    [key in 'en' | 'ko']: {
+      title: string;
+      description: string;
+      createSurvey: string;
+      active: string;
+      completed: string;
+      draft: string;
+      responseRate: string;
+      viewResults: string;
+      deleteSurvey: string;
+      deleteConfirmation: string;
+      cancel: string;
+      confirm: string;
+    };
+  } = {
     en: {
       title: 'Surveys',
       description:
@@ -183,15 +198,17 @@ export default function SurveyList() {
       >
         <h1 className="text-4xl font-bold mb-4 text-gray-800 flex items-center">
           <ClipboardDocumentListIcon className="h-10 w-10 mr-4 text-indigo-500" />
-          {content[language].title}
+          {content[language as keyof typeof content].title}
         </h1>
-        <p className="text-gray-600 mb-6">{content[language].description}</p>
+        <p className="text-gray-600 mb-6">
+          {content[language as keyof typeof content].description}
+        </p>
         <Link
           href="/surveys/create" // 여기를 /survey/create에서 /surveys/create로 변경
           className="bg-indigo-500 text-white px-6 py-3 rounded-lg hover:bg-indigo-600 transition duration-300 shadow-md flex items-center inline-block"
         >
           <PlusIcon className="h-5 w-5 mr-2" />
-          {content[language].createSurvey}
+          {content[language as keyof typeof content].createSurvey}
         </Link>
       </motion.div>
 
@@ -221,14 +238,14 @@ export default function SurveyList() {
                     : 'bg-yellow-100 text-yellow-600'
                 }`}
               >
-                {content[language][survey.status]}
+                {content[language as keyof typeof content].active}
               </span>
               <span className="text-gray-500 text-sm">{survey.createdAt}</span>
             </div>
             <div className="mb-4">
               <div className="flex justify-between items-center mb-1">
                 <span className="text-sm font-medium text-gray-700">
-                  {content[language].responseRate}
+                  {content[language as keyof typeof content].responseRate}
                 </span>
                 <span className="text-sm font-medium text-indigo-600">
                   {survey.responseRate}%
@@ -242,7 +259,7 @@ export default function SurveyList() {
                 className="bg-indigo-500 text-white px-4 py-2 rounded-lg hover:bg-indigo-600 transition duration-300 flex items-center"
               >
                 <ChartBarIcon className="h-5 w-5 mr-2" />
-                {content[language].viewResults}
+                {content[language as keyof typeof content].viewResults}
               </button>
               <button
                 onClick={() => handleDeleteSurvey(survey.id)}
@@ -260,19 +277,24 @@ export default function SurveyList() {
                 className="absolute inset-0 bg-white bg-opacity-90 flex items-center justify-center rounded-xl"
               >
                 <div className="text-center">
-                  <p className="mb-4">{content[language].deleteConfirmation}</p>
+                  <p className="mb-4">
+                    {
+                      content[language as keyof typeof content]
+                        .deleteConfirmation
+                    }
+                  </p>
                   <div className="space-x-4">
                     <button
                       onClick={() => setDeleteConfirmation(null)}
                       className="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400 transition duration-300"
                     >
-                      {content[language].cancel}
+                      {content[language as keyof typeof content].cancel}
                     </button>
                     <button
                       onClick={() => confirmDeleteSurvey(survey.id)}
                       className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition duration-300"
                     >
-                      {content[language].confirm}
+                      {content[language as keyof typeof content].confirm}
                     </button>
                   </div>
                 </div>

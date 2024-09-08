@@ -25,7 +25,79 @@ import OnboardingButton from '../../components/OnboardingButton';
 import { auth } from '../../firebase'; // Firebase auth 임포트
 import { User } from 'firebase/auth';
 
-const content = {
+// content 객체의 타입 정의
+type ContentType = {
+  en: {
+    welcomeMessage: string;
+    cultureProfile: string;
+    cultureProfileDesc: string;
+    hiring: string;
+    hiringDesc: string;
+    surveys: string;
+    surveysDesc: string;
+    insights: string;
+    insightsDesc: string;
+    feedback: string;
+    feedbackDesc: string;
+    quickActions: string;
+    createSurvey: string;
+    inviteEmployees: string;
+    viewLatestResults: string;
+    cultureScore: string;
+    employeeEngagement: string;
+    innovationIndex: string;
+    collaborationIndex: string;
+    increase: string;
+    decrease: string;
+    noChange: string;
+    from: string;
+    keyInsights: string;
+    recentFeedback: string;
+    goalProgress: string;
+    goalProgressDescription: string;
+    goalProgressExplanation: string;
+    recommendations: string;
+    industryComparison: string;
+    settings: string;
+    settingsDesc: string;
+  };
+  ko: {
+    welcomeMessage: string;
+    cultureProfile: string;
+    cultureProfileDesc: string;
+    hiring: string;
+    hiringDesc: string;
+    surveys: string;
+    surveysDesc: string;
+    insights: string;
+    insightsDesc: string;
+    feedback: string;
+    feedbackDesc: string;
+    quickActions: string;
+    createSurvey: string;
+    inviteEmployees: string;
+    viewLatestResults: string;
+    cultureScore: string;
+    employeeEngagement: string;
+    innovationIndex: string;
+    collaborationIndex: string;
+    increase: string;
+    decrease: string;
+    noChange: string;
+    from: string;
+    keyInsights: string;
+    recentFeedback: string;
+    goalProgress: string;
+    goalProgressDescription: string;
+    goalProgressExplanation: string;
+    recommendations: string;
+    industryComparison: string;
+    settings: string;
+    settingsDesc: string;
+  };
+};
+
+const content: ContentType = {
   en: {
     welcomeMessage: 'Welcome back',
     cultureProfile: 'Culture Profile',
@@ -91,7 +163,7 @@ const content = {
     goalProgress: '문화 목표 진행 상황',
     goalProgressDescription: '조직의 문화 목표 달성 진행 상황을 추적합니다',
     goalProgressExplanation:
-      '이는 조직이 설정한 문화 목표에 대한 전반적인 진행 상황을 나타냅니다. 직원 참여도, 혁��� 지수, 협업 지수 등 다양한 지표를 기반으로 계산됩니다.',
+      '이는 조직이 설정한 문화 목표에 대한 전반적인 진행 상황을 나타냅니다. 직원 참여도, 혁신 지수, 협업 지수 등 다양한 지표를 기반으로 계산됩니다.',
     recommendations: '추천 사항',
     industryComparison: '산업 평균 비교',
     settings: '설정',
@@ -106,7 +178,7 @@ interface MetricData {
 
 const Dashboard = () => {
   const router = useRouter();
-  const { language } = useLanguage();
+  const { language } = useLanguage() as { language: 'en' | 'ko' };
   const [userName, setUserName] = useState('');
   const [cultureScore, setCultureScore] = useState<MetricData>({
     current: 0,

@@ -416,8 +416,96 @@ const InviteEmployeePopup: React.FC<InviteEmployeePopupProps> = ({
   );
 };
 
+// content 객체의 타입 정의를 수정
+type ContentType = {
+  [key in 'en' | 'ko']: {
+    title: string;
+    profile: string;
+    notifications: string;
+    security: string;
+    language: string;
+    save: string;
+    googleAccount: string;
+    notificationsEnabled: string;
+    notificationsDisabled: string;
+    twoFactor: string;
+    enable: string;
+    disable: string;
+    employeeManagement: string;
+    inviteEmployee: string;
+    manageEmployees: string;
+    searchEmployees: string;
+    name: string;
+    email: string;
+    role: string;
+    department: string;
+    actions: string;
+    sendInvitation: string;
+    koreanName: string;
+    englishName: string;
+  };
+};
+
+const content: ContentType = {
+  en: {
+    title: 'Settings',
+    profile: 'Profile',
+    notifications: 'Notifications',
+    security: 'Security',
+    language: 'Language',
+    save: 'Save Changes',
+    googleAccount: 'Google Account',
+    notificationsEnabled: 'Notifications Enabled',
+    notificationsDisabled: 'Notifications Disabled',
+    twoFactor: 'Two-Factor Authentication',
+    enable: 'Enable',
+    disable: 'Disable',
+    employeeManagement: 'Employee Management',
+    inviteEmployee: 'Invite Employee',
+    manageEmployees: 'Manage Employees',
+    searchEmployees: 'Search Employees',
+    name: 'Name',
+    email: 'Email',
+    role: 'Role',
+    department: 'Department',
+    actions: 'Actions',
+    sendInvitation: 'Send Invitation',
+    koreanName: 'Korean Name',
+    englishName: 'English Name',
+  },
+  ko: {
+    title: '설정',
+    profile: '프로필',
+    notifications: '알림',
+    security: '보안',
+    language: '언어',
+    save: '변경사항 저장',
+    googleAccount: '구글 계정',
+    notificationsEnabled: '알림 활성화됨',
+    notificationsDisabled: '알림 비활성화됨',
+    twoFactor: '2단계 인증',
+    enable: '활성화',
+    disable: '비활성화',
+    employeeManagement: '임직원 관리',
+    inviteEmployee: '임직원 초대',
+    manageEmployees: '임직원 관리',
+    searchEmployees: '임직원 검색',
+    name: '이름',
+    email: '이메일',
+    role: '역할',
+    department: '부서',
+    actions: '작업',
+    sendInvitation: '초대 보내기',
+    koreanName: '한국어 이름',
+    englishName: '영어 이름',
+  },
+};
+
 export default function Settings() {
-  const { language, setLanguage } = useLanguage();
+  const { language, setLanguage } = useLanguage() as {
+    language: 'en' | 'ko';
+    setLanguage: (lang: 'en' | 'ko') => void;
+  };
   const [notifications, setNotifications] = useState(true);
   const [userName, setUserName] = useState('Demo User');
   const [userEmail, setUserEmail] = useState('demo@example.com');
@@ -428,7 +516,7 @@ export default function Settings() {
   const [isInvitePopupOpen, setIsInvitePopupOpen] = useState(false);
   const router = useRouter();
 
-  const content = {
+  const content: ContentType = {
     en: {
       title: 'Settings',
       profile: 'Profile',

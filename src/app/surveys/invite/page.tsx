@@ -1,54 +1,53 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useLanguage } from '../../../contexts/LanguageContext';
-import { auth, db } from '../../../firebase';
-import { doc, getDoc, updateDoc, arrayUnion } from 'firebase/firestore';
-import { User } from 'firebase/auth';
+import DashboardLayout from '../../../components/DashboardLayout';
+import { db } from '../../../firebase';
+import { doc, updateDoc, arrayUnion } from 'firebase/firestore';
+
+// content 객체의 타입 정의
+type ContentType = {
+  [key in 'en' | 'ko']: {
+    title: string;
+    description: string;
+    placeholder: string;
+    submit: string;
+    success: string;
+  };
+};
+
+const content: ContentType = {
+  en: {
+    title: 'Invite Employees to Survey',
+    description:
+      'Enter email addresses of employees you want to invite, separated by commas.',
+    placeholder: 'e.g. employee1@company.com, employee2@company.com',
+    submit: 'Send Invitations',
+    success: 'Invitations sent successfully!',
+  },
+  ko: {
+    title: '설문조사에 직원 초대',
+    description:
+      '초대하려는 직원들의 이메일 주소를 쉼표로 구분하여 입력하세요.',
+    placeholder: '예: employee1@company.com, employee2@company.com',
+    submit: '초대장 보내기',
+    success: '초대장이 성공적으로 발송되었습니다!',
+  },
+};
 
 export default function InviteEmployees() {
-  const [user, setUser] = useState<User | null>(null);
-  const [emails, setEmails] = useState<string>('');
+  const [emails, setEmails] = useState('');
   const router = useRouter();
-  const { language } = useLanguage();
-
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      if (user) {
-        setUser(user);
-      } else {
-        router.push('/auth');
-      }
-    });
-    return () => unsubscribe();
-  }, [router]);
-
-  const content = {
-    en: {
-      title: 'Invite Employees',
-      description: 'Enter employee email addresses (comma-separated)',
-      placeholder: 'employee1@example.com, employee2@example.com',
-      submit: 'Send Invitations',
-      success: 'Invitations sent successfully!',
-    },
-    ko: {
-      title: '직원 초대',
-      description: '직원 이메일 주소를 입력하세요 (쉼표로 구분)',
-      placeholder: 'employee1@example.com, employee2@example.com',
-      submit: '초대장 보내기',
-      success: '초대장이 성공적으로 전송되었습니다!',
-    },
-  };
+  const { language } = useLanguage() as { language: 'en' | 'ko' };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!user) return;
-
     const emailList = emails.split(',').map((email) => email.trim());
 
     try {
-      const surveyRef = doc(db, 'surveys', user.uid);
+      const surveyRef = doc(db, 'surveys', 'currentSurveyId'); // Replace with actual survey ID
       await updateDoc(surveyRef, {
         invitedEmployees: arrayUnion(...emailList),
       });
@@ -56,46 +55,31 @@ export default function InviteEmployees() {
       router.push('/dashboard');
     } catch (error) {
       console.error('Error inviting employees:', error);
-      alert('Error inviting employees. Please try again.');
+      alert('An error occurred while sending invitations.');
     }
   };
 
-  if (!user) return <div>Loading...</div>;
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md mx-auto bg-white rounded-lg shadow-md p-8">
-        <h2 className="text-3xl font-bold text-center mb-8">
-          {content[language].title}
-        </h2>
-        <form onSubmit={handleSubmit}>
-          <div className="mb-6">
-            <label
-              htmlFor="emails"
-              className="block text-sm font-medium text-gray-700 mb-2"
-            >
-              {content[language].description}
-            </label>
-            <textarea
-              id="emails"
-              rows={4}
-              className="shadow-sm focus:ring-blue-500 focus:border-blue-500 mt-1 block w-full sm:text-sm border-gray-300 rounded-md"
-              placeholder={content[language].placeholder}
-              value={emails}
-              onChange={(e) => setEmails(e.target.value)}
-              required
-            />
-          </div>
-          <div className="flex justify-center">
-            <button
-              type="submit"
-              className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-            >
-              {content[language].submit}
-            </button>
-          </div>
+    <DashboardLayout>
+      <div className="container mx-auto px-4 py-8">
+        <h1 className="text-3xl font-bold mb-4">{content[language].title}</h1>
+        <p className="mb-4">{content[language].description}</p>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <textarea
+            value={emails}
+            onChange={(e) => setEmails(e.target.value)}
+            placeholder={content[language].placeholder}
+            className="w-full p-2 border border-gray-300 rounded"
+            rows={4}
+          />
+          <button
+            type="submit"
+            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+          >
+            {content[language].submit}
+          </button>
         </form>
       </div>
-    </div>
+    </DashboardLayout>
   );
 }

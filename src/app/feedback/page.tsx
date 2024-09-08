@@ -82,8 +82,93 @@ const dummyFeedbacks: Feedback[] = [
   },
 ];
 
+// content 객체의 타입 정의
+type ContentType = {
+  en: {
+    title: string;
+    description: string;
+    searchPlaceholder: string;
+    inputPlaceholder: string;
+    submit: string;
+    categories: {
+      all: string;
+      culture: string;
+      policy: string;
+      environment: string;
+      welfare: string;
+    };
+    likes: string;
+    sortLatest: string;
+    sortMostLiked: string;
+    delete: string;
+    selectCategory: string;
+  };
+  ko: {
+    title: string;
+    description: string;
+    searchPlaceholder: string;
+    inputPlaceholder: string;
+    submit: string;
+    categories: {
+      all: string;
+      culture: string;
+      policy: string;
+      environment: string;
+      welfare: string;
+    };
+    likes: string;
+    sortLatest: string;
+    sortMostLiked: string;
+    delete: string;
+    selectCategory: string;
+  };
+};
+
+const content: ContentType = {
+  en: {
+    title: 'Anonymous Feedback',
+    description:
+      'Share your thoughts anonymously and help shape our company culture. Your voice matters!',
+    searchPlaceholder: 'Search...',
+    inputPlaceholder: 'Share your feedback anonymously...',
+    submit: 'Submit',
+    categories: {
+      all: 'All',
+      culture: 'Culture',
+      policy: 'Policy',
+      environment: 'Environment',
+      welfare: 'Welfare',
+    },
+    likes: 'Likes',
+    sortLatest: 'Latest',
+    sortMostLiked: 'Most Liked',
+    delete: 'Delete',
+    selectCategory: 'Select category',
+  },
+  ko: {
+    title: '익명 피드백',
+    description:
+      '익명으로 의견을 공유하고 우리 회사의 문화를 함께 만들어가세요. 여러분의 목소리가 중요합니다!',
+    searchPlaceholder: '검색...',
+    inputPlaceholder: '익명으로 피드백을 공유하세요...',
+    submit: '제출',
+    categories: {
+      all: '전체',
+      culture: '문화',
+      policy: '정책',
+      environment: '환경',
+      welfare: '복지',
+    },
+    likes: '좋아요',
+    sortLatest: '최신순',
+    sortMostLiked: '좋아요순',
+    delete: '삭제',
+    selectCategory: '카테고리 선택',
+  },
+};
+
 export default function Feedback() {
-  const { language } = useLanguage();
+  const { language } = useLanguage() as { language: 'en' | 'ko' };
   const [isLoading, setIsLoading] = useState(true);
   const [feedbacks, setFeedbacks] = useState<Feedback[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
@@ -91,49 +176,6 @@ export default function Feedback() {
   const [newFeedback, setNewFeedback] = useState('');
   const [newFeedbackCategory, setNewFeedbackCategory] = useState('culture');
   const [sortOrder, setSortOrder] = useState<'latest' | 'mostLiked'>('latest');
-
-  const content = {
-    en: {
-      title: 'Anonymous Feedback',
-      description:
-        'Share your thoughts anonymously and help shape our company culture. Your voice matters!',
-      searchPlaceholder: 'Search...',
-      inputPlaceholder: 'Share your feedback anonymously...',
-      submit: 'Submit',
-      categories: {
-        all: 'All',
-        culture: 'Culture',
-        policy: 'Policy',
-        environment: 'Environment',
-        welfare: 'Welfare',
-      },
-      likes: 'Likes',
-      sortLatest: 'Latest',
-      sortMostLiked: 'Most Liked',
-      delete: 'Delete',
-      selectCategory: 'Select category',
-    },
-    ko: {
-      title: '익명 피드백',
-      description:
-        '익명으로 의견을 공유하고 우리 회사의 문화를 함께 만들어가세요. 여러분의 목소리가 중요합니다!',
-      searchPlaceholder: '검색...',
-      inputPlaceholder: '익명으로 피드백을 공유하세요...',
-      submit: '제출',
-      categories: {
-        all: '전체',
-        culture: '문화',
-        policy: '정책',
-        environment: '환경',
-        welfare: '복지',
-      },
-      likes: '좋아요',
-      sortLatest: '최신순',
-      sortMostLiked: '좋아요순',
-      delete: '삭제',
-      selectCategory: '카테고리 선택',
-    },
-  };
 
   useEffect(() => {
     setTimeout(() => {

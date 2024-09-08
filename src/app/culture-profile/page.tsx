@@ -388,7 +388,18 @@ const profileDescriptions = {
   },
 };
 
-const cultureDimensions = {
+// cultureDimensions 타입 정의
+type CultureDimension = {
+  left: string;
+  right: string;
+  value: number;
+};
+
+type CultureDimensions = {
+  [key in 'en' | 'ko']: CultureDimension[];
+};
+
+const cultureDimensions: CultureDimensions = {
   en: [
     { left: 'Innovation', right: 'Stability', value: 30 },
     {
@@ -902,7 +913,7 @@ export default function CultureProfile() {
   const [loading, setLoading] = useState(true);
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
   const router = useRouter();
-  const { language } = useLanguage();
+  const { language } = useLanguage() as { language: 'en' | 'ko' };
 
   const symmetricBarData = cultureDimensions[language].map((dimension) => ({
     name: dimension.left + ' vs ' + dimension.right,

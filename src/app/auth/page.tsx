@@ -11,48 +11,72 @@ import Link from 'next/link';
 import LanguageSelector from '../../components/LanguageSelector';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 
+// content 객체의 타입 정의
+type ContentType = {
+  en: {
+    title: string;
+    subtitle: string;
+    description: string[];
+    features: string[];
+    demoInfo: string;
+    googleSignIn: string;
+    errorAuth: string;
+    backToHome: string;
+  };
+  ko: {
+    title: string;
+    subtitle: string;
+    description: string[];
+    features: string[];
+    demoInfo: string;
+    googleSignIn: string;
+    errorAuth: string;
+    backToHome: string;
+  };
+};
+
+const content: ContentType = {
+  en: {
+    title: 'Welcome to Outio',
+    subtitle: 'AI-Powered Culture-Fit Hiring Solution',
+    description: [
+      'Understand your organizational culture through pulse surveys,',
+      'Create a dynamic culture profile with AI analysis,',
+      'Receive tailored interview questions for culture-fit hiring.',
+    ],
+    features: [
+      'Conduct continuous culture diagnosis',
+      'Generate dynamic culture profiles',
+      'Get AI-powered interview questions',
+    ],
+    demoInfo: 'Experience how Outio can transform your hiring process:',
+    googleSignIn: 'Sign in with Google to Start Demo',
+    errorAuth: 'Authentication error:',
+    backToHome: 'Back to Home',
+  },
+  ko: {
+    title: 'Outio에 오신 것을 환영합니다',
+    subtitle: 'AI 기반 문화 적합성 채용 솔루션',
+    description: [
+      '펄스 설문으로 조직 문화를 이해하고,',
+      'AI 분석으로 동적 문화 프로필을 생성하며,',
+      '문화 적합성 채용을 위한 맞춤형 면접 질문을 받아보세요.',
+    ],
+    features: [
+      '지속적인 문화 진단 실시',
+      '동적 문화 프로필 생성',
+      'AI 기반 면접 질문 제공',
+    ],
+    demoInfo: 'Outio가 어떻게 채용 프로세스를 혁신하는지 경험해보세요:',
+    googleSignIn: 'Google로 로그인하여 데모 시작하기',
+    errorAuth: '인증 오류:',
+    backToHome: '홈으로 돌아가기',
+  },
+};
+
 export default function Auth() {
   const router = useRouter();
-  const { language } = useLanguage();
-
-  const content = {
-    en: {
-      title: 'Welcome to Outio',
-      subtitle: 'AI-Powered Culture-Fit Hiring Solution',
-      description: [
-        'Understand your organizational culture through pulse surveys,',
-        'Create a dynamic culture profile with AI analysis,',
-        'Receive tailored interview questions for culture-fit hiring.',
-      ],
-      features: [
-        'Conduct continuous culture diagnosis',
-        'Generate dynamic culture profiles',
-        'Get AI-powered interview questions',
-      ],
-      demoInfo: 'Experience how Outio can transform your hiring process:',
-      googleSignIn: 'Sign in with Google to Start Demo',
-      errorAuth: 'Authentication error:',
-      backToHome: 'Back to Home',
-    },
-    ko: {
-      title: 'Outio에 오신 것을 환영합니다',
-      subtitle: 'AI 기반 문화 적합성 채용 솔루션',
-      description: [
-        '펄스 설문으로 조직 문화를 이해하고,',
-        'AI 분석으로 동적 문화 프로필을 생성하며,',
-        '문화 적합성 채용을 위한 맞춤형 면접 질문을 받아보세요.',
-      ],
-      features: [
-        '지속적인 문화 진단 실시',
-        '동적 문화 프로필 생성',
-        'AI 기반 면접 질문 제공',
-      ],
-      demoInfo: 'Outio가 어떻게 채용 프로세스를 혁신하는지 경험해보세요:',
-      googleSignIn: 'Google로 로그인하여 데모 시작하기',
-      errorAuth: '인증 오류:',
-      backToHome: '홈으로 돌아가기',
-    },
-  };
+  const { language } = useLanguage() as { language: 'en' | 'ko' };
 
   const handleGoogleSignIn = async () => {
     const provider = new GoogleAuthProvider();
@@ -63,6 +87,11 @@ export default function Auth() {
       console.error(content[language].errorAuth, error);
       alert(content[language].errorAuth + ' ' + (error as Error).message);
     }
+  };
+
+  const handleLanguageChange = (newLanguage: 'en' | 'ko') => {
+    // Implement language change logic here
+    console.log(`Language changed to ${newLanguage}`);
   };
 
   return (
