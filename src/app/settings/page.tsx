@@ -813,11 +813,12 @@ export default function Settings() {
 
   return (
     <DashboardLayout>
-      {/* 여기서 배경색만 변경합니다 */}
-      <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 p-8">
-        {/* 기존 컨텐츠는 그대로 유지 */}
-        {renderContent()}
-      </div>
+      <Suspense fallback={<LoadingSpinner />}>
+        <SearchParamsWrapper>
+          <HandleSearchParams />
+          {renderContent()}
+        </SearchParamsWrapper>
+      </Suspense>
     </DashboardLayout>
   );
 }

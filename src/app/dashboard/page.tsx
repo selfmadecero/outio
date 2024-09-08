@@ -400,7 +400,7 @@ const Dashboard = () => {
         router.push('/surveys/results');
         break;
       default:
-        console.error('Unknown action:', action);
+        console.error('알 수 없는 작업:', action);
     }
   };
 
