@@ -122,7 +122,7 @@ const content: ContentType = {
     questionResponses: '문항별 응답 결과',
     viewDetails: '상세 보기',
     hideDetails: '접기',
-    question: '��문',
+    question: '문',
     responseDistribution: '응답 분포',
     stronglyDisagree: '매우 그렇지 않다',
     stronglyAgree: '매우 그렇다',
@@ -313,6 +313,24 @@ export default function SurveyResults() {
           </div>
           <p className="text-gray-600 mb-8">{content[language].description}</p>
 
+          {/* 주요 인사이트 섹션을 여기로 이동 */}
+          <div className="bg-indigo-50 rounded-xl p-6 mb-8">
+            <h2 className="text-2xl font-semibold text-indigo-800 mb-4">
+              {content[language].insight}
+            </h2>
+            <div className="flex items-start space-x-4">
+              <LightBulbIcon className="h-6 w-6 text-yellow-500 flex-shrink-0 mt-1" />
+              <div>
+                <p className="text-gray-700 mb-2">
+                  {content[language].insightText1}
+                </p>
+                <p className="text-gray-700">
+                  {content[language].insightText2}
+                </p>
+              </div>
+            </div>
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
             <KeyMetricCard
               title={content[language].totalResponses}
@@ -425,18 +443,6 @@ export default function SurveyResults() {
             </ResponsiveContainer>
           </ChartCard>
         </div>
-
-        <ChartCard title={content[language].insight}>
-          <div className="flex items-start space-x-4">
-            <LightBulbIcon className="h-6 w-6 text-yellow-500 flex-shrink-0 mt-1" />
-            <div>
-              <p className="text-gray-700 mb-2">
-                {content[language].insightText1}
-              </p>
-              <p className="text-gray-700">{content[language].insightText2}</p>
-            </div>
-          </div>
-        </ChartCard>
       </div>
     </DashboardLayout>
   );
