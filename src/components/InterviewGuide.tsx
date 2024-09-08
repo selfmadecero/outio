@@ -34,7 +34,7 @@ const InterviewGuide: React.FC = () => {
     ko: {
       title: '면접 채점 가이드',
       question: '질문',
-      answerGuidelines: '답변 가���드라인',
+      answerGuidelines: '답변 가이드라인',
       scoringCriteria: '채점 기준',
       excellent: '우수 (9-10점)',
       good: '양호 (7-8점)',
