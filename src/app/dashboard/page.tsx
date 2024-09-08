@@ -24,6 +24,16 @@ import OnboardingPopup from '../../components/OnboardingPopup';
 import OnboardingButton from '../../components/OnboardingButton';
 import { auth } from '../../firebase'; // Firebase auth 임포트
 import { User } from 'firebase/auth';
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from 'recharts';
 
 // content 객체의 타입 정의
 type ContentType = {
@@ -60,6 +70,12 @@ type ContentType = {
     industryComparison: string;
     settings: string;
     settingsDesc: string;
+    yourCompany: string;
+    industryAverage: string;
+    comparisonInsight: string;
+    aboveAverage: string;
+    belowAverage: string;
+    atAverage: string;
   };
   ko: {
     welcomeMessage: string;
@@ -94,6 +110,12 @@ type ContentType = {
     industryComparison: string;
     settings: string;
     settingsDesc: string;
+    yourCompany: string;
+    industryAverage: string;
+    comparisonInsight: string;
+    aboveAverage: string;
+    belowAverage: string;
+    atAverage: string;
   };
 };
 
@@ -133,6 +155,13 @@ const content: ContentType = {
     industryComparison: 'Industry Comparison',
     settings: 'Settings',
     settingsDesc: 'Manage your account and app settings',
+    yourCompany: 'Your Company',
+    industryAverage: 'Industry Average',
+    comparisonInsight:
+      'Your company is performing {performance} the industry average in {category}.',
+    aboveAverage: 'above',
+    belowAverage: 'below',
+    atAverage: 'at',
   },
   ko: {
     welcomeMessage: '다시 오신 것을 환영합니다',
@@ -168,6 +197,13 @@ const content: ContentType = {
     industryComparison: '산업 평균 비교',
     settings: '설정',
     settingsDesc: '계정 및 앱 설정을 관리하세요',
+    yourCompany: '우리 회사',
+    industryAverage: '산업 평균',
+    comparisonInsight:
+      '귀사는 {category} 부문에서 산업 평균 {performance} 수준입니다.',
+    aboveAverage: '보다 높은',
+    belowAverage: '보다 낮은',
+    atAverage: '과 동일한',
   },
 };
 
@@ -433,32 +469,112 @@ const Dashboard = () => {
     </motion.div>
   );
 
-  const renderIndustryComparison = () => (
-    <motion.div className="bg-white rounded-xl shadow-lg p-6 mb-8">
-      <h2 className="text-2xl font-semibold text-gray-800 mb-4 flex items-center">
-        <BuildingLibraryIcon className="h-6 w-6 mr-2 text-blue-500" />
-        {content[language].industryComparison}
-      </h2>
-      <div className="grid grid-cols-2 gap-4">
-        {Object.entries(industryComparison).map(([key, value]) => (
-          <div key={key} className="flex items-center">
-            <span className="text-gray-600 mr-2">{key}:</span>
-            <span
-              className={`${
-                value > 0
-                  ? 'text-green-500'
-                  : value < 0
-                  ? 'text-red-500'
-                  : 'text-gray-500'
-              }`}
-            >
-              {value > 0 ? `+${value}%` : `${value}%`}
-            </span>
-          </div>
-        ))}
-      </div>
-    </motion.div>
-  );
+  const renderIndustryComparison = () => {
+    const { language } = useLanguage();
+    const t = content[language as keyof typeof content];
+
+    const data = [
+      {
+        category: t.cultureScore,
+        yourCompany: 75,
+        industryAverage: 65,
+      },
+      {
+        category: t.employeeEngagement,
+        yourCompany: 82,
+        industryAverage: 70,
+      },
+      {
+        category: t.innovationIndex,
+        yourCompany: 78,
+        industryAverage: 72,
+      },
+      {
+        category: t.collaborationIndex,
+        yourCompany: 80,
+        industryAverage: 68,
+      },
+    ];
+
+    const getPerformanceText = (yourScore: number, avgScore: number) => {
+      if (yourScore > avgScore) return t.aboveAverage;
+      if (yourScore < avgScore) return t.belowAverage;
+      return t.atAverage;
+    };
+
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="bg-white rounded-xl shadow-lg p-6 mb-8"
+      >
+        <h3 className="text-2xl font-semibold text-gray-800 mb-6 flex items-center">
+          <BuildingLibraryIcon className="h-7 w-7 mr-2 text-indigo-600" />
+          {t.industryComparison}
+        </h3>
+        <div className="space-y-6">
+          {data.map((item, index) => (
+            <div key={index} className="relative bg-gray-50 rounded-lg p-4">
+              <h4 className="text-lg font-medium text-gray-700 mb-3 flex items-center">
+                {item.category}
+                <span className="ml-2 text-sm font-normal text-gray-500">
+                  ({t.yourCompany}: {item.yourCompany}% | {t.industryAverage}:{' '}
+                  {item.industryAverage}%)
+                </span>
+              </h4>
+              <div className="relative pt-1">
+                <div className="flex mb-2 items-center justify-between">
+                  <div>
+                    <span className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-indigo-600 bg-indigo-200">
+                      {t.yourCompany}
+                    </span>
+                  </div>
+                  <div className="text-right">
+                    <span className="text-xs font-semibold inline-block text-indigo-600">
+                      {item.yourCompany}%
+                    </span>
+                  </div>
+                </div>
+                <div className="overflow-hidden h-2 mb-4 text-xs flex rounded bg-indigo-200">
+                  <div
+                    style={{ width: `${item.yourCompany}%` }}
+                    className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-indigo-500"
+                  ></div>
+                </div>
+                <div className="flex mb-2 items-center justify-between">
+                  <div>
+                    <span className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-gray-600 bg-gray-200">
+                      {t.industryAverage}
+                    </span>
+                  </div>
+                  <div className="text-right">
+                    <span className="text-xs font-semibold inline-block text-gray-600">
+                      {item.industryAverage}%
+                    </span>
+                  </div>
+                </div>
+                <div className="overflow-hidden h-2 mb-4 text-xs flex rounded bg-gray-200">
+                  <div
+                    style={{ width: `${item.industryAverage}%` }}
+                    className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-gray-500"
+                  ></div>
+                </div>
+              </div>
+              <p className="text-sm text-gray-600 mt-2">
+                {t.comparisonInsight
+                  .replace(
+                    '{performance}',
+                    getPerformanceText(item.yourCompany, item.industryAverage)
+                  )
+                  .replace('{category}', item.category.toLowerCase())}
+              </p>
+            </div>
+          ))}
+        </div>
+      </motion.div>
+    );
+  };
 
   const handleQuickAction = (action: string) => {
     switch (action) {
