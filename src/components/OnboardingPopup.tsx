@@ -153,17 +153,16 @@ const OnboardingPopup: React.FC<OnboardingPopupProps> = ({
           </motion.div>
         </AnimatePresence>
         <div className="flex justify-between items-center">
-          <button
-            onClick={handlePrev}
-            disabled={currentStep === 0}
-            className={`px-4 py-2 rounded-full transition duration-300 ${
-              currentStep === 0
-                ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                : 'bg-indigo-100 text-indigo-600 hover:bg-indigo-200'
-            }`}
-          >
-            {prevButton}
-          </button>
+          {currentStep > 0 && ( // 첫 번째 단계가 아닐 때만 '이전' 버튼 표시
+            <button
+              onClick={handlePrev}
+              className="px-4 py-2 rounded-full transition duration-300 bg-indigo-100 text-indigo-600 hover:bg-indigo-200"
+            >
+              {prevButton}
+            </button>
+          )}
+          {currentStep === 0 && <div></div>}{' '}
+          {/* 첫 번째 단계일 때 빈 div로 공간 유지 */}
           {currentStep < steps.length - 1 ? (
             <button
               onClick={handleNext}

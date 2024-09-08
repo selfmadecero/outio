@@ -3,11 +3,12 @@
 import { useState, useEffect } from 'react';
 import { useLanguage } from '../../contexts/LanguageContext';
 import DashboardLayout from '../../components/DashboardLayout';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
   ClipboardDocumentListIcon,
   PlusIcon,
   ChartBarIcon,
+  TrashIcon,
 } from '@heroicons/react/24/outline';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import Link from 'next/link';
@@ -91,7 +92,7 @@ const dummySurveys: Survey[] = [
       en: 'Employee Benefits Program Evaluation',
     },
     description: {
-      ko: '현재 제공 중인 직원 복지 프로그램의 만족도와 개선 요구사항을 조사합니다.',
+      ko: '현재 제공 중인 원 복지 프로그램의 만족도와 개선 요구사항을 조사합니다.',
       en: 'Surveying satisfaction levels and improvement needs for our current employee benefits program.',
     },
     status: 'active',
@@ -100,10 +101,23 @@ const dummySurveys: Survey[] = [
   },
 ];
 
+// ResponseBar 컴포넌트 추가
+const ResponseBar: React.FC<{ rate: number }> = ({ rate }) => (
+  <div className="w-full bg-gray-200 rounded-full h-2.5 mb-1">
+    <div
+      className="bg-indigo-600 h-2.5 rounded-full transition-all duration-500 ease-out"
+      style={{ width: `${rate}%` }}
+    ></div>
+  </div>
+);
+
 export default function SurveyList() {
   const { language } = useLanguage();
   const [isLoading, setIsLoading] = useState(true);
   const [surveys, setSurveys] = useState<Survey[]>([]);
+  const [deleteConfirmation, setDeleteConfirmation] = useState<number | null>(
+    null
+  );
 
   const content = {
     en: {
@@ -116,8 +130,10 @@ export default function SurveyList() {
       draft: 'Draft',
       responseRate: 'Response Rate',
       viewResults: 'View Results',
-      editSurvey: 'Edit Survey',
       deleteSurvey: 'Delete Survey',
+      deleteConfirmation: 'Are you sure you want to delete this survey?',
+      cancel: 'Cancel',
+      confirm: 'Confirm',
     },
     ko: {
       title: '설문조사',
@@ -129,8 +145,10 @@ export default function SurveyList() {
       draft: '임시저장',
       responseRate: '응답률',
       viewResults: '결과 보기',
-      editSurvey: '설문조사 수정',
       deleteSurvey: '설문조사 삭제',
+      deleteConfirmation: '이 설문조사를 삭제하시겠습니까?',
+      cancel: '취소',
+      confirm: '확인',
     },
   };
 
@@ -140,6 +158,20 @@ export default function SurveyList() {
       setIsLoading(false);
     }, 1000);
   }, []);
+
+  const handleViewResults = (surveyId: number) => {
+    // 데모 버전이므로 모든 설문에 대해 같은 결과 페이지로 이동
+    window.location.href = '/surveys/results';
+  };
+
+  const handleDeleteSurvey = (surveyId: number) => {
+    setDeleteConfirmation(surveyId);
+  };
+
+  const confirmDeleteSurvey = (surveyId: number) => {
+    setSurveys(surveys.filter((survey) => survey.id !== surveyId));
+    setDeleteConfirmation(null);
+  };
 
   const renderContent = () => (
     <div className="container mx-auto px-4 py-8 bg-gradient-to-br from-indigo-50 to-purple-50 min-h-screen">
@@ -169,13 +201,14 @@ export default function SurveyList() {
             key={survey.id}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3 }}
-            className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition duration-300"
+            className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition duration-300 relative"
           >
             <h2 className="text-xl font-semibold mb-2 text-gray-800">
               {survey.title[language as 'ko' | 'en']}
             </h2>
-            <p className="text-gray-600 mb-4">
+            <p className="text-gray-600 mb-4 h-12 overflow-hidden">
               {survey.description[language as 'ko' | 'en']}
             </p>
             <div className="flex justify-between items-center mb-4">
@@ -192,25 +225,59 @@ export default function SurveyList() {
               </span>
               <span className="text-gray-500 text-sm">{survey.createdAt}</span>
             </div>
-            <div className="flex items-center mb-4">
-              <ChartBarIcon className="h-5 w-5 text-indigo-500 mr-2" />
-              <span className="text-gray-700">
-                {content[language].responseRate}: {survey.responseRate}%
-              </span>
+            <div className="mb-4">
+              <div className="flex justify-between items-center mb-1">
+                <span className="text-sm font-medium text-gray-700">
+                  {content[language].responseRate}
+                </span>
+                <span className="text-sm font-medium text-indigo-600">
+                  {survey.responseRate}%
+                </span>
+              </div>
+              <ResponseBar rate={survey.responseRate} />
             </div>
             <div className="flex justify-between">
-              <button className="text-indigo-500 hover:text-indigo-600 transition duration-300">
+              <button
+                onClick={() => handleViewResults(survey.id)}
+                className="bg-indigo-500 text-white px-4 py-2 rounded-lg hover:bg-indigo-600 transition duration-300 flex items-center"
+              >
+                <ChartBarIcon className="h-5 w-5 mr-2" />
                 {content[language].viewResults}
               </button>
-              <div className="space-x-2">
-                <button className="text-gray-500 hover:text-gray-600 transition duration-300">
-                  {content[language].editSurvey}
-                </button>
-                <button className="text-red-500 hover:text-red-600 transition duration-300">
-                  {content[language].deleteSurvey}
-                </button>
-              </div>
+              <button
+                onClick={() => handleDeleteSurvey(survey.id)}
+                className="text-red-500 hover:text-red-600 transition duration-300"
+              >
+                <TrashIcon className="h-6 w-6" />
+              </button>
             </div>
+
+            {deleteConfirmation === survey.id && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="absolute inset-0 bg-white bg-opacity-90 flex items-center justify-center rounded-xl"
+              >
+                <div className="text-center">
+                  <p className="mb-4">{content[language].deleteConfirmation}</p>
+                  <div className="space-x-4">
+                    <button
+                      onClick={() => setDeleteConfirmation(null)}
+                      className="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400 transition duration-300"
+                    >
+                      {content[language].cancel}
+                    </button>
+                    <button
+                      onClick={() => confirmDeleteSurvey(survey.id)}
+                      className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition duration-300"
+                    >
+                      {content[language].confirm}
+                    </button>
+                  </div>
+                </div>
+              </motion.div>
+            )}
           </motion.div>
         ))}
       </div>
@@ -219,7 +286,9 @@ export default function SurveyList() {
 
   return (
     <DashboardLayout>
-      {isLoading ? <LoadingSpinner /> : renderContent()}
+      <AnimatePresence>
+        {isLoading ? <LoadingSpinner /> : renderContent()}
+      </AnimatePresence>
     </DashboardLayout>
   );
 }
