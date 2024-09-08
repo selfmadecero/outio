@@ -91,7 +91,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       hiring: '채용',
       feedback: '피드백',
       settings: '설정',
-      signOut: '로그아���',
+      signOut: '로그아웃',
       demo: '데모 버전',
       joinWaitlist: '웨이트리스트 등록',
       demoAlert: '현재 데모 버전을 보고 계십니다.',

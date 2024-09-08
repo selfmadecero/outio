@@ -63,7 +63,7 @@ export default function WaitlistPopup({
         '여러분의 의견은 우리 플랫폼을 만드는 데 매우 중요합니다.',
       ],
       errorMessage: '오류가 발생했습니다. 다시 시도해 주세요.',
-      loginRequired: '웨이트���스트 참여를 위해 로그인이 필요합니다.',
+      loginRequired: '웨이트리스트 참여를 위해 로그인이 필요합니다.',
     },
   };
 

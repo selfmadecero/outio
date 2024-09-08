@@ -20,6 +20,10 @@ import {
   CogIcon,
 } from '@heroicons/react/24/outline';
 import { useRouter } from 'next/navigation';
+import OnboardingPopup from '../../components/OnboardingPopup';
+import OnboardingButton from '../../components/OnboardingButton';
+import { auth } from '../../firebase'; // Firebase auth 임포트
+import { User } from 'firebase/auth';
 
 const content = {
   en: {
@@ -87,7 +91,7 @@ const content = {
     goalProgress: '문화 목표 진행 상황',
     goalProgressDescription: '조직의 문화 목표 달성 진행 상황을 추적합니다',
     goalProgressExplanation:
-      '이는 조직이 설정한 문화 목표에 대한 전반적인 진행 상황을 나타냅니다. 직원 참여도, 혁신 지수, 협업 지수 등 다양한 지표를 기반으로 계산됩니다.',
+      '이는 조직이 설정한 문화 목표에 대한 전반적인 진행 상황을 나타냅니다. 직원 참여도, 혁��� 지수, 협업 지수 등 다양한 지표를 기반으로 계산됩니다.',
     recommendations: '추천 사항',
     industryComparison: '산업 평균 비교',
     settings: '설정',
@@ -147,40 +151,75 @@ const Dashboard = () => {
     Record<string, number>
   >({});
 
-  useEffect(() => {
-    // 여기서 실제 데이터를 가져오는 API 호출을 수행니다.
-    setUserName('김지영');
-    setCultureScore({ current: 78, previous: 75 });
-    setEmployeeEngagement({ current: 82, previous: 80 });
-    setInnovationIndex({ current: 75, previous: 77 });
-    setCollaborationIndex({ current: 80, previous: 76 });
+  const [showOnboarding, setShowOnboarding] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
 
-    setKeyInsights({
-      en: [
-        'Innovation index increased',
-        'Team collaboration needs improvement',
-      ],
-      ko: ['혁신 지수 상승', '팀 협업 개선 필요'],
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        setUser(user);
+        setUserName(user.displayName || '사용자');
+
+        // 로컬 스토리지에서 온보딩 완료 여부 확인
+        const hasCompletedOnboarding = localStorage.getItem(
+          'hasCompletedOnboarding'
+        );
+
+        if (!hasCompletedOnboarding) {
+          setShowOnboarding(true);
+          localStorage.setItem('hasCompletedOnboarding', 'true');
+        }
+      } else {
+        router.push('/auth');
+      }
     });
-    setRecentFeedback({
-      en: [
-        'Anonymous: Request for remote work expansion',
-        'Anonymous: Suggestion for mentoring program',
-      ],
-      ko: ['익명: 재택근무 확대 요청', '명: 멘토링 프로그램 제안'],
-    });
-    setGoalProgress(65);
-    setRecommendations({
-      en: ['Implement weekly team meetings', 'Start cross-functional projects'],
-      ko: ['주간 팀 미팅 도입', '부서 간 협업 프로젝트 시작'],
-    });
-    setIndustryComparison({ cultureScore: 5, employeeEngagement: -2 });
-  }, []);
+
+    return () => unsubscribe();
+  }, [router]);
+
+  useEffect(() => {
+    if (user) {
+      // 여기서 실제 데이터를 가져오는 API 호출을 수행합니다.
+      setCultureScore({ current: 78, previous: 75 });
+      setEmployeeEngagement({ current: 82, previous: 80 });
+      setInnovationIndex({ current: 75, previous: 77 });
+      setCollaborationIndex({ current: 80, previous: 76 });
+
+      setKeyInsights({
+        en: [
+          'Innovation index increased',
+          'Team collaboration needs improvement',
+        ],
+        ko: ['혁신 지수 상승', '팀 협업 개선 필요'],
+      });
+      setRecentFeedback({
+        en: [
+          'Anonymous: Request for remote work expansion',
+          'Anonymous: Suggestion for mentoring program',
+        ],
+        ko: ['익명: 재택근무 확대 요청', '익명: 멘토링 프로그램 제안'],
+      });
+      setGoalProgress(65);
+      setRecommendations({
+        en: [
+          'Implement weekly team meetings',
+          'Start cross-functional projects',
+        ],
+        ko: ['주간 팀 미팅 도입', '부서 간 협업 프로젝트 시작'],
+      });
+      setIndustryComparison({ cultureScore: 5, employeeEngagement: -2 });
+    }
+  }, [user]);
 
   useEffect(() => {
     // 설정 페이지 프리페치
     router.prefetch('/settings');
   }, [router]);
+
+  const handleCloseOnboarding = () => {
+    setShowOnboarding(false);
+    localStorage.setItem('hasCompletedOnboarding', 'true');
+  };
 
   const renderCard = (
     icon: React.ReactNode,
@@ -468,6 +507,15 @@ const Dashboard = () => {
 
         {renderIndustryComparison()}
       </div>
+
+      {showOnboarding && (
+        <OnboardingPopup onClose={handleCloseOnboarding} language={language} />
+      )}
+
+      <OnboardingButton
+        onClick={() => setShowOnboarding(true)}
+        language={language}
+      />
     </DashboardLayout>
   );
 };
