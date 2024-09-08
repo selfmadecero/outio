@@ -46,7 +46,7 @@ const dummyEmployees = [
   },
   {
     id: 4,
-    koreanName: '정수��',
+    koreanName: '정수빈',
     englishName: 'Su-bin Jung',
     email: 'subin.jung@example.com',
     role: 'HR Specialist',
@@ -254,7 +254,7 @@ const dummyEmployees = [
   },
   {
     id: 30,
-    koreanName: '신유��',
+    koreanName: '신유진',
     englishName: 'Yu-jin Shin',
     email: 'yujin.shin@example.com',
     role: 'QA Engineer',
