@@ -70,6 +70,22 @@ type ContentType = {
     tryDemo: string;
     joinWaitlist: string;
     waitlistBanner: string;
+    trustedBy: string;
+    trustedCompanies: string[];
+    keyBenefits: string;
+    benefit1Title: string;
+    benefit1Description: string;
+    benefit2Title: string;
+    benefit2Description: string;
+    benefit3Title: string;
+    benefit3Description: string;
+    caseStudyTitle: string;
+    caseStudyCompany: string;
+    caseStudyDescription: string;
+    caseStudyResults: string[];
+    ctaTitle: string;
+    ctaDescription: string;
+    ctaButton: string;
   };
   ko: {
     title: string;
@@ -119,6 +135,22 @@ type ContentType = {
     tryDemo: string;
     joinWaitlist: string;
     waitlistBanner: string;
+    trustedBy: string;
+    trustedCompanies: string[];
+    keyBenefits: string;
+    benefit1Title: string;
+    benefit1Description: string;
+    benefit2Title: string;
+    benefit2Description: string;
+    benefit3Title: string;
+    benefit3Description: string;
+    caseStudyTitle: string;
+    caseStudyCompany: string;
+    caseStudyDescription: string;
+    caseStudyResults: string[];
+    ctaTitle: string;
+    ctaDescription: string;
+    ctaButton: string;
   };
 };
 
@@ -188,6 +220,37 @@ const content: ContentType = {
     tryDemo: 'Try Demo',
     joinWaitlist: 'Join Waitlist',
     waitlistBanner: 'Excited about Outio? Join our waitlist for early access!',
+    trustedBy: 'Trusted By',
+    trustedCompanies: [
+      'TechCorp',
+      'InnovateCo',
+      'GlobalSoft',
+      'FutureTech',
+      'DataDynamics',
+    ],
+    keyBenefits: 'Key Benefits',
+    benefit1Title: 'Improve Hiring Success',
+    benefit1Description:
+      'Identify and attract the right candidates for your culture',
+    benefit2Title: 'Enhance Employee Satisfaction',
+    benefit2Description:
+      'Create a positive work environment that fosters employee well-being',
+    benefit3Title: 'Boost Productivity',
+    benefit3Description:
+      'Leverage data-driven insights to optimize team performance',
+    caseStudyTitle: 'Case Study',
+    caseStudyCompany: 'TechCorp',
+    caseStudyDescription:
+      'TechCorp transformed their hiring process with Outio, resulting in a 20% increase in employee retention and a 30% boost in productivity.',
+    caseStudyResults: [
+      '20% increase in employee retention',
+      '30% boost in productivity',
+      '95% candidate satisfaction',
+    ],
+    ctaTitle: 'Join the Cultural Revolution',
+    ctaDescription:
+      'Start your cultural journey today and unlock the full potential of your team.',
+    ctaButton: 'Get Started',
   },
   ko: {
     title: 'Outio',
@@ -210,7 +273,7 @@ const content: ContentType = {
     feature4: 'AI 기반 인사이트',
     feature4Description:
       '고급 AI를 활용하여 조직 문화에 대한 깊이 있는 통찰력을 얻으세요.',
-    feature4Benefit: '조직 문화의 숨겨진 패턴 트렌드를 발견하세요.',
+    feature4Benefit: '조직 문화의 숨겨진 패턴과 트렌드를 발견하세요.',
     feature5: '맞춤형 설문조사',
     feature5Description:
       '귀사의 고유한 요구사항과 목표에 맞는 설문조사를 설계하세요.',
@@ -223,7 +286,7 @@ const content: ContentType = {
     cta: '문화 여정을 시작하세요',
     login: '로그인',
     signup: '회원가입',
-    howItWorks: '비스 이용 방법',
+    howItWorks: '서비스 이용 방법',
     step1: '펄스 설문 실시',
     step2: '문화 프로필 생성',
     step3: '맞춤형 면접 질문 받기',
@@ -246,7 +309,35 @@ const content: ContentType = {
     tryDemo: '데모 체험하기',
     joinWaitlist: '웨이트리스트 등록',
     waitlistBanner:
-      'Outio에 관심이 있으신가요? 얼리 액세스를 위해 웨이트리스트에 등록하��요!',
+      'Outio에 관심이 있으신가요? 얼리 액세스를 위해 웨이트리스트에 등록하세요!',
+    trustedBy: '신뢰하는 기업',
+    trustedCompanies: [
+      '테크코프',
+      '이노베이트코',
+      '글로벌소프트',
+      '퓨처테크',
+      '데이터다이나믹스',
+    ],
+    keyBenefits: '주요 이점',
+    benefit1Title: '채용 성공률 향상',
+    benefit1Description: '귀사의 문화에 적합한 인재를 식별하고 유치합니다',
+    benefit2Title: '직원 만족도 증진',
+    benefit2Description: '직원 웰빙을 촉진하는 긍정적인 업무 환경을 조성합니다',
+    benefit3Title: '생산성 향상',
+    benefit3Description: '데이터 기반 인사이트로 팀 성과를 최적화합니다',
+    caseStudyTitle: '사례 연구',
+    caseStudyCompany: '테크코프',
+    caseStudyDescription:
+      '테크코프는 Outio를 통해 채용 프로세스를 혁신하여 직원 유지율 20% 증가와 생산성 30% 향상을 달성했습니다.',
+    caseStudyResults: [
+      '직원 유지율 20% 증가',
+      '생산성 30% 향상',
+      '후보자 만족도 95% 달성',
+    ],
+    ctaTitle: '문화 혁신에 동참하세요',
+    ctaDescription:
+      '오늘부터 문화 여정을 시작하고 팀의 잠재력을 최대한 발휘하세요.',
+    ctaButton: '시작하기',
   },
 };
 
@@ -349,6 +440,28 @@ export default function Home() {
         </motion.div>
       </main>
 
+      {/* Trusted By 섹션 수정 */}
+      <section className="bg-gray-900 py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-2xl font-semibold text-center mb-8 text-gray-300">
+            {content[language].trustedBy}
+          </h2>
+          <div className="flex flex-wrap justify-center items-center gap-8">
+            {content[language].trustedCompanies.map((company, index) => (
+              <motion.div
+                key={company}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="text-lg font-semibold text-blue-400 hover:text-blue-300 transition-colors duration-300"
+              >
+                {company}
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section className="bg-gray-800 py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-4xl font-extrabold text-center mb-16 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
@@ -391,6 +504,46 @@ export default function Home() {
                   {step.title}
                 </h3>
                 <p className="text-gray-300">{step.description}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* New "Key Benefits" section */}
+      <section className="bg-gray-800 py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-4xl font-extrabold text-center mb-16 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
+            {content[language].keyBenefits}
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+            {[
+              {
+                icon: ArrowUpIcon,
+                title: content[language].benefit1Title,
+                description: content[language].benefit1Description,
+              },
+              {
+                icon: UserGroupIcon,
+                title: content[language].benefit2Title,
+                description: content[language].benefit2Description,
+              },
+              {
+                icon: ChartBarIcon,
+                title: content[language].benefit3Title,
+                description: content[language].benefit3Description,
+              },
+            ].map((benefit, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="bg-gray-700 rounded-lg p-6 shadow-lg"
+              >
+                <benefit.icon className="h-12 w-12 text-blue-400 mb-4" />
+                <h3 className="text-xl font-semibold mb-2">{benefit.title}</h3>
+                <p className="text-gray-300">{benefit.description}</p>
               </motion.div>
             ))}
           </div>
@@ -469,6 +622,45 @@ export default function Home() {
         </div>
       </section>
 
+      {/* New "Case Study" section */}
+      <section className="bg-gray-900 py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-4xl font-extrabold text-center mb-16 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
+            {content[language].caseStudyTitle}
+          </h2>
+          <div className="bg-gray-800 rounded-2xl shadow-xl p-8 md:p-12">
+            <div className="md:flex items-center">
+              <div className="md:w-1/2 mb-8 md:mb-0 flex items-center justify-center">
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.5 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.5 }}
+                  className="text-4xl font-bold text-blue-400"
+                >
+                  {content[language].caseStudyCompany}
+                </motion.div>
+              </div>
+              <div className="md:w-1/2 md:pl-12">
+                <h3 className="text-2xl font-semibold mb-4">
+                  {content[language].caseStudyCompany}
+                </h3>
+                <p className="text-gray-300 mb-6">
+                  {content[language].caseStudyDescription}
+                </p>
+                <ul className="space-y-2">
+                  {content[language].caseStudyResults.map((result, index) => (
+                    <li key={index} className="flex items-center">
+                      <ArrowUpIcon className="h-5 w-5 text-green-400 mr-2" />
+                      <span>{result}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section className="bg-gray-800 py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-4xl font-extrabold text-center mb-16 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
@@ -496,6 +688,22 @@ export default function Home() {
               </motion.div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* New CTA section */}
+      <section className="bg-gradient-to-r from-blue-600 to-purple-600 py-20">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-4xl font-extrabold mb-8">
+            {content[language].ctaTitle}
+          </h2>
+          <p className="text-xl mb-12">{content[language].ctaDescription}</p>
+          <Link
+            href="/auth"
+            className="inline-block px-8 py-4 text-lg font-semibold rounded-full text-blue-600 bg-white hover:bg-gray-100 transition-colors duration-300 transform hover:scale-105"
+          >
+            {content[language].ctaButton}
+          </Link>
         </div>
       </section>
 
