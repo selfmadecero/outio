@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useLanguage } from '../../../contexts/LanguageContext';
 import DashboardLayout from '../../../components/DashboardLayout';
 import { motion } from 'framer-motion';
@@ -10,6 +10,7 @@ import {
   PlusIcon,
   MinusIcon,
 } from '@heroicons/react/24/outline';
+import SurveyDeploymentPopup from '../../../components/SurveyDeploymentPopup';
 
 interface SurveyTemplate {
   id: string;
@@ -169,10 +170,18 @@ const surveyTemplates: SurveyTemplate[] = [
 
 export default function CreateSurvey() {
   const { language } = useLanguage();
-  const [selectedTemplate, setSelectedTemplate] = useState<string | null>(null);
+  const [selectedTemplate, setSelectedTemplate] = useState<string>('custom');
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [questions, setQuestions] = useState<string[]>([]);
+  const [step, setStep] = useState(1);
+  const [surveyType, setSurveyType] = useState<'one-time' | 'pulse'>(
+    'one-time'
+  );
+  const [frequency, setFrequency] = useState('weekly');
+  const [duration, setDuration] = useState(4);
+  const [isDeploymentPopupOpen, setIsDeploymentPopupOpen] = useState(false);
+  const [recipients, setRecipients] = useState<string[]>([]);
 
   const content = {
     en: {
@@ -187,6 +196,27 @@ export default function CreateSurvey() {
       addQuestion: 'Add Question',
       removeQuestion: 'Remove Question',
       questionPlaceholder: 'Enter your question here',
+      next: 'Next',
+      surveyType: 'Survey Type',
+      oneTime: 'One-time Survey',
+      pulse: 'Pulse Survey',
+      frequency: 'Frequency',
+      daily: 'Daily',
+      weekly: 'Weekly',
+      biweekly: 'Bi-weekly',
+      monthly: 'Monthly',
+      duration: 'Duration (weeks)',
+      previous: 'Previous',
+      recipients: 'Recipients',
+      allEmployees: 'All Employees',
+      selectDepartments: 'Select Departments',
+      departments: {
+        hr: 'Human Resources',
+        it: 'IT',
+        marketing: 'Marketing',
+        sales: 'Sales',
+        finance: 'Finance',
+      },
     },
     ko: {
       title: '새 설문조사 만들기',
@@ -200,6 +230,27 @@ export default function CreateSurvey() {
       addQuestion: '문항 추가',
       removeQuestion: '문항 제거',
       questionPlaceholder: '질문을 입력하세요',
+      next: '다음',
+      surveyType: '설문조사 유형',
+      oneTime: '1회성 설문조사',
+      pulse: '펄스 서베이',
+      frequency: '빈도',
+      daily: '매일',
+      weekly: '매주',
+      biweekly: '2주마다',
+      monthly: '매월',
+      duration: '기간 (주)',
+      previous: '이전',
+      recipients: '수신자',
+      allEmployees: '전체 임직원',
+      selectDepartments: '부서 선택',
+      departments: {
+        hr: '인사팀',
+        it: 'IT팀',
+        marketing: '마케팅팀',
+        sales: '영업팀',
+        finance: '재무팀',
+      },
     },
   };
 
@@ -208,7 +259,6 @@ export default function CreateSurvey() {
     const template = surveyTemplates.find((t) => t.id === templateId);
     if (template) {
       if (templateId === 'custom') {
-        // 직접 만들기 옵션 선택 시 모든 필드를 비움
         setTitle('');
         setDescription('');
         setQuestions([]);
@@ -234,10 +284,52 @@ export default function CreateSurvey() {
     setQuestions(newQuestions);
   };
 
+  const handleNext = () => {
+    setStep(2);
+  };
+
+  const handlePrevious = () => {
+    setStep(1);
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Creating survey:', { title, description, questions });
+    setIsDeploymentPopupOpen(true);
   };
+
+  const handleDeploymentConfirm = () => {
+    console.log('Deploying survey:', {
+      title,
+      description,
+      questions,
+      surveyType,
+      frequency,
+      duration,
+      recipients,
+    });
+    // 여기에 설문조사 발송 로직 추가
+    setIsDeploymentPopupOpen(false);
+  };
+
+  const handleRecipientsChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedOptions = Array.from(
+      e.target.selectedOptions,
+      (option) => option.value
+    );
+    setRecipients(selectedOptions);
+  };
+
+  useEffect(() => {
+    // 컴포넌트 마운트 시 '직접 만들기' 템플릿으로 초기화
+    const customTemplate = surveyTemplates.find((t) => t.id === 'custom');
+    if (customTemplate) {
+      setTitle(customTemplate.title[language as 'ko' | 'en']);
+      setDescription(customTemplate.description[language as 'ko' | 'en']);
+      setQuestions(
+        customTemplate.questions.map((q) => q[language as 'ko' | 'en'])
+      );
+    }
+  }, [language]);
 
   return (
     <DashboardLayout>
@@ -254,106 +346,227 @@ export default function CreateSurvey() {
           </h1>
           <p className="text-gray-700 mb-6">{content[language].description}</p>
 
-          <div className="mb-8">
-            <h2 className="text-2xl font-semibold mb-4 text-gray-800">
-              {content[language].chooseTemplate}
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {surveyTemplates.map((template) => (
-                <div
-                  key={template.id}
-                  className={`p-4 border rounded-lg cursor-pointer transition-all duration-300 ${
-                    selectedTemplate === template.id
-                      ? 'border-indigo-500 bg-indigo-50'
-                      : 'border-gray-200 hover:border-indigo-300 hover:bg-indigo-50'
-                  }`}
-                  onClick={() => handleTemplateSelect(template.id)}
-                >
-                  <h3 className="text-lg font-medium mb-2 text-gray-800">
-                    {template.title[language as 'ko' | 'en']}
-                  </h3>
-                  <p className="text-sm text-gray-600">
-                    {template.description[language as 'ko' | 'en']}
-                  </p>
+          {step === 1 && (
+            <>
+              <div className="mb-8">
+                <h2 className="text-2xl font-semibold mb-4 text-gray-800">
+                  {content[language].chooseTemplate}
+                </h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {surveyTemplates.map((template) => (
+                    <div
+                      key={template.id}
+                      className={`p-4 border rounded-lg cursor-pointer transition-all duration-300 ${
+                        selectedTemplate === template.id
+                          ? 'border-indigo-500 bg-indigo-50'
+                          : 'border-gray-200 hover:border-indigo-300 hover:bg-indigo-50'
+                      }`}
+                      onClick={() => handleTemplateSelect(template.id)}
+                    >
+                      <h3 className="text-lg font-medium mb-2 text-gray-800">
+                        {template.title[language as 'ko' | 'en']}
+                      </h3>
+                      <p className="text-sm text-gray-600">
+                        {template.description[language as 'ko' | 'en']}
+                      </p>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
-          </div>
+              </div>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div>
-              <label
-                htmlFor="title"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
-                {content[language].surveyTitle}
-              </label>
-              <input
-                type="text"
-                id="title"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-800"
-                required
-              />
-            </div>
-            <div>
-              <label
-                htmlFor="description"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
-                {content[language].surveyDescription}
-              </label>
-              <textarea
-                id="description"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-800"
-                rows={4}
-                required
-              />
-            </div>
-            <div>
-              <h3 className="text-xl font-semibold mb-4 text-gray-800">
-                {content[language].questions}
-              </h3>
-              {questions.map((question, index) => (
-                <div key={index} className="flex items-center mb-4">
+              <form onSubmit={handleNext} className="space-y-6">
+                <div>
+                  <label
+                    htmlFor="title"
+                    className="block text-sm font-medium text-gray-700 mb-1"
+                  >
+                    {content[language].surveyTitle}
+                  </label>
                   <input
                     type="text"
-                    value={question}
-                    onChange={(e) =>
-                      handleQuestionChange(index, e.target.value)
-                    }
-                    placeholder={content[language].questionPlaceholder}
-                    className="flex-grow px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-800"
+                    id="title"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-800"
+                    required
                   />
+                </div>
+                <div>
+                  <label
+                    htmlFor="description"
+                    className="block text-sm font-medium text-gray-700 mb-1"
+                  >
+                    {content[language].surveyDescription}
+                  </label>
+                  <textarea
+                    id="description"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-800"
+                    rows={4}
+                    required
+                  />
+                </div>
+                <div>
+                  <h3 className="text-xl font-semibold mb-4 text-gray-800">
+                    {content[language].questions}
+                  </h3>
+                  {questions.map((question, index) => (
+                    <div key={index} className="flex items-center mb-4">
+                      <input
+                        type="text"
+                        value={question}
+                        onChange={(e) =>
+                          handleQuestionChange(index, e.target.value)
+                        }
+                        placeholder={content[language].questionPlaceholder}
+                        className="flex-grow px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-800"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveQuestion(index)}
+                        className="ml-2 text-red-500 hover:text-red-700"
+                      >
+                        <MinusIcon className="h-5 w-5" />
+                      </button>
+                    </div>
+                  ))}
                   <button
                     type="button"
-                    onClick={() => handleRemoveQuestion(index)}
-                    className="ml-2 text-red-500 hover:text-red-700"
+                    onClick={handleAddQuestion}
+                    className="mt-2 flex items-center text-indigo-600 hover:text-indigo-800"
                   >
-                    <MinusIcon className="h-5 w-5" />
+                    <PlusIcon className="h-5 w-5 mr-1" />
+                    {content[language].addQuestion}
                   </button>
                 </div>
-              ))}
-              <button
-                type="button"
-                onClick={handleAddQuestion}
-                className="mt-2 flex items-center text-indigo-600 hover:text-indigo-800"
-              >
-                <PlusIcon className="h-5 w-5 mr-1" />
-                {content[language].addQuestion}
-              </button>
-            </div>
-            <button
-              type="submit"
-              className="w-full bg-indigo-600 text-white px-6 py-3 rounded-lg hover:bg-indigo-700 transition duration-300 shadow-md"
-            >
-              {content[language].create}
-            </button>
-          </form>
+                <button
+                  type="submit"
+                  className="w-full bg-indigo-600 text-white px-6 py-3 rounded-lg hover:bg-indigo-700 transition duration-300 shadow-md"
+                >
+                  {content[language].next}
+                </button>
+              </form>
+            </>
+          )}
+
+          {step === 2 && (
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  {content[language].surveyType}
+                </label>
+                <div className="flex space-x-4">
+                  <button
+                    type="button"
+                    onClick={() => setSurveyType('one-time')}
+                    className={`px-4 py-2 rounded-md ${
+                      surveyType === 'one-time'
+                        ? 'bg-indigo-600 text-white'
+                        : 'bg-gray-200 text-gray-700'
+                    }`}
+                  >
+                    {content[language].oneTime}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setSurveyType('pulse')}
+                    className={`px-4 py-2 rounded-md ${
+                      surveyType === 'pulse'
+                        ? 'bg-indigo-600 text-white'
+                        : 'bg-gray-200 text-gray-700'
+                    }`}
+                  >
+                    {content[language].pulse}
+                  </button>
+                </div>
+              </div>
+
+              {surveyType === 'pulse' && (
+                <>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      {content[language].frequency}
+                    </label>
+                    <select
+                      value={frequency}
+                      onChange={(e) => setFrequency(e.target.value)}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-800"
+                    >
+                      <option value="daily">{content[language].daily}</option>
+                      <option value="weekly">{content[language].weekly}</option>
+                      <option value="biweekly">
+                        {content[language].biweekly}
+                      </option>
+                      <option value="monthly">
+                        {content[language].monthly}
+                      </option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      {content[language].duration}
+                    </label>
+                    <input
+                      type="number"
+                      value={duration}
+                      onChange={(e) => setDuration(parseInt(e.target.value))}
+                      min="1"
+                      max="52"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-800"
+                    />
+                  </div>
+                </>
+              )}
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  {content[language].recipients}
+                </label>
+                <select
+                  multiple
+                  value={recipients}
+                  onChange={handleRecipientsChange}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-800"
+                >
+                  <option value="all">{content[language].allEmployees}</option>
+                  <optgroup label={content[language].selectDepartments}>
+                    {Object.entries(content[language].departments).map(
+                      ([key, value]) => (
+                        <option key={key} value={key}>
+                          {value}
+                        </option>
+                      )
+                    )}
+                  </optgroup>
+                </select>
+              </div>
+
+              <div className="flex justify-between">
+                <button
+                  type="button"
+                  onClick={handlePrevious}
+                  className="bg-gray-300 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-400 transition duration-300 shadow-md"
+                >
+                  {content[language].previous}
+                </button>
+                <button
+                  type="submit"
+                  className="bg-indigo-600 text-white px-6 py-3 rounded-lg hover:bg-indigo-700 transition duration-300 shadow-md"
+                >
+                  {content[language].create}
+                </button>
+              </div>
+            </form>
+          )}
         </motion.div>
+
+        <SurveyDeploymentPopup
+          isOpen={isDeploymentPopupOpen}
+          onClose={() => setIsDeploymentPopupOpen(false)}
+          onDeploy={handleDeploymentConfirm}
+          language={language as 'en' | 'ko'}
+        />
       </div>
     </DashboardLayout>
   );
